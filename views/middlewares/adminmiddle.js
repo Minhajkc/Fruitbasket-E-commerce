@@ -1,0 +1,3 @@
+const adminauth = require('.');
+
+

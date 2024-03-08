@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FruitbasketAdminLogin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/admin-assets/public/build/css/tailwind.css">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+  <style>
+
+    /* * * * * General CSS * * * * */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  background: #eaeff4;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1140px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  display: flex;
+  background: #ffffff;
+  box-shadow: 0 0 5px #999999;
+}
+
+.credit {
+  position: relative;
+  margin: 25px auto 0 auto;
+  width: 100%;
+  text-align: center;
+  color: #666666;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.credit a {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.col-left,
+.col-right {
+  padding: 30px;
+  display: flex;
+}
+
+.col-left {
+  width: 60%;
+  -webkit-clip-path: polygon(0 0, 0% 100%, 100% 0);
+  clip-path: polygon(0 0, 0% 100%, 100% 0);
+  background: #1d2123;
+}
+
+.col-right {
+  padding: 60px 30px;
+  width: 50%;
+  margin-left: -10%;
+}
+
+@media(max-width: 575.98px) {
+  .container {
+    flex-direction: column;
+    box-shadow: none;
+  }
+
+  .col-left,
+  .col-right {
+    width: 100%;
+    margin: 0;
+    -webkit-clip-path: none;
+    clip-path: none;
+  }
+
+  .col-right {
+    padding: 30px;
+  }
+}
+
+.login-text {
+  position: relative;
+  width: 100%;
+  color: #ffffff;
+}
+
+.login-text h2 {
+  margin: 0 0 15px 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: #44c7f5;
+}
+
+.login-text p {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.login-text .btn {
+  display: inline-block;
+  padding: 7px 20px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  border-radius: 30px;
+  color: #ffffff;
+  outline: none;
+  border: 1px solid #ffffff;
+  box-shadow: inset 0 0 0 0 #ffffff;
+  transition: .3s;
+  -webkit-transition: .3s;
+}
+
+.login-text .btn:hover {
+  color: #000000;
+  box-shadow: inset 150px 0 0 0 #000000;
+}
+
+.login-form {
+  position: relative;
+  width: 100%;
+}
+
+.login-form h2 {
+  margin: 0 0 15px 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.login-form p {
+  margin: 0 0 10px 0;
+  text-align: left;
+  color: #666666;
+  font-size: 15px;
+}
+
+.login-form p:last-child {
+  margin: 0;
+  padding-top: 3px;
+}
+
+.login-form p a {
+  color: #44c7f5;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.login-form label {
+  display: block;
+  width: 100%;
+  margin-bottom: 2px;
+  letter-spacing: .5px;
+}
+
+.login-form p:last-child label {
+  width: 60%;
+  float: left;
+}
+
+.login-form label span {
+  color: #ff574e;
+  padding-left: 2px;
+}
+
+.login-form input {
+  display: block;
+  width: 100%;
+  height: 35px;
+  padding: 0 10px;
+  outline: none;
+  border: 1px solid #cccccc;
+  border-radius: 30px;
+}
+
+.login-form input:focus {
+  border-color: #ff574e;
+}
+
+.login-form button,
+.login-form input[type=submit] {
+  display: inline-block;
+  width: 100%;
+  margin-top: 5px;
+  color: #44c7f5;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #44c7f5;
+  border-radius: 30px;
+  box-shadow: inset 0 0 0 0 #44c7f5;
+  transition: .3s;
+  -webkit-transition: .3s;
+}
+
+.login-form button:hover,
+.login-form input[type=submit]:hover {
+  color: #ffffff;
+  box-shadow: inset 250px 0 0 0 #19191a;
+}
+  </style>
+</head>
+  <body>
+   
+
+
+<div class="wrapper">
+  <div class="container">
+    <div class="col-left">
+      <div class="login-text">
+        <h2>Welcome Back</h2>
+        <p>Fruitbasket.<br>Admin Login.</p>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="login-form">
+        <h2>Login</h2>
+         <form id="loginForm" action="/admin/adminloginpage" class="space-y-6" method="post">
+    <div class="mb-3">
+        <input
+            class="form-control"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+        />
+        <p id="emailerror" class="text-danger"></p>
+    </div>
+    <div class="mb-3">
+        <input
+            class="form-control"
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            minlength="6"
+        />
+        <p id="perror" class="text-danger"></p>
+    </div>
+    {{#if errorp}}
+    <p id="error-message" class="text-danger">{{errorp}}</p>
+    {{/if}}
+    {{#if erroru}}
+    <p id="error-message" class="text-danger">{{erroru}}</p>
+    {{/if}}
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+</form>
+
+      </div>
+    </div>
+  </div>
+  <p class="text-center">All Rights Reserved © Fruitbasket</p>
+</div>
+            <!-- Or -->
+            
+
+    <script>
+      const setup = () => {
+        const getTheme = () => {
+          if (window.localStorage.getItem('dark')) {
+            return JSON.parse(window.localStorage.getItem('dark'))
+          }
+          return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        }
+
+        const setTheme = (value) => {
+          window.localStorage.setItem('dark', value)
+        }
+
+        const getColor = () => {
+          if (window.localStorage.getItem('color')) {
+            return window.localStorage.getItem('color')
+          }
+          return 'cyan'
+        }
+
+        const setColors = (color) => {
+          const root = document.documentElement
+          root.style.setProperty('--color-primary', `var(--color-${color})`)
+          root.style.setProperty('--color-primary-50', `var(--color-${color}-50)`)
+          root.style.setProperty('--color-primary-100', `var(--color-${color}-100)`)
+          root.style.setProperty('--color-primary-light', `var(--color-${color}-light)`)
+          root.style.setProperty('--color-primary-lighter', `var(--color-${color}-lighter)`)
+          root.style.setProperty('--color-primary-dark', `var(--color-${color}-dark)`)
+          root.style.setProperty('--color-primary-darker', `var(--color-${color}-darker)`)
+          this.selectedColor = color
+          window.localStorage.setItem('color', color)
+        }
+
+        return {
+          loading: true,
+          isDark: getTheme(),
+          color: getColor(),
+          toggleTheme() {
+            this.isDark = !this.isDark
+            setTheme(this.isDark)
+          },
+          setColors,
+        }
+      }
+
+       document.getElementById('loginForm').addEventListener('submit', function(event) {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const emailerrorp = document.getElementById('emailerror')
+        const passworderrorp = document.getElementById('perror')
+        
+        if (!validateEmail(email)) {
+            emailerrorp.innerHTML = 'Please enter a valid email address.'
+            event.preventDefault(); // Prevent form submission
+        }
+        
+        if (password.length < 6) {
+            passworderrorp.innerHTML = 'Password must be at least 6 characters long.'
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+    
+    function validateEmail(email) {
+        // Regular expression for validating email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+      setTimeout(function() {
+    var errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+      errorMessage.style.display = 'none';
+    }
+  }, 5000)
+  
+    </script>
+  </body>
+</html>
