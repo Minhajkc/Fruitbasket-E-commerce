@@ -37,6 +37,10 @@
     <!-- Main Style CSS (Please use minify version for better website load performance) -->
     <link rel="stylesheet" href="user-assets/css/style.css">
     <!-- <link rel="stylesheet" href="user-assets/css/style.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 </head>
 
 <body>
@@ -91,7 +95,7 @@
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="shop.html">
+                                                <a href="/Shop">
                                                     <span class="menu-text">Shop</span>
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
@@ -174,11 +178,33 @@
                                         <ul class="nav">
                                          <li class="login-register-wrap d-none d-xxl-flex">
                                             {{#if user}}
-                                               <span style="color: darkblue;">{{user.name}}</span>
-                                                  {{else}}
-                                                   <span><a href="/Userlogin">Login</a></span>
-                                                  <span><a href="/userregister">Register</a></span>
-                                                {{/if}}
+    <span style="color: darkblue;">
+       <i class="fas fa-user-circle" onclick="toggleUserMenu()" style="cursor: pointer;"></i>
+    </span><br>
+    <div id="userMenu" style="display: none; ">
+        <span>{{user.name}}</span><br>
+        <form id="logoutForm" action="/logoutuser" method="get">
+           <a href="#" id="logoutLink" class="text-danger">Logout</a>
+        </form>
+    </div>
+{{else}}
+    <span><a href="/Userlogin">Login</a></span>
+    <span><a href="/userregister">Register</a></span>
+{{/if}}
+{{#if successMessage}}
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Login Success',
+        text: '{{ successMessage }}',
+        showConfirmButton: false,
+        timer: 1500 // Auto close after 1.5 seconds
+    });
+</script>
+{{/if}}
+
+
+
                                             </li>
 
                                             <li class="sidemenu-wrap d-none d-lg-flex">
@@ -381,7 +407,10 @@
                                         <ul class="nav">
                                             <li class="login-register-wrap d-none d-xl-flex">
                                                   {{#if user}}
-                                               <span style="color: darkblue;">{{user.name}}</span>
+                                               <span style="color: darkblue;">{{user.name}}</span><br>
+                                                  <form id="logoutForm" action="/logoutuser" method="get">
+                                                  <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;" class="text-danger">Logout</a>
+                                                  </form>
                                                   {{else}}
                                                    <span><a href="/Userlogin">Login</a></span>
                                                   <span><a href="/userregister">Register</a></span>
@@ -400,6 +429,7 @@
                                                     <li><a href="#">AUD - Australian Dollar</a></li>
                                                 </ul>
                                             </li>
+                                            
                                             <li class="minicart-wrap">
                                                 <a href="#" class="minicart-btn toolbar-btn">
                                                     <i class="ion-bag"></i>
@@ -1751,6 +1781,18 @@
     </a>
     <!-- Scroll to Top End -->
 
+{{!-- successmessageforloginsuccessotp --}}
+{{#if successmessage}}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{ successmessage }}',
+            showConfirmButton: false,
+            timer: 2500
+        });
+    </script>
+{{/if}}
+
     <!-- JS
 ============================================ -->
 
@@ -1781,5 +1823,51 @@
 </body>
 
 
+
 <!-- Mirrored from template.hasthemes.com/obrien/obrien/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 05:40:05 GMT -->
+<script>
+      function toggleUserMenu() {
+        var userMenu = document.getElementById("userMenu");
+        if (userMenu.style.display === "none") {
+            userMenu.style.display = "block";
+        } else {
+            userMenu.style.display = "none";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const successMessage = urlParams.get('successMessage');
+
+    if (successMessage) {
+        const urlWithoutSuccessMessage = window.location.pathname;
+        window.history.replaceState({}, document.title, urlWithoutSuccessMessage);
+    }
+  
+    
+});
+
+
+///LOGOUT**********
+ const logoutLink = document.getElementById('logoutLink');
+    logoutLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will be logged out',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, logout',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logoutForm').submit();
+            }
+        });
+    });
+
+
+
+    
+</script>
 </html>

@@ -1,9 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose');
 const app = express()
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const PORT = 3000;
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 mongoose.connect('mongodb://localhost:27017/FruitBasket', {
     useNewUrlParser: true,
@@ -14,7 +16,6 @@ mongoose.connect('mongodb://localhost:27017/FruitBasket', {
     console.error('Error connecting to MongoDB:', error);
 });
 
-
 app.set('view engine', 'hbs');
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +23,8 @@ app.use(bodyParser.json());
 
 
 
+// Middleware to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
 
 const UserRoute = require('./router/UserRoute');
@@ -30,6 +33,8 @@ app.use(express.static('./public'));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use(session({
     secret: 'your_secret_key',
@@ -40,9 +45,9 @@ app.use(session({
     }
 }));
 
+app.use(flash());
 
-// Middleware to parse URL-encoded bodies
-app.use(express.urlencoded({ extended: true }));
+
 
 
 app.use('/',UserRoute)

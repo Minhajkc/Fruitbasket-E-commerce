@@ -43,7 +43,11 @@ const Schema = new mongoose.Schema({
     },
     originOfProduct: {
         type: String
-    }
+    },
+    isDisabled: {
+        type: Boolean,
+        default: false
+    } 
 })
 
 const products = mongoose.model('Products', Schema);

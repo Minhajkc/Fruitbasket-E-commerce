@@ -5,14 +5,16 @@ const { upload } = require('../config/multer');
 const router = express.Router();
 
 
-router.get('/',AdminControllerz.GetAdminLogin);
+router.get('/',adminAuth.authenticateloginpage,AdminControllerz.GetAdminLogin);
 router.post('/adminloginpage',AdminControllerz.AdminloginHandler)
 router.get('/adminloginpage' ,adminAuth.authenticate,AdminControllerz.AdminIndexPage)
 router.post('/statuscheck',AdminControllerz.statuschecking)
 router.post('/add-product', upload.single('productImage'), AdminControllerz.addproduct)
-router.post('/product-delete',AdminControllerz.DeleteProduct)
+router.post('/product-disable',AdminControllerz.DisableProduct)
 router.post('/get-edit',AdminControllerz.GetEditPage)
-router.post('/productedit',AdminControllerz.EditProduct)
+router.post('/productedit',upload.single('productImage'),AdminControllerz.EditProduct)
 router.get('/logoutadmin',AdminControllerz.logoutadmin)
+router.get('/Userslistpageadmin',AdminControllerz.AdminUserListPage)
+router.get('/Productslistpageadmin',AdminControllerz.ProductListPage)
 
 module.exports = router;

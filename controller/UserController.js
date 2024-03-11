@@ -8,6 +8,7 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
+
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
@@ -16,6 +17,7 @@ app.use(session({
         maxAge: 60000 
     }
 }));
+
 
 
 
@@ -31,12 +33,41 @@ const User = require('../models/UserModel');
 app.set('view engine', 'hbs');
 
 
-const GetHomePage = (req, res) => {
-    if (req.session.user) {
-      return res.render('users/index', { user: req.session.user }); // Pass the user object to the template
-    } 
-    return res.render('users/index'); // Render the template without passing any additional data
-  };
+const GetHomePage = async (req, res) => {
+    try {
+        const token = req.cookies.token;
+
+        if (!token) {
+            return res.render('users/index'); // Render the page without user information
+        }
+
+        // Verify the token
+        jwt.verify(token, 'your_secret_key', async (err, decoded) => {
+            if (err) {
+                console.error('Invalid token:', err);
+                return res.status(401).render('users/index'); // Render the page without user information
+            }
+
+            // Retrieve the user from the database using the decoded user ID
+            const user = await User.findById(decoded.id);
+
+            if (!user) {
+                console.error('User not found');
+                return res.status(404).render('users/index'); // Render the page without user information
+            }
+
+            // Render the page with user information and success message
+            return res.render('users/index', { user, successMessage: req.query.successMessage });
+        });
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return res.status(500).render('users/index'); // Render the page without user information
+    }
+};
+
+
+
+
   
 
   const GetLoginPage = (req, res) => {
@@ -128,6 +159,7 @@ const OTPVerify = async (req, res) => {
             await newUser.save();
 
             const token = jwt.sign({ email: email }, secretKey, { expiresIn: '1h' });
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // Max age: 1 hour
             res.render('users/login');
         } catch (error) {
             console.error('Error saving user:', error);
@@ -157,9 +189,9 @@ const Userlogin = async (req, res) => {
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (passwordMatch) {
-            req.session.user = user;
-            req.session.cookie.maxAge = 3600000;
-            return res.render('users/index', { user: req.session.user });
+            const token = jwt.sign({ id: user._id, email: user.email }, 'your_secret_key', { expiresIn: '1h' });
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
+            return res.redirect(`/home?successMessage=Login successful`);
         } else {
             res.status(400);
             return res.render('users/login', { errorp: 'Incorrect password!' });
@@ -168,8 +200,7 @@ const Userlogin = async (req, res) => {
         console.error('Error during login:', error);
         return res.status(500).send('Internal Server Error');
     }
-}
-
+};
 
 
 const SendOTP = async (req, res) => {
@@ -204,7 +235,8 @@ const ForgetPasswordButton = async (req, res) => {
         const storedOTP = req.session.otp; // Retrieve OTP from session
         console.log(storedOTP);
         if (Otp != storedOTP) {
-            return res.status(400).send('Invalid OTP');
+            return res.status(400).render('users/forgot-password', { messageinvalid: 'Please check and correct your OTP' });
+
         }
         
         // Check if new password matches confirm password
@@ -217,12 +249,19 @@ const ForgetPasswordButton = async (req, res) => {
         user.password = hashedPassword;
         await user.save();
         
-        
-       return res.redirect('/')
+        res.render('users/index', { successmessage: 'Password updated please login !' });
     } catch (error) {
         console.error('Error updating password:', error);
         res.status(500).send('Internal server error');
     }
+};
+
+
+const logoutUser = (req, res) => {
+    // Clear the token cookie by setting an empty value and an expiry date in the past
+    res.cookie('token', '', { expires: new Date(0) });
+    // Redirect to the homepage with a query parameter indicating successful logout
+    res.redirect('/');
 };
 
 
@@ -231,6 +270,9 @@ const ForgetPasswordButton = async (req, res) => {
 
 
 
+const GetShopPage = (req,res)=>{
+   return res.render('users/shop')
+}
 
 
 
@@ -243,5 +285,7 @@ module.exports = {
     OTPVerify,
     Userlogin,
     SendOTP,
-    ForgetPasswordButton
+    ForgetPasswordButton,
+    logoutUser,
+    GetShopPage
 };

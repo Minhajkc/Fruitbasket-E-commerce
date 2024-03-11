@@ -6,7 +6,19 @@ const authenticate = (req, res, next) => {
        res.redirect('/admin');
     }
 };
+
+const authenticateloginpage = (req, res, next) => {
+    if (req.session.adminId) { 
+        res.redirect('/admin/adminloginpage');
+    } else {
+      next()
+    }
+};
+
+
+
 module.exports={
-    authenticate
+    authenticate,
+    authenticateloginpage
 }
 

@@ -19,71 +19,142 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
+<style>
+    .small-div {
+    width: 900px; /* Set the width of the div */
+    background-color: #d5d5d5; /* Set the background color */
+    padding: 20px; /* Add some padding */
+    border-radius: 10px;
+}
+
+.small-div img {
+    max-width: 100px; /* Set the maximum width of the image */
+    height: auto; /* Maintain aspect ratio */
+}
+.center-div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+        }
+
+label{
+    font-weight: 600;
+}       
+
+</style>
 <body>
 
-            <div class=" col-md-6 d-flex justify-content-center">
+     <div class="container center-div">
 
-                <!-- Add your form fields for adding a product here -->
-       <form action="/admin/productedit" method="post">
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" class="form-control" id="name" name="name" required value="{{Product.name}}">
-    </div>
-    <div class="form-group">
-        <label for="category">Category:</label>
-        <input type="text" class="form-control" id="category" name="category"value="{{Product.category}}">
-    </div>
-    <div class="form-group">
-        <label for="subCategory">Sub-Category:</label>
-        <input type="text" class="form-control" id="subCategory" name="subCategory"value="{{Product.subCategory}}">
-    </div>
-    <div class="form-group">
-        <label for="brand">Brand:</label>
-        <input type="text" class="form-control" id="brand" name="brand"value="{{Product.brand}}">
-    </div>
-    <div class="form-group">
-        <label for="manufacture">Manufacture:</label>
-        <input type="text" class="form-control" id="manufacture" name="manufacture"value="{{Product.manufacture}}">
-    </div>
-    <div class="form-group">
-        <label for="mrp">MRP:</label>
-        <input type="number" class="form-control" id="mrp" name="mrp" required value="{{Product.mrp}}">
-    </div>
-    <div class="form-group">
-        <label for="sellingPrice">Selling Price:</label>
-        <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" required value="{{Product.sellingPrice}}">
-    </div>
-    <div class="form-group">
-        <label for="weight">Weight:</label>
-        <input type="number" class="form-control" id="weight" name="weight" required value="{{Product.weight}}">
-    </div>
-    <div class="form-group">
-        <label for="productImage">Product Image:</label>
-        <input type="file" class="form-control-file" id="productImage" name="productImage">
-         <img src="{{Product.productImage}}" alt="Product Image">
-    </div>
-    <div class="form-group">
-        <label for="stock">Stock:</label>
-        <input type="number" class="form-control" id="stock" name="stock" value="{{Product.stock}}">
-    </div>
-    <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" id="description" name="description" rows="3" > {{Product.description}}</textarea>
-    </div>
-    <div class="form-group">
-        <label for="advancedDescription">Advanced Description:</label>
-        <textarea class="form-control" id="advancedDescription" name="advancedDescription" rows="3" >{{Product.advancedDescription}}</textarea>
-    </div>
-    <div class="form-group">
-        <label for="originOfProduct">Origin of Product:</label>
-        <input type="text" class="form-control" id="originOfProduct" name="originOfProduct"value="{{Product.originOfProduct}}">
-         <input type="hidden" class="form-control" id="originOfProduct" name="id"value="{{Product._id}}">
-    </div>
-    <button type="submit" class="btn btn-warning">Edit</button>
-</form>
-
+         <div class="col-m d-flex justify-content-center small-div">
+    <!-- First section of the form -->
+    <form action="/admin/productedit" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required value="{{Product.name}}">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <input type="text" class="form-control" id="category" name="category" value="{{Product.category}}">
+                </div>
+                <div class="form-group">
+                    <label for="subCategory">Sub-Category:</label>
+                    <input type="text" class="form-control" id="subCategory" name="subCategory" value="{{Product.subCategory}}">
+                </div>
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <input type="text" class="form-control" id="brand" name="brand" value="{{Product.brand}}">
+                </div>
+                <div class="form-group">
+                    <label for="manufacture">Manufacture:</label>
+                    <input type="text" class="form-control" id="manufacture" name="manufacture" value="{{Product.manufacture}}">
+                </div>
+                    <div class="form-group">
+            <label for="stock">Stock:</label>
+            <input type="number" class="form-control" id="stock" name="stock" value="{{Product.stock}}">
+        </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="mrp">MRP:</label>
+                    <input type="number" class="form-control" id="mrp" name="mrp" required value="{{Product.mrp}}">
+                </div>
+                <div class="form-group">
+                    <label for="sellingPrice">Selling Price:</label>
+                    <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" required value="{{Product.sellingPrice}}">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight:</label>
+                    <input type="number" class="form-control" id="weight" name="weight" required value="{{Product.weight}}">
+                </div>
+                <div class="form-group">
+                    <label for="productImage">Product Image:</label>
+                    <input type="file" class="form-control-file" id="productImage" name="productImage">
+                    <img src="{{Product.productImage}}" alt="Product Image">
+                </div>
+         <div class="form-group">
+            <label for="originOfProduct">Origin of Product:</label>
+            <input type="text" class="form-control" id="originOfProduct" name="originOfProduct" value="{{Product.originOfProduct}}">
+            <input type="hidden" class="form-control" id="originOfProduct" name="id" value="{{Product._id}}">
+        </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{Product.description}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="advancedDescription">Advanced Description:</label>
+            <textarea class="form-control" id="advancedDescription" name="advancedDescription" rows="3">{{Product.advancedDescription}}</textarea>
+        </div>
+       
+            </div>
+            
+        </div>
+        
+        <!-- Second section of the form -->
+       
+         <button type="button" class="btn btn-warning" id="submitBtn">Confirm</button>
+
+    </form>
+</div>
+</div>
+
+<script>
+    // Add an event listener to the submit button
+    document.getElementById('submitBtn').addEventListener('click', function () {
+        // Display a SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to confirm the submission?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, confirm!'
+        }).then((result) => {
+            // If the user confirms, submit the form
+            if (result.isConfirmed) {
+                // Select the form and submit it
+                document.querySelector('form').submit();
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
             
     
 

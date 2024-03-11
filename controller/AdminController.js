@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const { cloudinary } = require('../config/cloudinary');
+const {upload} = require('../config/multer');
+const fs = require('fs')
 
 app.set('view engine', 'hbs');
 
@@ -27,6 +29,17 @@ const AdminIndexPage = async (req,res)=>{
     const products = await Products.find({});
     return res.render('admin/indexadmin',{users,products});
 
+}
+const AdminUserListPage = async (req,res)=>{
+    const users = await User.find({});
+    const products = await Products.find({});
+    return res.render('admin/userslist',{users,products})
+}
+
+const ProductListPage = async (req,res)=>{
+    const users = await User.find({});
+    const products = await Products.find({});
+    return res.render('admin/Productslists',{users,products})
 }
 
 
@@ -77,12 +90,12 @@ const statuschecking = async (req, res) => {
         if (!user.isBlocked) {
             user.isBlocked = true;
             await user.save();
-            res.redirect('/admin/adminloginpage')
+            res.redirect('/admin/Userslistpageadmin')
         }
         else {
             user.isBlocked = false; 
             await user.save();
-            res.redirect('/admin/adminloginpage')
+            res.redirect('/admin/Userslistpageadmin')
         }
     } catch (error) {
         console.error('Error while checking status:', error);
@@ -123,7 +136,7 @@ const addproduct = async (req, res) => {
         await newProduct.save();
         
         // Redirect to the admin login page
-        res.redirect('/admin/adminloginpage');
+        res.redirect('/admin/Productslistpageadmin');
     } catch (error) {
         console.error('Error adding product:', error);
         res.status(500).send('Error adding product');
@@ -141,12 +154,20 @@ const GetEditPage = async (req,res)=>{
    
 }
 
-const EditProduct = async (req,res)=>{
+const EditProduct = async (req, res) => {
     try {
+        const { id, name, category, subCategory, brand, manufacture, mrp, sellingPrice, weight, stock, description, advancedDescription, originOfProduct } = req.body;
 
-        const { id, name, category, subCategory, brand, manufacture, mrp, sellingPrice, weight, productImage, stock, description, advancedDescription, originOfProduct } = req.body;
+        let productImage = '';
 
-        const newProduct = await Products.findByIdAndUpdate(id,{
+        if (req.file) {
+            console.log(req.file);
+            const result = await cloudinary.uploader.upload(req.file.path);
+            productImage = result.secure_url;
+            fs.unlinkSync(req.file.path);
+        }
+
+        const updatedFields = {
             name,
             category,
             subCategory,
@@ -155,34 +176,51 @@ const EditProduct = async (req,res)=>{
             mrp,
             sellingPrice,
             weight,
-            productImage,
             stock,
             description,
             advancedDescription,
             originOfProduct
-        });  
-        await newProduct.save();
-        res.redirect('/admin/adminloginpage')
+        };
 
+        if (productImage) {
+            updatedFields.productImage = productImage;
+        }
+
+        const updatedProduct = await Products.findByIdAndUpdate(id, updatedFields, { new: true });
+
+        // Redirect to the product list page after successful update
+        res.redirect('/admin/Productslistpageadmin');
     } catch (error) {
-        console.error('Error adding product:', error);
-        res.status(500).send('Error adding product');
+        console.error('Error updating product:', error);
+        res.status(500).send('Error updating product');
     }
-  
 }
 
-const DeleteProduct = async (req,res)=>{
-    const id = req.body.iddelete; 
+
+const DisableProduct = async (req,res)=>{
+    const id = req.body.id;
+    console.log(id);
     try {
-        const deletedProduct = await Products.findByIdAndDelete(id);
-    
-        if (!deletedProduct) {
+        const product = await Products.findById(id);
+        
+        if (!product) {
             return res.status(404).send('Product not found');
         }
     
-        res.redirect('/admin/adminloginpage')
+        console.log('isDisabled:', product.isDisabled); 
+        
+        if (!product.isDisabled) {
+            product.isDisabled = true;
+            await product.save();
+            res.redirect('/admin/Productslistpageadmin')
+        }
+        else {
+            product.isDisabled = false; 
+            await product.save();
+            res.redirect('/admin/Productslistpageadmin')
+        }
     } catch (error) {
-        console.error('Error deleting product:', error);
+        console.error('Error while checking status:', error);
         res.status(500).send('Internal Server Error');
     }
     
@@ -199,6 +237,9 @@ const logoutadmin = (req, res) => {
 
 
 
+
+
+
 module.exports = {
     GetAdminLogin,
     AdminloginHandler,
@@ -206,9 +247,11 @@ module.exports = {
     statuschecking,
     addproduct,
     EditProduct,
-    DeleteProduct,
+    DisableProduct,
     GetEditPage,
-    logoutadmin
+    logoutadmin,
+    AdminUserListPage,
+    ProductListPage
 };
 
 //admin@123 password
