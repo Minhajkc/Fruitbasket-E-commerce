@@ -11,35 +11,63 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/user-assets/images/favicon.ico">
 
     <!-- CSS
 	============================================ -->
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/user-assets/css/vendor/bootstrap.min.css">
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="assets/css/vendor/font.awesome.min.css">
+    <link rel="stylesheet" href="/user-assets/css/vendor/font.awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="assets/css/vendor/ionicons.min.css">
+    <link rel="stylesheet" href="/user-assets/css/vendor/ionicons.min.css">
     <!-- Slick CSS -->
-    <link rel="stylesheet" href="assets/css/plugins/slick.min.css">
+    <link rel="stylesheet" href="/user-assets/css/plugins/slick.min.css">
     <!-- Animation -->
-    <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <link rel="stylesheet" href="/user-assets/css/plugins/animate.min.css">
     <!-- jQuery Ui -->
-    <link rel="stylesheet" href="assets/css/plugins/jquery-ui.min.css">
+    <link rel="stylesheet" href="/user-assets/css/plugins/jquery-ui.min.css">
     <!-- Nice Select -->
-    <link rel="stylesheet" href="assets/css/plugins/nice-select.min.css">
+    <link rel="stylesheet" href="/user-assets/css/plugins/nice-select.min.css">
     <!-- Magnific Popup -->
-    <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
+    <link rel="stylesheet" href="/user-assets/css/plugins/magnific-popup.css">
 
     <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from the above) -->
 
-    <!-- <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
-    <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"> -->
+    <!-- <link rel="stylesheet" href="/user-assets/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="/user-assets/css/plugins/plugins.min.css"> -->
 
     <!-- Main Style CSS (Please use minify version for better website load performance) -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!-- <link rel="stylesheet" href="assets/css/style.min.css"> -->
+    <link rel="stylesheet" href="/user-assets/css/style.css">
+    <!-- <link rel="stylesheet" href="/user-assets/css/style.min.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<style>
+    .cart-plus-minuse {
+    display: flex;
+    align-items: center;
+}
+
+.cart-plus-minuse button {
+    width: 30px; /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    outline: none;
+}
+
+.cart-plus-minuse button:first-child {
+    order: -1; /* Moves the first button to the left */
+}
+
+.cart-plus-minus-box {
+    width: 50px; /* Adjust the width as needed */
+    padding: 5px; /* Adjust the padding as needed */
+    text-align: center;
+    
+}
+
+</style>
 </head>
 
 <body>
@@ -55,7 +83,7 @@
                                 <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
                                     <div class="header-logo d-flex align-items-center">
                                         <a href="index.html">
-                                            <img class="img-full" src="assets/images/logo/logo.png" alt="Header Logo">
+                                            <img class="img-full" src="/user-assets/images/logo/logo.png" alt="Header Logo">
                                         </a>
                                     </div>
                                 </div>
@@ -181,7 +209,7 @@
                                                 <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
                                                     <div class="single-cart-item">
                                                         <div class="cart-img">
-                                                            <a href="cart.html"><img src="assets/images/cart/1.jpg" alt=""></a>
+                                                            <a href="cart.html"><img src="/user-assets/images/cart/1.jpg" alt=""></a>
                                                         </div>
                                                         <div class="cart-text">
                                                             <h5 class="title"><a href="cart.html">11. Product with video - navy</a></h5>
@@ -196,7 +224,7 @@
                                                     </div>
                                                     <div class="single-cart-item">
                                                         <div class="cart-img">
-                                                            <a href="cart.html"><img src="assets/images/cart/2.jpg" alt=""></a>
+                                                            <a href="cart.html"><img src="/user-assets/images/cart/2.jpg" alt=""></a>
                                                         </div>
                                                         <div class="cart-text">
                                                             <h5 class="title"><a href="cart.html" title="10. This is the large title for testing large title and there is an image for testing - white">10. This is the large title for testing...</a></h5>
@@ -211,7 +239,7 @@
                                                     </div>
                                                     <div class="single-cart-item">
                                                         <div class="cart-img">
-                                                            <a href="cart.html"><img src="assets/images/cart/3.jpg" alt=""></a>
+                                                            <a href="cart.html"><img src="/user-assets/images/cart/3.jpg" alt=""></a>
                                                         </div>
                                                         <div class="cart-text">
                                                             <h5 class="title"><a href="cart.html">1. New and sale badge product - s / red</a></h5>
@@ -257,7 +285,7 @@
                                 <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
                                     <div class="header-logo">
                                         <a href="index.html">
-                                            <img class="img-full" src="assets/images/logo/logo.png" alt="Header Logo">
+                                            <img class="img-full" src="/user-assets/images/logo/logo.png" alt="Header Logo">
                                         </a>
                                     </div>
                                 </div>
@@ -383,7 +411,7 @@
                                                 <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
                                                     <div class="single-cart-item">
                                                         <div class="cart-img">
-                                                            <a href="cart.html"><img src="assets/images/cart/1.jpg" alt=""></a>
+                                                            <a href="cart.html"><img src="/user-assets/images/cart/1.jpg" alt=""></a>
                                                         </div>
                                                         <div class="cart-text">
                                                             <h5 class="title"><a href="cart.html">11. Product with video - navy</a></h5>
@@ -398,7 +426,7 @@
                                                     </div>
                                                     <div class="single-cart-item">
                                                         <div class="cart-img">
-                                                            <a href="cart.html"><img src="assets/images/cart/2.jpg" alt=""></a>
+                                                            <a href="cart.html"><img src="/user-assets/images/cart/2.jpg" alt=""></a>
                                                         </div>
                                                         <div class="cart-text">
                                                             <h5 class="title"><a href="cart.html" title="10. This is the large title for testing large title and there is an image for testing - white">10. This is the large title for testing...</a></h5>
@@ -413,7 +441,7 @@
                                                     </div>
                                                     <div class="single-cart-item">
                                                         <div class="cart-img">
-                                                            <a href="cart.html"><img src="assets/images/cart/3.jpg" alt=""></a>
+                                                            <a href="cart.html"><img src="/user-assets/images/cart/3.jpg" alt=""></a>
                                                         </div>
                                                         <div class="cart-text">
                                                             <h5 class="title"><a href="cart.html">1. New and sale badge product - s / red</a></h5>
@@ -624,78 +652,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/product/small-size/1.png" alt="Product" /></a></td>
-                                        <td class="pro-title"><a href="#">Product dummy title <br> s / green</a></td>
-                                        <td class="pro-price"><span>$295.00</span></td>
-                                        <td class="pro-quantity">
-                                            <div class="quantity">
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="0" type="text">
-                                                    <div class="dec qtybutton">-</div>
-                                                    <div class="inc qtybutton">+</div>
-                                                    <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
-                                                    <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pro-subtotal"><span>$295.00</span></td>
-                                        <td class="pro-remove"><a href="#"><i class="ion-trash-b"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/product/small-size/2.png" alt="Product" /></a></td>
-                                        <td class="pro-title"><a href="#">Product title here <br> red</a></td>
-                                        <td class="pro-price"><span>$275.00</span></td>
-                                        <td class="pro-quantity">
-                                            <div class="quantity">
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="0" type="text">
-                                                    <div class="dec qtybutton">-</div>
-                                                    <div class="inc qtybutton">+</div>
-                                                    <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
-                                                    <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pro-subtotal"><span>$550.00</span></td>
-                                        <td class="pro-remove"><a href="#"><i class="ion-trash-b"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/product/small-size/3.png" alt="Product" /></a></td>
-                                        <td class="pro-title"><a href="#">Product dummy title <br> s</a></td>
-                                        <td class="pro-price"><span>$295.00</span></td>
-                                        <td class="pro-quantity">
-                                            <div class="quantity">
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="0" type="text">
-                                                    <div class="dec qtybutton">-</div>
-                                                    <div class="inc qtybutton">+</div>
-                                                    <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
-                                                    <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pro-subtotal"><span>$295.00</span></td>
-                                        <td class="pro-remove"><a href="#"><i class="ion-trash-b"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/product/small-size/4.png" alt="Product" /></a></td>
-                                        <td class="pro-title"><a href="#">Dummy Title</a></td>
-                                        <td class="pro-price"><span>$110.00</span></td>
-                                        <td class="pro-quantity">
-                                            <div class="quantity">
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="2" type="text">
-                                                    <div class="dec qtybutton">-</div>
-                                                    <div class="inc qtybutton">+</div>
-                                                    <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
-                                                    <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pro-subtotal"><span>$110.00</span></td>
-                                        <td class="pro-remove"><a href="#"><i class="ion-trash-b"></i></a></td>
-                                    </tr>
+{{#each bookings}}
+<tr>
+    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="{{this.product.productImage}}" alt="Product Image" /></a></td>
+    <td class="pro-title"><a href="#">{{this.product.name}}</a></td>
+    <td class="pro-price"><span id="mrp">${{this.product.mrp}}</span></td>
+   <td class="pro-quantity">
+    <div class="quantityy">
+    <div class="cart-plus-minuse">
+        <button type="button" onclick="decrementQuantity('{{this.product._id}}')">-</button>
+        <input id="quantityInput{{this.product._id}}" class="cart-plus-minus-box" value='{{this.quantity}}' type="text">
+        <button type="button" onclick="incrementQuantity('{{this.product._id}}')">+</button>
+    </div>
+</div>
+
+</td>
+
+    <td class="pro-subtotal"><span id="total">${{#if this.total}}{{this.total}}{{else}}{{this.product.mrp}}{{/if}}</span></td>
+    <td class="pro-remove"><a href="/DeleteFromCart/{{this.product._id}}"><i class="ion-trash-b"></i></a></td>
+</tr>
+{{/each}}
+
+
+
+
+                                    
+                                   
                                 </tbody>
                             </table>
                         </div>
@@ -708,7 +690,7 @@
                                 </form>
                             </div>
                             <div class="cart-update mt-sm-16">
-                                <a href="#" class="btn obrien-button primary-btn">Update Cart</a>
+                                <a href="/Cart" class="btn obrien-button primary-btn">Update Cart</a>
                             </div>
                         </div>
                     </div>
@@ -723,7 +705,7 @@
                                     <table class="table">
                                         <tr>
                                             <td>Sub Total</td>
-                                            <td>$230</td>
+                                            <td>{{subtotal}}</td>
                                         </tr>
                                         <tr>
                                             <td>Shipping</td>
@@ -731,7 +713,7 @@
                                         </tr>
                                         <tr class="total">
                                             <td>Total</td>
-                                            <td class="total-amount">$300</td>
+                                            <td class="total-amount">{{grandtotal}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -771,7 +753,7 @@
                             <div class="single-footer-widget m-0">
                                 <div class="footer-logo">
                                     <a href="index.html">
-                                        <img src="assets/images/logo/footer.png" alt="Logo Image">
+                                        <img src="/user-assets/images/logo/footer.png" alt="Logo Image">
                                     </a>
                                 </div>
                                 <p class="desc-content">Obrien is the best parts shop of your daily nutritions. What kind of nutrition do you need you can get here soluta nobis</p>
@@ -872,31 +854,86 @@
 ============================================ -->
 
     <!-- jQuery JS -->
-    <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/user-assets/js/vendor/jquery-3.6.0.min.js"></script>
     <!-- jQuery Migrate JS -->
-    <script src="assets/js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <script src="/user-assets/js/vendor/jquery-migrate-3.3.2.min.js"></script>
     <!-- Modernizer JS -->
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="/user-assets/js/vendor/modernizr-2.8.3.min.js"></script>
     <!-- Bootstrap JS -->
-    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/user-assets/js/vendor/bootstrap.bundle.min.js"></script>
     <!-- Slick Slider JS -->
-    <script src="assets/js/plugins/slick.min.js"></script>
+    <script src="/user-assets/js/plugins/slick.min.js"></script>
     <!-- Countdown JS -->
-    <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="/user-assets/js/plugins/jquery.countdown.min.js"></script>
     <!-- Ajax JS -->
-    <script src="assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <script src="/user-assets/js/plugins/jquery.ajaxchimp.min.js"></script>
     <!-- Jquery Nice Select JS -->
-    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/user-assets/js/plugins/jquery.nice-select.min.js"></script>
     <!-- Jquery Ui JS -->
-    <script src="assets/js/plugins/jquery-ui.min.js"></script>
+    <script src="/user-assets/js/plugins/jquery-ui.min.js"></script>
     <!-- jquery magnific popup js -->
-    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+    <script src="/user-assets/js/plugins/jquery.magnific-popup.min.js"></script>
 
     <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
+    <script src="/user-assets/js/main.js"></script>
 
 </body>
 
 
 <!-- Mirrored from template.hasthemes.com/obrien/obrien/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 05:40:14 GMT -->
 </html>
+<script>
+  // Function to increment the quantity
+const incrementQuantity = (productId) => {
+    const quantityInput = document.getElementById(`quantityInput${productId}`);
+    const currentValue = parseInt(quantityInput.value);
+    const newValue = currentValue + 1;
+    quantityInput.value = newValue;
+
+    // Call a function to send the updated quantity to the backend
+    updateQuantity(productId, newValue);
+}
+
+// Function to decrement the quantity
+const decrementQuantity = (productId) => {
+    const quantityInput = document.getElementById(`quantityInput${productId}`);
+    const currentValue = parseInt(quantityInput.value);
+    // Ensure quantity does not go below 1
+    const newValue = currentValue > 1 ? currentValue - 1 : 1;
+    quantityInput.value = newValue;
+
+    // Call a function to send the updated quantity to the backend
+    updateQuantity(productId, newValue);
+}
+
+// Function to send the updated quantity to the backend
+const updateQuantity = async (productId, newQuantity) => {
+    try {
+        // Your fetch or axios request to send the updated quantity to the backend
+        const response = await fetch('/updateQuantity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId, newQuantity })
+        });
+
+        // Handle the response
+        if (response.ok) {
+            const data = await response.json();
+             window.location.reload();
+        
+        } else {
+            console.error('Error updating quantity:', response.statusText);
+        }
+    } catch (error) {
+        // Handle errors
+        console.error('Error updating quantity:', error);
+    }
+};
+
+
+   
+
+
+</script>

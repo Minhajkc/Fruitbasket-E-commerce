@@ -62,9 +62,15 @@ label{
                     <input type="text" class="form-control" id="name" name="name" required value="{{Product.name}}">
                 </div>
                 <div class="form-group">
-                    <label for="category">Category:</label>
-                    <input type="text" class="form-control" id="category" name="category" value="{{Product.category}}">
-                </div>
+    <label for="category">Category:</label>
+    <select class="form-control" id="category" name="category">
+        <option value="healthy">Healthy</option>
+        <option value="fresh">Fresh</option>
+        <option value="seasonal">Seasonal</option>
+        <option value="organic">Organic</option>
+    </select>
+</div>
+
                 <div class="form-group">
                     <label for="subCategory">Sub-Category:</label>
                     <input type="text" class="form-control" id="subCategory" name="subCategory" value="{{Product.subCategory}}">

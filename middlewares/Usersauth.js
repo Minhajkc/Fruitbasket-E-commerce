@@ -32,9 +32,7 @@ function verifyToken1(req, res, next) {
     const token = req.cookies.token; // Retrieve token from cookies
 
     if (!token) {
-       
             next();
-       
     } else {
         return res.redirect('/home')
     }

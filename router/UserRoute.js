@@ -22,6 +22,15 @@ router.post('/sendOTP',UserController.SendOTP)
 router.post('/ForgetPasswordButton',UserController.ForgetPasswordButton)
 router.get('/logoutuser',Userauth.verifyToken,UserController.logoutUser)
 router.get('/Shop',UserController.GetShopPage)
-
+router.get('/Shop/:category',UserController.GetProductsCategory)
+router.post('/SearchProducts',UserController.SearchProducts)
+router.get('/Cart',UserController.GetCartPage)
+router.get('/Wishlist',UserController.GetWishListPage)
+router.get('/addToCart/:productId',UserController.AddToCart)
+router.get('/addToWishList/:productId',UserController.AddToWishlist)
+router.get('/addToCartWishList/:productId',UserController.AddToCartFromWishlist)
+router.get('/DeleteWishList/:ProductId',UserController.DeleteWishList)
+router.get('/DeleteFromCart/:ProductId',UserController.DeleteFromcart)
+router.post('/updateQuantity',UserController.updateQuantity);
 
 module.exports = router;
