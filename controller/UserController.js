@@ -28,7 +28,8 @@ const secretKey = 'yourSecretKey';
 
 
 const User = require('../models/UserModel');
-const Products = require('../models/ProductModel')
+const Products = require('../models/ProductModel');
+const products = require('../models/ProductModel');
 
 
 
@@ -38,16 +39,18 @@ app.set('view engine', 'hbs');
 const GetHomePage = async (req, res) => {
     try {
         const token = req.cookies.token;
+        const filteredProducts = await Products.find().limit(8).exec();
+
 
         if (!token) {
-            return res.render('users/index'); // Render the page without user information
+            return res.render('users/index',{products: filteredProducts} ); // Render the page without user information
         }
 
         // Verify the token
         jwt.verify(token, 'your_secret_key', async (err, decoded) => {
             if (err) {
                 console.error('Invalid token:', err);
-                return res.status(401).render('users/index'); // Render the page without user information
+                return res.status(401).render('users/index',{products: filteredProducts}); // Render the page without user information
             }
 
             // Retrieve the user from the database using the decoded user ID
@@ -55,26 +58,73 @@ const GetHomePage = async (req, res) => {
 
             if (!user) {
                 console.error('User not found');
-                return res.status(404).render('users/index'); // Render the page without user information
+                return res.status(404).render('users/index',{products: filteredProducts}); // Render the page without user information
             }
 
             // Render the page with user information and success message
-            return res.render('users/index', { user, successMessage: req.query.successMessage });
+            return res.render('users/index', { user, successMessage: req.query.successMessage ,products: filteredProducts });
         });
     } catch (error) {
         console.error('Error fetching user:', error);
-        return res.status(500).render('users/index'); // Render the page without user information
+        return res.status(500).render('users/index',{products: filteredProducts}); // Render the page without user information
     }
 };
 
 
 
 
-  
+  const GetAboutPage = (req,res)=>{
+    return res.render('users/about-us');
+  }
+
+  const GetContactPage = (req,res)=>{
+    return res.render('users/contact-us');
+  }
+  const MyAccount = async (req,res)=>{
+    try {
+        const token = req.cookies.token;
+
+        if (!token) {
+            return res.render('users/my-account'); // Render the page without user information
+        }
+
+        // Verify the token
+        jwt.verify(token, 'your_secret_key', async (err, decoded) => {
+            if (err) {
+                console.error('Invalid token:', err);
+                return res.status(401).render('users/my-account'); // Render the page without user information
+            }
+
+            // Retrieve the user from the database using the decoded user ID
+            const user = await User.findById(decoded.id);
+
+            if (!user) {
+                console.error('User not found');
+                return res.status(404).render('users/my-account'); // Render the page without user information
+            }
+            if (user.orders && user.orders.length > 0) {
+                // Assign numbers to each order in the orders array
+                const ordersWithNumbers = user.orders.map((order, index) => ({
+                    ...order,
+                    orderNumber: index + 1
+                }));
+                console.log(ordersWithNumbers);
+                return res.render('users/my-account', { user , ordersWithNumbers});
+                
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return res.status(500).render('users/index',{products: filteredProducts}); // Render the page without user information
+    }
+  }
 
   const GetLoginPage = (req, res) => {
-    return res.render('users/login');
-  };
+  
+        return res.render('users/login');
+  
+};
+
 
   const GetRegisterPage = (req, res) => {
     return res.render('users/register');
@@ -83,6 +133,21 @@ const GetHomePage = async (req, res) => {
   const GetForgotPasswordPage = (req, res) => {
     return res.render('users/forgot-password');
   };
+
+  const GetProductDetailsPage = async (req, res) => {
+    const productId = req.params.ProductId; // Assuming productId is passed in the URL
+    const filteredProducts = await Products.find().limit(8).exec();
+    try {
+        const product = await Products.findById(productId).exec();
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        return res.render('users/product-details', { product ,filteredProducts});
+    } catch (error) {
+        console.error('Error fetching product details:', error);
+        return res.status(500).send('Internal Server Error');
+    }
+};
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -338,30 +403,36 @@ const SearchProducts = async (req, res) => {
 
 const GetCartPage = async (req, res) => {
     try {
-        // Get the user ID from the cookies
         const userId = req.cookies.userId;
 
         if (!userId) {
-            // If user ID is not available, redirect to login or display an error message
             return res.redirect('/UserLogin');
         }
 
-        // Find the user by ID and populate the bookings array with product details
         const user = await User.findById(userId).populate('bookings.product');
 
         if (!user) {
-            // If user is not found, redirect to login or display an error message
             return res.redirect('/UserLogin');
         }
 
-        // Render the cart page with the user's bookings
+        let subtotal = 0;
+        user.bookings.forEach(booking => {
+            subtotal += booking.quantity * booking.product.mrp;
+        });
+
+        user.subtotal = subtotal;
+
+        user.grandtotal = user.subtotal + user.shippingcost;
+
+        await user.save();
+
         res.render('users/cart', { bookings: user.bookings, subtotal: user.subtotal, grandtotal: user.grandtotal });
     } catch (error) {
-        // Handle errors
         console.error('Error fetching cart products:', error);
         res.status(500).send('Internal Server Error');
     }
 }
+
 
 
 
@@ -393,35 +464,48 @@ const GetWishListPage = async (req, res) => {
 
 const AddToCart = async (req, res) => {
     const productId = req.params.productId;
-    const userId = req.cookies.userId; 
+    const userId = req.cookies.userId;
 
     try {
+
+        const product = await products.findById(productId);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        
         const updatedUser = await User.findOneAndUpdate(
-            { _id: userId,'bookings.product': { $ne: productId } }, // Check if the product is not already in the cart
-            { $addToSet: { bookings: { product: productId, cart: true } } }, // Update the 'cart' field to true
+            { _id: userId, 'bookings.product': { $ne: productId } }, // Check if the product is not already in the cart
+            { 
+                $addToSet: { 
+                    bookings: { 
+                        product: productId, 
+                        cart: true, 
+                        productName: product.name, // Add product name to the cart
+                        total:0 
+                    } 
+                } 
+            }, 
             { new: true }
         );
-        
-        
+
         if (updatedUser) {
             res.redirect('/Shop?success=addedToCart');
-            
         } else {
-            res.redirect('/UserLogin');
+            res.redirect(`/Shop?failed=ItemIsAlreadyInCart&productId=${productId}`);
         }
     } catch (error) {
         // Handle errors
         console.error('Error adding product to cart:', error);
         res.status(500).send('Internal Server Error');
     }
-}
+};
 
 
 
 
 const AddToWishlist = async (req, res) => {
     try {
-        const mongoose = require('mongoose');
+       
 
         const productId = req.params.productId;
         const userId = req.cookies.userId;
@@ -439,11 +523,9 @@ const AddToWishlist = async (req, res) => {
         );
 
         if (updatedUser) {
-            // Redirect to the shop page with a success message
             return res.redirect('/Shop?success=addedToWishlist');
         } else {
-            // If the user is not found, redirect to the login page
-            return res.redirect('/UserLogin');
+            return res.redirect(`/Shop?failed=ItemIsAlreadyInWishList&productId=${productId}`);
         }
     } catch (error) {
         console.error('Error adding product to wishlist:', error);
@@ -457,10 +539,16 @@ const AddToCartFromWishlist = async (req, res) => {
     const userId = req.cookies.userId;
 
     try {
+        // Fetch the product details
+        const product = await products.findById(productId);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+
         // Add the item to the cart
         const updatedUserCart = await User.findOneAndUpdate(
             { _id: userId, 'bookings.product': { $ne: productId } },
-            { $addToSet: { bookings: { product: productId, cart: true } } },
+            { $addToSet: { bookings: { product: productId, cart: true, productName: product.name, total: product.mrp } } },
             { new: true }
         );
 
@@ -487,6 +575,7 @@ const AddToCartFromWishlist = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
 
 const DeleteWishList = async (req, res) => {
     const productId = req.params.ProductId;
@@ -571,12 +660,140 @@ const updateQuantity = async (req, res) => {
 
 
 
+const GetCheckOutPage = async (req, res) => {
+    try {
+        const userId = req.cookies.userId;
+        if (!userId) {
+            return res.redirect('/UserLogin');
+        }
+
+        // Find the user by ID
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        // Check if the address array is not empty
+        if (user.address.length > 0) {
+            // If address is not empty, render the checkout page with the address
+            return res.render('users/checkout', {user, address: user.address });
+        } else {
+            // If address is empty, render the checkout page without the address
+            return res.render('users/checkout');
+        }
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching user or rendering checkout page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 
 
 
+const AddressForm = async (req, res) => {
+    const userId = req.cookies.userId;
+
+    try {
+        // Fetch the user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const { firstname, lastname, mainaddress, country, city, state, post, email, phone } = req.body;
+
+        // Validate form data (e.g., check if required fields are provided)
+
+        // Push the new address object into the address array
+        user.address.push({
+            firstName: firstname,
+            lastName: lastname,
+            address: mainaddress,
+            country: country,
+            city: city,
+            state: state,
+            postcode: post,
+            email: email,
+            phone: phone
+        });
+
+        // Save the updated user object
+        await user.save();
+
+        // Redirect or respond with a success message
+        res.redirect('/Checkout')
+        
+    } catch (error) {
+        // Handle errors
+        console.error('Error adding address:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 
+
+const OrderSubmit = async (req, res) => {
+    const { paymentmethod } = req.body;
+
+    try {
+        if (paymentmethod === 'cod') {
+            const userId = req.cookies.userId;
+            if (!userId) {
+                return res.redirect('/UserLogin');
+            }
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).send('User not found');
+            }
+
+            const grandtotal = user.grandtotal;
+
+            const currentDate = new Date();
+            const currentTime = currentDate.toLocaleTimeString();
+
+            // Fetch product details from user's bookings
+            const orders = [{
+                items: user.bookings.map(item => ({
+                    productName: item.productName,
+                    quantity: item.quantity
+                   
+                })),
+                totalAmountUserPaid: grandtotal,
+                date: currentDate,
+                time: currentTime,
+                orderId: uuid.v4(),
+                status:'Pending'
+            }];
+
+            // Update the orders array in the User collection
+            const updatedUser = await User.findByIdAndUpdate(
+                userId,
+                { $push: { orders: { $each: orders } } }, // Add new orders to the existing orders array
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).send('User not found');
+            }
+
+            // Clear the user's bookings after placing the order
+            updatedUser.bookings = [];
+            await updatedUser.save();
+
+            return res.redirect('/home?success=orderedplacedsuccessfully');
+        } else {
+            // Handle other payment methods
+            return res.redirect('/PaymentGateway');
+        }
+    } catch (error) {
+        // Handle errors
+        console.error('Error processing order:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 
 
@@ -589,6 +806,9 @@ module.exports = {
     GetHomePage,
     GetLoginPage,
     GetRegisterPage,
+    GetAboutPage,
+    GetContactPage,
+    MyAccount,
     GetForgotPasswordPage,
     PostUserRegister,
     OTPVerify,
@@ -606,7 +826,11 @@ module.exports = {
     AddToCartFromWishlist,
     DeleteWishList,
     DeleteFromcart,
-    updateQuantity
+    updateQuantity,
+    GetProductDetailsPage,
+    GetCheckOutPage,
+    AddressForm,
+    OrderSubmit
    
    
 };

@@ -16,5 +16,9 @@ router.post('/productedit',upload.single('productImage'),AdminControllerz.EditPr
 router.get('/logoutadmin',AdminControllerz.logoutadmin)
 router.get('/Userslistpageadmin',AdminControllerz.AdminUserListPage)
 router.get('/Productslistpageadmin',AdminControllerz.ProductListPage)
+router.get('/Productorders',AdminControllerz.ProductsOrderPage)
+router.post('/orderstatus',AdminControllerz.orderstatus)
+router.get('/Productorderstable',AdminControllerz.ProductsOrderTablePage)
+router.post('/getOrderDetails',AdminControllerz.getOrderDetails)
 
 module.exports = router;

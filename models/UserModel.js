@@ -42,10 +42,13 @@ const Schema = new mongoose.Schema({
             type: Number,
             default: 1
         },
+        productName: {
+            type: String // Assuming product name is a string
+        },
         total: {
-            type: Number,
-        }  
-    }],
+            type: Number // Assuming total price is a number
+        }
+    }],    
     subtotal:{
         type: Number,  
     },
@@ -62,6 +65,47 @@ const Schema = new mongoose.Schema({
             ref: 'Products'
         }
     }],
+    address: [{
+        country: {
+            type: String,
+            required: true
+        },
+        firstName: {
+            type: String,
+            required: true
+        },
+        lastName: {
+            type: String,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        state: {
+            type: String,
+            required: true
+        },
+        postcode: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: String,
+            required: true
+        }
+    }],
+    orders:[{
+        
+    }]
    
 });
 
@@ -78,9 +122,6 @@ Schema.pre('save', async function(next) {
     });
 
     await Promise.all(bookingsPromises);
-    this.subtotal = this.bookings.reduce((acc, booking) => acc + booking.total, 0);
-        this.grandtotal = this.subtotal + this.shippingcost
-    
     next();
 });
 

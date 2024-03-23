@@ -9,6 +9,7 @@ function generateToken(user) {
     return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 }
 
+
 // Middleware function to verify JWT token
 function verifyToken(req, res, next) {
     const token = req.cookies.token; // Retrieve token from cookies
@@ -38,10 +39,17 @@ function verifyToken1(req, res, next) {
     }
 }
 
+function checkLoggedIn(req, res, next) {
+    if (req.cookies.token) {
+        return res.redirect('/home');
+    }
+    next(); // Proceed to the next middleware or route handler
+}
 
 
 module.exports = {
     generateToken,
     verifyToken,
-    verifyToken1
+    verifyToken1,
+    checkLoggedIn
 };

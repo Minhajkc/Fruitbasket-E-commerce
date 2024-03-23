@@ -634,6 +634,7 @@
         </div>
         <!-- Breadcrumb Area End Here -->
         <!-- cart main wrapper start -->
+        {{#if bookings}}
         <div class="cart-main-wrapper mt-no-text mb-no-text">
             <div class="container container-default-2 custom-area">
                 <div class="row">
@@ -718,12 +719,17 @@
                                     </table>
                                 </div>
                             </div>
-                            <a href="checkout.html" class="btn obrien-button primary-btn d-block">Proceed To Checkout</a>
+                            <a href="/Checkout" class="btn obrien-button primary-btn d-block">Proceed To Checkout</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {{else}}
+        <div class="total m-5">
+        <p class="text-center">Cart is empty!</p>
+        </div>
+        {{/if}}
         <!-- cart main wrapper end -->
         <!-- Support Area Start Here -->
         <div class="support-area">

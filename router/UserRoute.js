@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get('/',Userauth.verifyToken1,UserController.GetHomePage);
 router.get('/home',Userauth.verifyToken,UserController.GetHomePage)
-router.get('/UserLogin',Userauth.verifyToken1,UserController.GetLoginPage);
+router.get('/UserLogin',Userauth.checkLoggedIn,UserController.GetLoginPage);
 router.get('/UserRegister',Userauth.verifyToken1,UserController.GetRegisterPage);
 router.post('/UserRegForm',UserController.PostUserRegister)
 router.post('/OtpVerification',UserController.OTPVerify)
@@ -32,5 +32,13 @@ router.get('/addToCartWishList/:productId',UserController.AddToCartFromWishlist)
 router.get('/DeleteWishList/:ProductId',UserController.DeleteWishList)
 router.get('/DeleteFromCart/:ProductId',UserController.DeleteFromcart)
 router.post('/updateQuantity',UserController.updateQuantity);
+router.get('/products-details/:ProductId',UserController.GetProductDetailsPage);
+router.get('/Contact',UserController.GetContactPage)
+router.get('/About',UserController.GetAboutPage)
+router.get('/MyAccount',UserController.MyAccount)
+router.get('/Checkout',UserController.GetCheckOutPage)
+router.post('/Addressform',UserController.AddressForm)
+router.post('/Ordersubmit',UserController.OrderSubmit)
+
 
 module.exports = router;

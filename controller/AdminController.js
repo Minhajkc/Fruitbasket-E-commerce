@@ -235,6 +235,79 @@ const logoutadmin = (req, res) => {
     }); 
 };
 
+const ProductsOrderPage = async (req, res) => {
+    try {
+
+        const usersWithOrders = await User.find({ orders: { $exists: true, $ne: [] } });
+        return res.render('Admin/orders', { usersWithOrders });
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching users with orders:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+const orderstatus = async (req, res) => {
+    try {
+        const { orderstatusvalue, orderIddb } = req.body;
+  
+        const updatedUser = await User.findOneAndUpdate(
+            { 'orders.orderId': orderIddb },
+            { $set: { 'orders.$.status': orderstatusvalue } },
+            { new: true }
+        );
+        if (!updatedUser) {
+            return res.status(404).send('Order not found');
+        }
+
+        res.redirect('/admin/Productorderstable'); 
+    } catch (error) {
+        // Handle errors
+        console.error('Error updating order status:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+const ProductsOrderTablePage = async (req,res) => {
+    
+    try {
+        const usersWithOrders = await User.find({ orders: { $exists: true, $ne: [] } });
+
+        return res.render('admin/Orderstable',{usersWithOrders})
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching users with orders:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+const getOrderDetails = async (req, res) => {
+    const orderId = req.body.productID; // Assuming OrderID is lowercase in your schema
+    const userId = req.body.userid;
+   
+    try {
+        const user = await User.findOne({ _id: userId }); // Assuming userId is the user's ObjectId
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        
+        const order = user.orders.find(order => order.orderId === orderId);
+
+        if (!order) {
+            return res.status(404).json({ error: 'Order not found' });
+        } else {
+            res.status(200)
+            res.json({ order });
+        }
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 
@@ -251,7 +324,11 @@ module.exports = {
     GetEditPage,
     logoutadmin,
     AdminUserListPage,
-    ProductListPage
+    ProductListPage,
+    ProductsOrderPage,
+    orderstatus,
+    ProductsOrderTablePage,
+    getOrderDetails
 };
 
 //admin@123 password

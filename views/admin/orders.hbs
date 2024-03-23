@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>AdminHome</title>
+    <title>Orders</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/admin-assets/public/build/css/tailwind.css" />
@@ -431,18 +431,11 @@
                   <!-- active & hover classes 'text-gray-700 dark:text-light' -->
                   <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
                   <a
-                    href="/admin/Productorders"
+                    href="/Productorders"
                     role="menuitem"
                     class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
                   >
                    ProductOrders
-                  </a>
-                   <a
-                    href="/admin/Productorderstable"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                   ProductOrdersTable
                   </a>
                  
                 </div>
@@ -1309,348 +1302,87 @@
           <!-- Main content -->
           <main>
             <!-- Content header -->
-            <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
-              <h1 class="text-2xl font-semibold">Dashboard</h1>
-              <a
-                href="https://github.com/Kamona-WD/kwd-dashboard"
-                target="_blank"
-                class="px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark"
-              >
-                View on github
-              </a>
-            </div>
+          
 
             <!-- Content -->
-            <div class="mt-2">
+            <div >
               <!-- State cards -->
-              <div class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
+             
                 <!-- Value card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Value
-                    </h6>
-                    <span class="text-xl font-semibold">$30,000</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +4.4%
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Users card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Users
-                    </h6>
-                    <span class="text-xl font-semibold">50,021</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +2.6%
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Orders card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Orders
-                    </h6>
-                    <span class="text-xl font-semibold">45,021</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +3.1%
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Tickets card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Tickets
-                    </h6>
-                    <span class="text-xl font-semibold">20,516</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +3.1%
-                    </span>
-                  </div>
-                  
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </div>
-
+                
               <!-- Charts -->
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-3">
+              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0  ">
                 <!-- Bar chart card -->
                 <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
     <!-- USERS -->
     <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-        <h4 class="text-lg font-bold text-gray-500 dark:text-light">Users</h4>
+        <h4 class="text-lg font-bold text-gray-500 dark:text-light">Orders</h4>  
     </div>
-  
+     <hr>
+      <div class="p-3">
+{{#if usersWithOrders}}
 
-    <div class="p-4">
-        {{!-- <table class="table-auto text-center">
-            <thead>
-                <tr>
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Email</th>
-                    <th class="px-4 py-2">Phone</th>
-                    <th class="px-4 py-2">Status</th>
-                    <th class="px-4 py-2" style="text-align: center;">Block/Unblock</th>
+    {{#each usersWithOrders}}
+    <hr style="border-bottom: 3px solid rgb(0, 0, 0);">
+            <h4 style="color: rgb(49, 9, 116);">User Name: {{this.name}}</h4>
+            <ul>
+                {{#each this.orders}} 
+                <h5> <li style="color: rgb(61, 211, 7);">Order ID: {{this.orderId}}</li> </h5>
+                 <li>Date: {{this.date}}</li>
+                <li>Total Amount Paid: {{this.totalAmountUserPaid}}</li>  
+                 <li style="color: coral;">Status: {{this.status}}</li>               
+                    {{#each this.items}} 
+                        <li>Product Name: {{this.productName}}</li>
+                        <li>Quantity: {{this.quantity}}</li> 
+                    {{/each}}
+                    <form id="orderStatusForm" action="/admin/orderstatus" method="post">
+                 <div class="ps-1 m-4">
+                 <label for="orderOptionsSelect" class="form-label text-primary"> <strong>Select Order Status:</strong></label>
+                  <input type="hidden" name="orderIddb" value="{{this.orderId}}">
+                 <select class="form-select" id="orderOptionsSelect" name="orderstatusvalue" > 
+                 <option value="" disabled selected>Select</option>
+                 <option value="Confirm" >Confirm</option>
+                 <option value="Shipping">Shipping</option>
+                 <option value="Delivered">Delivered</option>
+                 <option value="Canceled">Canceled</option>
+                 </select>
+                <button type="submit" class="btn btn-outline-info mt-2">Update</button>
+                 </div>
+                 </form>
+           
 
-                    
-                    <!-- Add more table headers if needed -->
-                </tr>
-            </thead>
-            <tbody>
-                {{#each users}}
-                <tr>
-                    <td class="border px-4 py-2">{{this.name}}</td>
-                    <td class="border px-4 py-2">{{this.email}}</td>
-                    <td class="border px-4 py-2">{{this.phone}}</td>
-                   <td class="border px-4 py-2" style="color: {{#if this.isBlocked}}red{{else}}lightgreen{{/if}}">
-                   {{#if this.isBlocked}}Blocked{{else}}Unblocked{{/if}}
-                  </td>
-
-                   <td class="border px-4 py-2"><form action="/admin/statuscheck" method="post">
-                   <input type="hidden" value="{{this._id}}" name="id"><button type="submit" style="color: rgb(26, 49, 255); border:1px solid; border-radius:4px"class="ps-2 pe-2">Update</button></form></td>
- 
-                </tr>
+                     <hr style="border-bottom: 3px dotted rgb(104, 50, 9);">  
                 {{/each}}
-            </tbody>
-        </table> --}}
-    </div>
-</div>
-
-
-
-                <!-- Doughnut chart card -->
-                <div class="bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
-               
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="doughnutChart"></canvas>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Two grid columns -->
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-3">
-                <!-- Active users chart -->
-                <div class="col-span-1 bg-white rounded-md dark:bg-darker">
-                  <!-- Card header -->
-                  <div class="p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Active users right now</h4>
-                  </div>
-                  <p class="p-4">
-                    <span class="text-2xl font-medium text-gray-500 dark:text-light" id="usersCount">0</span>
-                    <span class="text-sm font-medium text-gray-500 dark:text-primary">Users</span>
-                  </p>
-                  <!-- Chart -->
-                  <div class="relative p-4">
-                    <canvas id="activeUsersChart"></canvas>
-                  </div>
-                </div>
-
-                <!-- Line chart card -->
-              <div class="col-span-2 bg-white rounded-md dark:bg-darker " x-data="{ isOn: false }">
-    <div class="flex items-center justify-between p-4 border-b dark:border-primary ">
-        <h4 class="text-lg font-bold text-gray-500 dark:text-light">Products</h4>
-        <div class="flex items-center">
-        </div>
-    </div>
-    
-    <!-- Scrollable container -->
-    <div class="overflow-auto "style="max-height: 300px;">
+            </ul>
        
-</div>
-
-
-
-<!-- Add Product Modal -->
-<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addProductModalLabel">Product Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Add your form fields for adding a product here -->
-       <form action="/admin/add-product" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" class="form-control" id="name" name="name" required>
-    </div>
-    <div class="form-group">
-        <label for="category">Category:</label>
-        <input type="text" class="form-control" id="category" name="category">
-    </div>
-    <div class="form-group">
-        <label for="subCategory">Sub-Category:</label>
-        <input type="text" class="form-control" id="subCategory" name="subCategory">
-    </div>
-    <div class="form-group">
-        <label for="brand">Brand:</label>
-        <input type="text" class="form-control" id="brand" name="brand">
-    </div>
-    <div class="form-group">
-        <label for="manufacture">Manufacture:</label>
-        <input type="text" class="form-control" id="manufacture" name="manufacture">
-    </div>
-    <div class="form-group">
-        <label for="mrp">MRP:</label>
-        <input type="number" class="form-control" id="mrp" name="mrp" required>
-    </div>
-    <div class="form-group">
-        <label for="sellingPrice">Selling Price:</label>
-        <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" required>
-    </div>
-    <div class="form-group">
-        <label for="weight">Weight:</label>
-        <input type="number" class="form-control" id="weight" name="weight" required>
-    </div>
-    <div class="form-group">
-        <label for="productImage">Product Image:</label>
-        <input type="file" class="form-control-file" id="productImage" name="productImage">
-    </div>
-    <div class="form-group">
-        <label for="stock">Stock:</label>
-        <input type="number" class="form-control" id="stock" name="stock">
-    </div>
-    <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="advancedDescription">Advanced Description:</label>
-        <textarea class="form-control" id="advancedDescription" name="advancedDescription" rows="3"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="originOfProduct">Origin of Product:</label>
-        <input type="text" class="form-control" id="originOfProduct" name="originOfProduct">
-    </div>
-    <button type="submit" class="btn btn-success">Add Product</button>
-</form>
-
-            </div>
-            <div class="modal-footer align-items-center">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">X</button>
-            </div>
-            
-        </div>
-      
-    </div>
+        <hr>
+    {{/each}}
     
+{{else}}
+    <p>No orders found.</p>
+{{/if}}
 </div>
 
 
 
-              </div>
+
+ 
+</div>
+</div>
             </div>
+
+
+
+            
+
+
+
+
           </main>
 
           <!-- Main footer -->
-          <footer
-            class="flex items-center justify-between p-4 bg-white border-t dark:bg-darker dark:border-primary-darker"
-          >
-            <div>K-WD &copy; 2021</div>
-            <div>
-              Made by
-              <a href="https://github.com/Kamona-WD" target="_blank" class="text-blue-500 hover:underline"
-                >Ahmed Kamel</a
-              >
-            </div>
-          </footer>
-        </div>
-
-        <!-- Panels -->
-
-        <!-- Settings Panel -->
-        <!-- Backdrop -->
+         
+ 
         <div
           x-transition:enter="transition duration-300 ease-in-out"
           x-transition:enter-start="opacity-0"
@@ -2225,7 +1957,12 @@
     <!-- All javascript code in this project for now is just for demo DON'T RELY ON IT  -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
     <script src="/admin-assets/public/build/js/script.js"></script>
+    
     <script>
+
+ 
+
+  
       const setup = () => {
         const getTheme = () => {
           if (window.localStorage.getItem('dark')) {
@@ -2364,6 +2101,10 @@
      document.getElementById("addProductButton2").addEventListener("click", function() {
         $('#addProductModal2').modal('show');
     });
+
+
+    
+
  
 
     </script>
