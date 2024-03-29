@@ -361,7 +361,7 @@
                         <div class="breadcrumb-content position-relative section-content">
                             <h3 class="title-3">Shop Sidebar</h3>
                             <ul>
-                                <li><a href="index.html">Home</a></li>
+                                <li><a href="/">Home</a></li>
                                 <li>Shop</li>
                             </ul>
                         </div>
@@ -383,33 +383,40 @@
                                 <button data-role="grid_list" type="button" class="btn-list" data-bs-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
                             </div>
                             <div class="shop-select">
-                                <form class="d-flex flex-column w-100" action="#">
-                                    <div class="form-group">
-    <li><a  href="/Shop/AlphabeticallyAZ">Alphabetically, A-Z</a> <br>
-    <li><a  href="/Shop/SortByPopularity">Sort by popularity</a><br>
-   <li><a  href="/Shop/SortByLowToHigh">Sort by price: low to high</a><br>
-  <li> <a  href="/Shop/SortByHighToLow">Sort by price: high to low</a>
-</div>
-
-
-                                </form>
+         <form id="sortForm" class="d-flex flex-column w-100" action="#">
+    <div class="form-group">
+   
+        <select id="sortSelect" class="form-control">
+              <option value="none">Select</option>
+            <option value="alphabetically">Alphabetically, A-Z</option>  
+            <option value="popularity">Sort by popularity</option>
+            <option value="lowToHigh">Sort by price: low to high</option>
+            <option value="highToLow">Sort by price: high to low</option>
+        </select>
+    </div>
+</form>
                             </div>
                         </div>
                         <!--shop toolbar end-->
                         <!-- Shop Wrapper Start -->
-                        <div class="row shop_wrapper grid_3">
+                        <div class="row shop_wrapper grid_3" id="specificDiv1">
 
 
                             {{#if products}}
                             {{#each products}}
-                            <div class="col-md-6 col-sm-6 col-lg-4 col-custom product-area" id="specificDiv">
+                            <div class=" col-md-6 col-sm-6 col-lg-4 col-custom product-area" id="specificDiv">
                                 <div class="single-product position-relative">
                                     <div class="product-image">
                                         <a class="d-block" href="/products-details/{{this.id}}">
                                             <img src="{{this.productImage}}" alt="" class="product-image-1 w-100">
-                                            <img src="/user-assets/images/product/2.jpg" alt="" class="product-image-2 position-absolute w-100">
+                                           
                                         </a>
                                     </div>
+                                     {{#if this.isDisabled}}
+                                    <div class="label-product">
+                                        <span class="label-sale position-absolute text-uppercase text-white text-center d-block">Soldout</span>
+                                    </div>
+                                    {{/if}}
                                     <div class="product-content">
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
@@ -423,19 +430,21 @@
                                         </div>
                                         <div class="price-box">
                                             <span class="regular-price text-bold"><span>&#8377;</span>{{this.mrp}}/-</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
+                                            <span class="old-price"><del><span>&#8377;</span>{{this.sellingPrice}}</del></span>
+                                        </div>     
                                     </div>
-                                    <div class="add-action d-flex position-absolute">
-                                        <a href="/addToCart/{{this._id}}" title="Add To cart">
-                                            <i class="ion-bag"></i>
-                                        </a>
-                                      
-                                        <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
-                                            <i class="ion-ios-heart-outline"></i>
-                                        </a>
-                                     
-                                    </div>
+                                   {{#unless this.isDisabled}}
+    <div class="add-action d-flex position-absolute">
+        <a href="/addToCart/{{this._id}}" title="Add To cart">
+            <i class="ion-bag"></i>
+        </a>
+      
+        <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
+            <i class="ion-ios-heart-outline"></i>
+        </a>
+    </div>
+{{/unless}}
+
                                     <div class="product-content-listview">
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
@@ -449,21 +458,18 @@
                                         </div>
                                         <div class="price-box">
                                              <span class="regular-price text-bold"><span>&#8377;</span>{{this.mrp}}/-</span>
-                                            <span class="old-price"><del>$90.00</del></span>
+                                            <span class="old-price"><del><span>&#8377;</span>{{this.sellingPrice}}</del></span>
                                         </div>
+                                        
                                         <div class="add-action-listview d-flex">
                                             <a href="/addToCart/{{this._id}}" title="Add To cart">
                                                 <i class="ion-bag"></i>
                                             </a>
-                                            <a href="compare.html" title="Compare">
-                                                <i class="ion-ios-loop-strong"></i>
-                                            </a>
+                                        
                                             <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
                                                 <i class="ion-ios-heart-outline"></i>
                                             </a>
-                                            <a href="#exampleModalCenter" data-bs-toggle="modal" title="Quick View">
-                                                <i class="ion-eye"></i>
-                                            </a>
+                                          
                                         </div>
                                         <p class="desc-content">
                                            {{this.description}}
@@ -530,16 +536,16 @@
                                     <!-- Widget Menu Start -->
                                     <nav>
                                         <ul class="mobile-menu p-0 m-0">
-                                            <li class="menu-item-has-children"><a href="/Shop/Fresh">Select <span class="text-primary">Fresh</span> </a>
+                                            <li class="menu-item-has-children"><a href="/Shop/Fresh">Select Fresh </a>
                                                
                                             </li>
-                                            <li class="menu-item-has-children"><a href="/Shop/Healthy">Choose <span class="text-success">Healthy</span></a>
+                                            <li class="menu-item-has-children"><a href="/Shop/Healthy">Choose Healthy</a>
                                              
                                             </li>
-                                            <li class="menu-item-has-children"><a href="/Shop/Organic"> Go <span class="text-warning">Organic</span></a>
+                                            <li class="menu-item-has-children"><a href="/Shop/Organic"> Go Organic</a>
                                                 
                                             </li>
-                                            <li class="menu-item-has-children"><a href="/Shop/Seasonal">Pick <span class="text-info">Seasonal</span></a>
+                                            <li class="menu-item-has-children"><a href="/Shop/Seasonal">Pick Seasonal</a>
                                             
                                             </li>
                                         </ul>
@@ -558,75 +564,8 @@
                                     </div>
                                 </div>
                                 
-                                
-                                {{!-- <div class="widget-list widget-mb-4">
-                                    <h3 class="widget-title">Recent Products</h3>
-                                    <div class="sidebar-body">
-                                        <div class="sidebar-product align-items-center">
-                                            <a href="/products-details" class="image">
-                                                <img src="/user-assets/images/product/small-product/1.jpg" alt="product">
-                                            </a>
-                                            <div class="product-content">
-                                                <div class="product-title">
-                                                    <h4 class="title-2"> <a href="/products-details">Product dummy name</a></h4>
-                                                </div>
-                                                <div class="price-box">
-                                                    <span class="regular-price ">$80.00</span>
-                                                    <span class="old-price"><del>$90.00</del></span>
-                                                </div>
-                                                <div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="sidebar-product align-items-center">
-                                            <a href="/products-details" class="image">
-                                                <img src="/user-assets/images/product/small-product/2.jpg" alt="product">
-                                            </a>
-                                            <div class="product-content">
-                                                <div class="product-title">
-                                                    <h4 class="title-2"> <a href="/products-details">Product dummy title</a></h4>
-                                                </div>
-                                                <div class="price-box">
-                                                    <span class="regular-price ">$50.00</span>
-                                                    <span class="old-price"><del>$60.00</del></span>
-                                                </div>
-                                                <div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-half-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="sidebar-product align-items-center">
-                                            <a href="/products-details" class="image">
-                                                <img src="/user-assets/images/product/small-product/3.jpg" alt="product">
-                                            </a>
-                                            <div class="product-content">
-                                                <div class="product-title">
-                                                    <h4 class="title-2"> <a href="/products-details">Product title here</a></h4>
-                                                </div>
-                                                <div class="price-box">
-                                                    <span class="regular-price ">$40.00</span>
-                                                    <span class="old-price"><del>$50.00</del></span>
-                                                </div>
-                                                <div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-half-o"></i>
-                                                    <i class="fa fa-star-half-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                                <div id="productsListjson"></div>
+                  
                             </div>
                         </aside>
                         <!-- Sidebar Widget End -->
@@ -870,6 +809,116 @@
 <!-- Mirrored from template.hasthemes.com/obrien/obrien/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 05:40:07 GMT -->
 </html>
 <script>
+
+
+
+     document.getElementById('sortSelect').addEventListener('change', function() {
+        const selectedOption = this.value;
+        console.log(selectedOption)
+        const url = '/Sort'; 
+        fetch(url, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ sortOption: selectedOption })
+        })
+          .then(response => response.json())
+    .then(data => {
+        console.log('Sorted data:', data);
+        const productsList = document.getElementById('specificDiv1'); // Get the target div for displaying products
+        productsList.innerHTML = ''; // Clear previous product list
+        data.sortedProducts.forEach(product => {
+            // Create product elements
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('col-md-6', 'col-sm-6', 'col-lg-4', 'col-custom', 'product-area');
+
+            const singleProductDiv = document.createElement('div');
+            singleProductDiv.classList.add('single-product', 'position-relative');
+
+            const productImageDiv = document.createElement('div');
+            productImageDiv.classList.add('product-image');
+
+            const productImageLink = document.createElement('a');
+            productImageLink.classList.add('d-block');
+            productImageLink.href = '/products-details/' + product._id
+
+            const productImage = document.createElement('img');
+            productImage.src = product.productImage;
+            productImage.alt = '';
+            productImage.classList.add('product-image-1', 'w-100');
+
+            productImageLink.appendChild(productImage);
+            productImageDiv.appendChild(productImageLink);
+
+            singleProductDiv.appendChild(productImageDiv);
+
+            const productContentDiv = document.createElement('div');
+            productContentDiv.classList.add('product-content');
+
+            // Add product rating
+            const productRating = document.createElement('div');
+            productRating.classList.add('product-rating');
+            for (let i = 0; i < 5; i++) {
+                const starIcon = document.createElement('i');
+                starIcon.classList.add('fa', i < product.rating ? 'fa-star' : 'fa-star-o');
+                productRating.appendChild(starIcon);
+            }
+            productContentDiv.appendChild(productRating);
+
+            // Add product title
+         const productTitle = document.createElement('div');
+productTitle.classList.add('product-title');
+
+const titleLink = document.createElement('a');
+if (product.isDisabled) {
+    titleLink.href = 'javascript:void(0)'; // Link is disabled for soldout products
+    titleLink.textContent = 'Soldout product';
+} else {
+    titleLink.href = '/products-details/' + product._id;
+    titleLink.textContent = product.name;
+}
+
+const titleHeading = document.createElement('h4');
+titleHeading.classList.add('title-2');
+
+titleHeading.appendChild(titleLink);
+productTitle.appendChild(titleHeading);
+productContentDiv.appendChild(productTitle);
+
+
+            // Add product price details
+            const priceBox = document.createElement('div');
+            priceBox.classList.add('price-box');
+            const regularPrice = document.createElement('span');
+            regularPrice.classList.add('regular-price', 'text-bold');
+            regularPrice.textContent = '₹' + product.mrp + '/-';
+            priceBox.appendChild(regularPrice);
+            productContentDiv.appendChild(priceBox);
+
+            singleProductDiv.appendChild(productContentDiv);
+
+            // Append the single product div to the products list div
+            productDiv.appendChild(singleProductDiv);
+            productsList.appendChild(productDiv);
+        });
+    })
+        .catch(error => {
+            console.error('Error sorting:', error);
+            // Handle any errors that occur during the sorting process
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('productId');
     const success = urlParams.get('success');

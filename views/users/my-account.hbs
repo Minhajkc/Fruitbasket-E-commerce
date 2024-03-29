@@ -670,19 +670,25 @@
     <table class="table table-bordered" id="userTable">
         <thead class="thead-light">
             <tr>
-                <th>Order</th>
+          
                 <th>Date</th>
                 <th>Status</th>
+                <th>Method</th>
                 <th>Total</th>
                 <th>Action</th>
+                
             </tr>
         </thead>
         <tbody>
+            
             {{#each user.orders}}
             <tr>
-                <td>{{@index}}</td> <!-- Assuming order number starts from 1 -->
+               <!-- Assuming order number starts from 1 -->
+               
                 <td>{{this.date}}</td>
-                <td>{{this.status}}</td>
+                <td class="text-warning">{{this.status}}</td>
+                <td>{{this.paymentmethod}}</td>
+                
                 <td>{{this.totalAmountUserPaid}}</td>
   <td><button type="button"  class="btn obrien-button-2 primary-color rounded-0" id="OrderListButton" 
     data-userid="{{../_id}}" data-orderid="{{this.orderId}}" onclick="openModal(event)">View</button>
@@ -712,10 +718,10 @@
       </div>
       <div class="modal-body" id="orderDetailsModalBody"> 
     
-     
       </div>
+
     <div class="modal-footer d-flex justify-content-center align-items-center p-4">
-    <button type="button" class="btn " style="color: red;">Cancel this order ?</button>
+    <a href="/DeleteOrderuser" style="color: rgba(250, 1, 1, 0.789);">Cancel this order?</a>
 </div>
 
     </div>

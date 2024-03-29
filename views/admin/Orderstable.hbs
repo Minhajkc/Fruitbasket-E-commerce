@@ -1302,10 +1302,10 @@
           </header>
           <main>
         
-            <div >
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0  ">
+            <div>
+              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 ">
                 <!-- Bar chart card -->
-                <div class="col-span-2 bg-white rounded-md dark:bg-darker p-4" x-data="{ isOn: false }">
+                <div class="col-span-2 bg-white rounded-md dark:bg-darker p-4 " x-data="{ isOn: false }">
     <!-- USERS -->
     <div class="flex items-center justify-between p-4 border-b dark:border-primary">
         <h4 class="text-lg font-bold text-gray-500 dark:text-light">Orders</h4>  
@@ -1314,7 +1314,7 @@
 
 {{#if usersWithOrders}}
     <table class="table table-bordered table-hover text-center"  id="userTable">
-        <thead>
+        <thead class="text-center">
             <tr>
                 <th>User Name</th>
                 <th>Order ID</th>
@@ -1334,7 +1334,7 @@
             <tr>
                 <td>{{../name}}</td>
                 <td>{{this.orderId}}</td>
-                <td>{{this.date}}</td>
+                <td>{{this.time}}</td>
                 <td>{{this.totalAmountUserPaid}}</td>
                 <td>{{this.status}}</td>
                 <td>{{this.items.[0].productName}}</td>
@@ -1369,10 +1369,9 @@
                   <input type="hidden" name="orderIddb" value="{{this.orderId}}">
                  <select class="form-select" id="orderOptionsSelect" name="orderstatusvalue" > 
                  <option value="" disabled selected>Select</option>
-                 <option value="Confirm" >Confirm</option>
-                 <option value="Shipping">Shipping</option>
+                 <option value="Shipped">Shipping</option>
                  <option value="Delivered">Delivered</option>
-                 <option value="Canceled">Canceled</option>
+                 <option value="Cancelled">Cancelled</option>
                  </select>
                 <button type="submit" class="btn btn-outline-info mt-2">Update</button>
                  </div>

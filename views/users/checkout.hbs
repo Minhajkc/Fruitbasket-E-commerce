@@ -798,7 +798,7 @@
         <tr class="cart_item">
             <td class="cart-product-name">{{ this.productName }}<strong class="product-quantity">
                 × {{ this.quantity }}</strong></td>
-            <td class="cart-product-total text-center"><span class="amount">{{ this.total }}</span></td>
+            <td class="cart-product-total text-center"><span class="amount"><span>&#8377;</span>{{ this.total }}</span></td>
         </tr>
     {{/each}}
 </tbody>
@@ -806,15 +806,15 @@
                                     <tfoot>
                                         <tr class="cart-subtotal">
                                             <th>Cart Subtotal</th>
-                                            <td class="text-center"><span class="amount">{{user.subtotal}}</span></td>
+                                            <td class="text-center"><span class="amount"><span>&#8377;</span>{{user.subtotal}}</span></td>
                                         </tr>
                                         <tr class="cart-subtotal">
                                             <th>Shipping</th>
-                                            <td class="text-center"><span class="amount">70</span></td>
+                                            <td class="text-center"><span class="amount"><span>&#8377;</span>70</span></td>
                                         </tr>
                                         <tr class="order-total">
                                             <th>Order Total</th>
-                                            <td class="text-center"><strong><span class="amount">{{user.grandtotal}}</span></strong></td>
+                                            <td class="text-center"><strong><span class="amount"><span>&#8377;</span>{{user.grandtotal}}</span></strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>

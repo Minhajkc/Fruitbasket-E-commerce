@@ -8,6 +8,8 @@ const session = require('express-session');
 const path = require('path')
 
 
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb://localhost:27017/FruitBasket', {
@@ -49,7 +51,6 @@ app.use(session({
         maxAge: 6000000// Expiration time for the session cookie in milliseconds (e.g., 1 hour)
     }
 }));
-
 
 
 

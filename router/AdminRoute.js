@@ -5,7 +5,7 @@ const { upload } = require('../config/multer');
 const router = express.Router();
 
 
-router.get('/',adminAuth.authenticateloginpage,AdminControllerz.GetAdminLogin);
+router.get('/',adminAuth.isAuthenticated,adminAuth.authenticateloginpage,AdminControllerz.GetAdminLogin);
 router.post('/adminloginpage',AdminControllerz.AdminloginHandler)
 router.get('/adminloginpage' ,adminAuth.authenticate,AdminControllerz.AdminIndexPage)
 router.post('/statuscheck',AdminControllerz.statuschecking)

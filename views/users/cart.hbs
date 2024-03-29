@@ -657,7 +657,7 @@
 <tr>
     <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="{{this.product.productImage}}" alt="Product Image" /></a></td>
     <td class="pro-title"><a href="#">{{this.product.name}}</a></td>
-    <td class="pro-price"><span id="mrp">${{this.product.mrp}}</span></td>
+    <td class="pro-price"><span id="mrp"><span>&#8377;</span>{{this.product.mrp}}</span></td>
    <td class="pro-quantity">
     <div class="quantityy">
     <div class="cart-plus-minuse">
@@ -669,7 +669,7 @@
 
 </td>
 
-    <td class="pro-subtotal"><span id="total">${{#if this.total}}{{this.total}}{{else}}{{this.product.mrp}}{{/if}}</span></td>
+    <td class="pro-subtotal"><span id="total"><span>&#8377;</span>{{#if this.total}}{{this.total}}{{else}}{{this.product.mrp}}{{/if}}</span></td>
     <td class="pro-remove"><a href="/DeleteFromCart/{{this.product._id}}"><i class="ion-trash-b"></i></a></td>
 </tr>
 {{/each}}
@@ -706,15 +706,15 @@
                                     <table class="table">
                                         <tr>
                                             <td>Sub Total</td>
-                                            <td>{{subtotal}}</td>
+                                            <td><span>&#8377;</span>{{subtotal}}</td>
                                         </tr>
                                         <tr>
                                             <td>Shipping</td>
-                                            <td>$70</td>
+                                            <td><span>&#8377;</span>70</td>
                                         </tr>
                                         <tr class="total">
                                             <td>Total</td>
-                                            <td class="total-amount">{{grandtotal}}</td>
+                                            <td class="total-amount"><span>&#8377;</span>{{grandtotal}}</td>
                                         </tr>
                                     </table>
                                 </div>

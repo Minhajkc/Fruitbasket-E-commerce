@@ -610,7 +610,10 @@
                         <div class="login-register-wrapper">
                             <div class="section-content text-center mb-5">
                                 <h2 class="title-4 mb-2">Login</h2>
-                                <p class="desc-content">Please login using account detail bellow.</p>
+                                <p class="desc-content">Please login using account detail below.</p>
+                                {{#if messagelogin}}
+                                <h4 class="text-success" id="error-message">{{messagelogin}}</h4>
+                                {{/if}}
                             </div>
                            <form id="loginForm" action="/UserLogin" method="post">
     <div class="single-input-item mb-3">

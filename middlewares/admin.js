@@ -16,9 +16,19 @@ const authenticateloginpage = (req, res, next) => {
 };
 
 
+const isAuthenticated = (req, res, next) => {
+    if (req.cookies.userId) {
+        return res.redirect('/');
+    } else {
+        return next();
+   
+    }
+};
+
 
 module.exports={
     authenticate,
-    authenticateloginpage
+    authenticateloginpage,
+    isAuthenticated
 }
 

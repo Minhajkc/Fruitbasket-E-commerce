@@ -609,7 +609,7 @@
         <div class="single-product-main-area">
             <div class="container container-default custom-area">
                 <div class="row">
-                    <div class="col-lg-5 col-custom">
+                    <div class="col-lg-3 col-custom">
                         <div class="product-details-img horizontal-tab  col-lg-12">
                             <div class="product-slider popup-gallery product-details_slider" data-slick-options='{
                         "slidesToShow": 1,
@@ -639,8 +639,8 @@
                                 <h2 class="product-title">{{product.name}}</h2>
                             </div>
                             <div class="price-box mb-2">
-                                <span class="regular-price">{{product.mrp}}</span>
-                                <span class="old-price"><del>90.00</del></span>
+                                <span class="regular-price"><span>&#8377;</span>{{product.mrp}}</span>
+                                <span class="old-price"><del><span>&#8377;</span>{{product.sellingPrice}}</span>
                             </div>
                             <div class="product-rating mb-3">
                                 <i class="fa fa-star"></i>
@@ -650,22 +650,20 @@
                                 <i class="fa fa-star-o"></i>
                             </div>
                             
-                            <p class="desc-content mb-5">{{product.description}}</p>
+                            <p class="desc-content mb-3">{{product.description}}</p>
                           
-                            <div class="quantity-with_btn mb-4">
-                               
-                                <div class="add-to_cart">
+                            <div class="quantity-with_btn col-lg-6">
+                               {{#if product.isDisabled}}
+                                <h5 class="text-danger"><span class="text-dark">SOLDOUT,</span><br>this product is currently out of stock </h5>
+                                {{else}}
+                                  <div class="add-to_cart">
                                     <a class="btn obrien-button primary-btn" href="/addToCart/{{product._id}}">Add to cart</a>
                                     <a class="btn obrien-button-2 treansparent-color pt-0 pb-0" href="/addToWishList/{{product._id}}">Add to wishlist</a>
                                 </div>
+                                {{/if}}
                             </div>
-                            <div class="buy-button mb-5">
-                                <a href="/addToCart/{{product._id}}" class="btn obrien-button-3 black-button">Buy it now</a>
-                            </div>
-                           
-                            <div class="payment">
-                                <a href="#"><img class="border" src="/user-assets/images/payment/img-payment.png" alt="Payment"></a>
-                            </div>
+                          
+                        
                         </div>
                     </div>
                 </div>
@@ -750,6 +748,11 @@
                                            
                                         </a>
                                     </div>
+                                      {{#if this.isDisabled}}
+                                    <div class="label-product">
+                                        <span class="label-sale position-absolute text-uppercase text-white text-center d-block">Soldout</span>
+                                    </div>
+                                    {{/if}}
                                     <div class="product-content">
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
@@ -766,6 +769,7 @@
                                             <span class="old-price"><del>$90.00</del></span>
                                         </div>
                                     </div>
+                                    {{#unless this.isDisabled}}
                                     <div class="add-action d-flex position-absolute">
                                         <a href="/addToCart/{{this._id}}" title="Add To cart">
                                             <i class="ion-bag"></i>
@@ -776,6 +780,7 @@
                                         </a>
                                      
                                     </div>
+                                    {{/unless}}
                                    
                                 </div>
                             </div>

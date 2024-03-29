@@ -43,25 +43,22 @@ const GetHomePage = async (req, res) => {
 
 
         if (!token) {
-            return res.render('users/index',{products: filteredProducts} ); // Render the page without user information
+            return res.render('users/index',{products: filteredProducts} ); 
         }
 
-        // Verify the token
         jwt.verify(token, 'your_secret_key', async (err, decoded) => {
             if (err) {
                 console.error('Invalid token:', err);
-                return res.status(401).render('users/index',{products: filteredProducts}); // Render the page without user information
+                return res.status(401).render('users/index',{products: filteredProducts}); 
             }
 
-            // Retrieve the user from the database using the decoded user ID
             const user = await User.findById(decoded.id);
 
             if (!user) {
                 console.error('User not found');
-                return res.status(404).render('users/index',{products: filteredProducts}); // Render the page without user information
+                return res.status(404).render('users/index',{products: filteredProducts}); 
             }
 
-            // Render the page with user information and success message
             return res.render('users/index', { user, successMessage: req.query.successMessage ,products: filteredProducts });
         });
     } catch (error) {
@@ -80,7 +77,9 @@ const GetHomePage = async (req, res) => {
   const GetContactPage = (req,res)=>{
     return res.render('users/contact-us');
   }
-  const MyAccount = async (req,res)=>{
+
+  
+  const MyAccount = async (req, res) => {
     try {
         const token = req.cookies.token;
 
@@ -88,43 +87,62 @@ const GetHomePage = async (req, res) => {
             return res.render('users/my-account'); // Render the page without user information
         }
 
-
         jwt.verify(token, 'your_secret_key', async (err, decoded) => {
             if (err) {
                 console.error('Invalid token:', err);
-                return res.status(401).render('users/my-account'); 
+                return res.status(401).render('users/my-account');
             }
 
             const user = await User.findById(decoded.id);
 
             if (!user) {
                 console.error('User not found');
-                return res.status(404).render('users/my-account'); 
+                return res.status(404).render('users/my-account');
             }
-            if (user.orders && user.orders.length > 0) {
-                const ordersWithNumbers = user.orders.map((order, index) => ({
-                    ...order,
-                    orderNumber: index + 1
-                }));
-                return res.render('users/my-account', { user , ordersWithNumbers});
-                
+
+            if (user.orders) {
+                const ordersWithNumbers = user.orders.sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .map((order, index) => ({
+                        ...order,
+                        orderNumber: index + 1
+                    }));
+
+                return res.render('users/my-account', { user, ordersWithNumbers });
             }
+
         });
     } catch (error) {
         console.error('Error fetching user:', error);
-        return res.status(500).render('users/index',{products: filteredProducts}); 
+        return res.status(500).render('users/index', { products: filteredProducts });
     }
-  }
+}
+
+
+
 
   const GetLoginPage = (req, res) => {
-  
+    if (req.cookies.token) {
+        return res.redirect('/home'); 
+    } else {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); 
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0'); 
         return res.render('users/login');
-  
+    }
 };
 
 
+
   const GetRegisterPage = (req, res) => {
-    return res.render('users/register');
+    if(req.cookies.token){
+        return res.redirect('/home'); 
+    } else{
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); 
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0'); 
+        return res.render('users/register');
+    }
+   
   };
 
   const GetForgotPasswordPage = (req, res) => {
@@ -224,7 +242,7 @@ const OTPVerify = async (req, res) => {
 
             const token = jwt.sign({ email: email }, secretKey, { expiresIn: '1h' });
             res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // Max age: 1 hour
-            res.render('users/login');
+            res.render('users/login',{messagelogin:'Now login with your e-mail & password'});
         } catch (error) {
             console.error('Error saving user:', error);
             res.status(500).json({ success: false, message: 'Error registering user' });
@@ -328,6 +346,7 @@ const logoutUser = (req, res) => {
     res.cookie('token', '', { expires: new Date(0) });
     // Redirect to the homepage with a query parameter indicating successful logout
     res.clearCookie('userId');
+    res.clearCookie('orderId')
     res.redirect('/');
 };
 
@@ -344,6 +363,32 @@ const GetShopPage = async (req, res) => {
     }
 };
 
+let globalFilteredProducts = [];
+
+const Sort = async (req, res) => {
+    try {
+        const sortOption = req.body.sortOption; 
+        
+        let sortedProducts;
+        if (sortOption === 'alphabetically') {
+            sortedProducts = globalFilteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortOption === 'popularity') {
+            sortedProducts = globalFilteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortOption === 'lowToHigh') {
+            sortedProducts = globalFilteredProducts.sort((a, b) => a.mrp - b.mrp);
+        } else if (sortOption === 'highToLow') {
+            sortedProducts = globalFilteredProducts.sort((a, b) => b.mrp - a.mrp);
+        }
+        
+        res.status(200).json({ sortedProducts });
+    } catch (error) {
+        console.error('Error sorting products:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+
 
 const GetProductsCategory = async (req, res) => {
     try {
@@ -351,42 +396,49 @@ const GetProductsCategory = async (req, res) => {
 
         let filteredProducts;
 
-        if (category === 'bestquality' || category === 'featured' || category === 'newproducts') {
-            // Limit to 5 products for specific categories
+        if (category === 'bestquality') {
+            
             filteredProducts = await Products.find().limit(5).exec();
-        } else if (category === 'allproducts' || category === 'sortbypopularity') {
-            // Show all products for 'allproducts' category, or sort by popularity
+            globalFilteredProducts = filteredProducts
+        }else if (category === 'newproducts' ) {
+            
+            filteredProducts = await Products.find().sort({name:1}).limit(6).exec();
+            globalFilteredProducts = filteredProducts
+        }
+         else if (category === 'featured' ) {
+            
+            filteredProducts = await Products.find().sort({name:1}).limit(4).exec();
+            globalFilteredProducts = filteredProducts
+        }
+        else if (category === 'allproducts' ) {
+
             filteredProducts = await Products.find().exec();
-        } else if (category === 'alphabeticallyaz') {
-            // Sort alphabetically by product name in ascending order
-            filteredProducts = await Products.find().sort({ name: 1 }).exec();
-        } else if (category === 'sortbylowtohigh') {
-            // Sort by price (MRP) in ascending order
-            filteredProducts = await Products.find().sort({ mrp: 1 }).exec();
-        } else if (category === 'sortbyhightolow') {
-            // Sort by price (MRP) in descending order
-            filteredProducts = await Products.find().sort({ mrp: -1 }).exec();
+            globalFilteredProducts = filteredProducts
         } else {
-            // Filter by category
+          
             filteredProducts = await Products.find({ category: category }).exec();
+            globalFilteredProducts = filteredProducts
+           
+            
         }
 
         res.render('users/shop', { category: category, products: filteredProducts, });
     } catch (err) {
-        // Handle errors
+       
         console.error('Error fetching products:', err);
         res.status(500).send('Internal Server Error');
     }
 };
 
+
+
 const SearchProducts = async (req, res) => {
     const query = req.body.valuename // Get the search query from the request URL query parameters
 
     try {
-        // Perform the search in your Products collection based on the query
+     
         const filteredProducts = await Products.find({ name: { $regex: new RegExp(query, 'i') } }).exec();
 
-        // Render the shop page with the search results
         res.render('users/shop', { category: 'Search Results', products: filteredProducts });
     } catch (err) {
         // Handle errors
@@ -441,7 +493,7 @@ const GetWishListPage = async (req, res) => {
     try {
         const userId = req.cookies.userId;
 
-        // Fetch user details from the database
+       
         const user = await User.findById(userId).populate('wishlist.items');
         if (!user) {
             return res.redirect('/UserLogin');
@@ -456,14 +508,16 @@ const GetWishListPage = async (req, res) => {
 
 
 
-
-
-
 const AddToCart = async (req, res) => {
     const productId = req.params.productId;
     const userId = req.cookies.userId;
 
     try {
+       
+        if (!userId) {
+           
+            return res.redirect('/userlogin');
+        }
 
         const product = await products.findById(productId);
         if (!product) {
@@ -478,7 +532,7 @@ const AddToCart = async (req, res) => {
                         product: productId, 
                         cart: true, 
                         productName: product.name, // Add product name to the cart
-                        total:0 
+                        total: 0 
                     } 
                 } 
             }, 
@@ -507,16 +561,14 @@ const AddToWishlist = async (req, res) => {
         const productId = req.params.productId;
         const userId = req.cookies.userId;
 
-        // Check if the user is authenticated
+     
         if (!userId) {
             return res.redirect('/UserLogin');
         }
 
-        // Update the user's document to add the product ID to the wishlist array
           const updatedUser = await User.findOneAndUpdate(
-            { _id: userId,'wishlist.items': { $ne: productId } }, // Check if the product is not already in the cart
-            { $addToSet: { wishlist: { items: productId, wishlist: true } } }, // Update the 'cart' field to true
-            { new: true }
+            { _id: userId,'wishlist.items': { $ne: productId } }, 
+            { $addToSet: { wishlist: { items: productId, wishlist: true } } }, 
         );
 
         if (updatedUser) {
@@ -542,7 +594,6 @@ const AddToCartFromWishlist = async (req, res) => {
             return res.status(404).send('Product not found');
         }
 
-        // Add the item to the cart
         const updatedUserCart = await User.findOneAndUpdate(
             { _id: userId, 'bookings.product': { $ne: productId } },
             { $addToSet: { bookings: { product: productId, cart: true, productName: product.name, total: product.mrp } } },
@@ -623,17 +674,15 @@ const DeleteFromcart = async (req,res)=>{
 
 const updateQuantity = async (req, res) => {
     try {
-        // Extract productId and newQuantity from the request body
+       
         const { productId, newQuantity } = req.body;
         const userId = req.cookies.userId; // Assuming you have the user's ID in the request
 
-        // Find the user document by ID
         const user = await User.findById(userId);
 
-        // Find the booking with the matching productId in the bookings array
         const booking = user.bookings.find(booking => booking.product.toString() === productId);
 
-        // If booking is found, update the quantity
+        
         if (booking) {
             booking.quantity = newQuantity;
         } else {
@@ -664,7 +713,6 @@ const GetCheckOutPage = async (req, res) => {
             return res.redirect('/UserLogin');
         }
 
-        // Find the user by ID
         const user = await User.findById(userId);
         
         if (!user) {
@@ -673,7 +721,6 @@ const GetCheckOutPage = async (req, res) => {
 
         // Check if the address array is not empty
         if (user.address.length > 0) {
-            // If address is not empty, render the checkout page with the address
             return res.render('users/checkout', {user, address: user.address });
         } else {
             // If address is empty, render the checkout page without the address
@@ -749,9 +796,16 @@ const OrderSubmit = async (req, res) => {
             const grandtotal = user.grandtotal;
 
             const currentDate = new Date();
-            const currentTime = currentDate.toLocaleTimeString();
+            const options = {
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true // Use 12-hour format with AM/PM
+            };
+            const formattedDate = currentDate.toLocaleString('en-US', options);
 
-            // Fetch product details from user's bookings
             const orders = [{
                 items: user.bookings.map(item => ({
                     productName: item.productName,
@@ -759,10 +813,11 @@ const OrderSubmit = async (req, res) => {
                    
                 })),
                 totalAmountUserPaid: grandtotal,
-                date: currentDate,
-                time: currentTime,
+                date: formattedDate,
+                time: currentDate,
                 orderId: uuid.v4(),
-                status:'Pending'
+                status:'Pending',
+                paymentmethod:'COD'
             }];
 
             // Update the orders array in the User collection
@@ -805,6 +860,7 @@ const OrderDetailsOfusers = async (req, res) => {
         if (!order) {
             return res.status(404).json({ error: 'Order not found in user\'s orders array' });
         }
+        res.cookie('orderId', orderId, { maxAge: 86400000 }); 
         res.json(order);
     } catch (error) {
         console.error(error);
@@ -812,6 +868,43 @@ const OrderDetailsOfusers = async (req, res) => {
     }
 };
 
+
+const DeleteOrderUser = async (req, res) => {
+    try {
+        const userId = req.cookies.userId; // Assuming you have the user ID stored in a cookie named userId
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID not found in cookie' });
+        }
+
+        const orderId = req.cookies.orderId;
+        if (!orderId) {
+            return res.status(400).json({ error: 'Order ID not found in cookie' });
+        }
+
+        // Find the user by their ID and populate the 'orders' array
+        const user = await User.findById(userId).populate('orders');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Find the order to update in the user's orders array
+        const orderToUpdate = user.orders.find(order => order.orderId === orderId);
+        if (!orderToUpdate) {
+            return res.status(404).json({ error: 'Order not found in user\'s orders array' });
+        }
+
+        // Update the order status to 'Cancelled'
+        orderToUpdate.status = 'Cancelled';
+
+        // Save the updated user object
+        await user.save();
+
+        res.redirect('/MyAccount');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error updating order status' });
+    }
+};
 
 
 
@@ -833,6 +926,7 @@ module.exports = {
     SendOTP,
     ForgetPasswordButton,
     logoutUser,
+    Sort,
     GetShopPage,
     GetProductsCategory,
     SearchProducts,
@@ -848,7 +942,8 @@ module.exports = {
     GetCheckOutPage,
     AddressForm,
     OrderSubmit,
-    OrderDetailsOfusers
+    OrderDetailsOfusers,
+    DeleteOrderUser
    
    
 };

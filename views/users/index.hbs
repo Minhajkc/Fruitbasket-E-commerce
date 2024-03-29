@@ -494,6 +494,11 @@
                                            
                                         </a>
                                     </div>
+                                      {{#if this.isDisabled}}
+                                    <div class="label-product">
+                                        <span class="label-sale position-absolute text-uppercase text-white text-center d-block">Soldout</span>
+                                    </div>
+                                    {{/if}}
                                     <div class="product-content">
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
@@ -510,6 +515,7 @@
                                             <span class="old-price"><del>$90.00</del></span>
                                         </div>
                                     </div>
+                                    {{#unless this.isDisabled}}
                                     <div class="add-action d-flex position-absolute">
                                         <a href="/addToCart/{{this._id}}" title="Add To cart">
                                             <i class="ion-bag"></i>
@@ -518,8 +524,8 @@
                                         <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
                                             <i class="ion-ios-heart-outline"></i>
                                         </a>
-                                     
                                     </div>
+                                    {{/unless}}
                                    
                                 </div>
                             </div>

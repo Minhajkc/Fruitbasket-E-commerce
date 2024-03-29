@@ -23,6 +23,7 @@ router.post('/ForgetPasswordButton',UserController.ForgetPasswordButton)
 router.get('/logoutuser',Userauth.verifyToken,UserController.logoutUser)
 router.get('/Shop',UserController.GetShopPage)
 router.get('/Shop/:category',UserController.GetProductsCategory)
+router.post('/Sort',UserController.Sort)
 router.post('/SearchProducts',UserController.SearchProducts)
 router.get('/Cart',UserController.GetCartPage)
 router.get('/Wishlist',UserController.GetWishListPage)
@@ -40,6 +41,7 @@ router.get('/Checkout',UserController.GetCheckOutPage)
 router.post('/Addressform',UserController.AddressForm)
 router.post('/Ordersubmit',UserController.OrderSubmit)
 router.get('/getOrderDetails',UserController.OrderDetailsOfusers)
+router.get('/DeleteOrderuser',UserController.DeleteOrderUser)
 
 
 module.exports = router;
