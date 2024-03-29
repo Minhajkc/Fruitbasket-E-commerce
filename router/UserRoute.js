@@ -39,6 +39,7 @@ router.get('/MyAccount',UserController.MyAccount)
 router.get('/Checkout',UserController.GetCheckOutPage)
 router.post('/Addressform',UserController.AddressForm)
 router.post('/Ordersubmit',UserController.OrderSubmit)
+router.get('/getOrderDetails',UserController.OrderDetailsOfusers)
 
 
 module.exports = router;

@@ -666,29 +666,36 @@
     <div class="myaccount-content">
         <h3>Orders</h3>
         <div class="myaccount-table table-responsive text-center">
-            {{#if ordersWithNumbers}}
-            <table class="table table-bordered">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Order</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each user.orders}}
-                    <tr>
-                        <td>{{@index}}</td> <!-- Assuming order number starts from 1 -->
-                        <td>{{this.date}}</td>
-                        <td>{{this.status}}</td>
-                        <td>{{this.totalAmountUserPaid}}</td>
-                        <td><button id="viewOrderBtn{{this.orderId}}" class="btn obrien-button-2 primary-color rounded-0" onclick="openModal()">View</button></td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+           {{#if ordersWithNumbers}}
+    <table class="table table-bordered" id="userTable">
+        <thead class="thead-light">
+            <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each user.orders}}
+            <tr>
+                <td>{{@index}}</td> <!-- Assuming order number starts from 1 -->
+                <td>{{this.date}}</td>
+                <td>{{this.status}}</td>
+                <td>{{this.totalAmountUserPaid}}</td>
+  <td><button type="button"  class="btn obrien-button-2 primary-color rounded-0" id="OrderListButton" 
+    data-userid="{{../_id}}" data-orderid="{{this.orderId}}" onclick="openModal(event)">View</button>
+</td>
+
+              
+                   
+
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
               {{else}}
             <p>No Orders Found</p>
             {{/if}}
@@ -705,15 +712,12 @@
       </div>
       <div class="modal-body" id="orderDetailsModalBody"> 
     
-        {{#each user.orders}}
-                 <ol>
-                    <li>{{this.orderId}}</li>
-                 </ol>
-                    {{/each}}
+     
       </div>
-      <div class="modal-footer">
-          
-      </div>
+    <div class="modal-footer d-flex justify-content-center align-items-center p-4">
+    <button type="button" class="btn " style="color: red;">Cancel this order ?</button>
+</div>
+
     </div>
   </div>
 </div>
@@ -1024,7 +1028,6 @@
 <!-- Mirrored from template.hasthemes.com/obrien/obrien/my-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 05:40:19 GMT -->
 </html>
 <script>
-    ///LOGOUT**********
   function confirmLogout() {
         Swal.fire({
             title: 'Are you sure?',
@@ -1041,17 +1044,52 @@
         });
     }
 
-
-
-    function openModal() {
+    function openModal(event) {
   const modal = document.getElementById('exampleModal');
   modal.classList.add('show');
   modal.style.display = 'block';
   modal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('modal-open');
-}
 
-// Function to close the modal
+ const userId = event.target.getAttribute('data-userid');
+const orderId = event.target.getAttribute('data-orderid');
+console.log('OrderID:', orderId);
+fetch(`/getOrderDetails?orderId=${orderId}`)
+    .then(response => response.json())
+    .then(data => {
+        const modalBody = document.getElementById('orderDetailsModalBody');
+
+        // Clear previous content in modal body
+        modalBody.innerHTML = '';
+
+        // Create elements to display order details
+        const orderIdElement = document.createElement('p');
+        orderIdElement.textContent = `Order ID: ${data.orderId}`;
+        modalBody.appendChild(orderIdElement);
+        const status = document.createElement('p');
+        status.textContent = `Status: ${data.status}`
+        modalBody.appendChild(status);
+        if (data.items && data.items.length > 0) {
+            const itemsElement = document.createElement('div'); // Fixed the typo here
+            data.items.forEach(item => {
+                const productNameElement = document.createElement('p');
+                productNameElement.textContent = `Product Name: ${item.productName}`;
+                itemsElement.appendChild(productNameElement);
+            });
+            modalBody.appendChild(itemsElement);
+        }
+          const totalPriceElement = document.createElement('h6');
+        totalPriceElement.textContent = `Total Price: ${data.totalAmountUserPaid}`;
+         modalBody.appendChild(totalPriceElement);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error or display error message in modal body
+        const modalBody = document.getElementById('orderDetailsModalBody');
+        modalBody.innerHTML = '<p>Error fetching order details.</p>';
+    });
+    }
+
 function closeModal() {
   const modal = document.getElementById('exampleModal');
   modal.classList.remove('show');
@@ -1059,4 +1097,12 @@ function closeModal() {
   modal.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('modal-open');
 }
+
+
+
+
+
+
+
+
 </script>

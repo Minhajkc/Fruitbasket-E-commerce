@@ -88,34 +88,31 @@ const GetHomePage = async (req, res) => {
             return res.render('users/my-account'); // Render the page without user information
         }
 
-        // Verify the token
+
         jwt.verify(token, 'your_secret_key', async (err, decoded) => {
             if (err) {
                 console.error('Invalid token:', err);
-                return res.status(401).render('users/my-account'); // Render the page without user information
+                return res.status(401).render('users/my-account'); 
             }
 
-            // Retrieve the user from the database using the decoded user ID
             const user = await User.findById(decoded.id);
 
             if (!user) {
                 console.error('User not found');
-                return res.status(404).render('users/my-account'); // Render the page without user information
+                return res.status(404).render('users/my-account'); 
             }
             if (user.orders && user.orders.length > 0) {
-                // Assign numbers to each order in the orders array
                 const ordersWithNumbers = user.orders.map((order, index) => ({
                     ...order,
                     orderNumber: index + 1
                 }));
-                console.log(ordersWithNumbers);
                 return res.render('users/my-account', { user , ordersWithNumbers});
                 
             }
         });
     } catch (error) {
         console.error('Error fetching user:', error);
-        return res.status(500).render('users/index',{products: filteredProducts}); // Render the page without user information
+        return res.status(500).render('users/index',{products: filteredProducts}); 
     }
   }
 
@@ -796,6 +793,26 @@ const OrderSubmit = async (req, res) => {
 };
 
 
+const OrderDetailsOfusers = async (req, res) => {
+    try {
+        const orderId = req.query.orderId; 
+        const user = await User.findOne({ 'orders.orderId': orderId });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found or order not found in user\'s orders array' });
+        }
+        const order = user.orders.find(order => order.orderId === orderId);
+        if (!order) {
+            return res.status(404).json({ error: 'Order not found in user\'s orders array' });
+        }
+        res.json(order);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error fetching order details' });
+    }
+};
+
+
 
 
 
@@ -830,7 +847,8 @@ module.exports = {
     GetProductDetailsPage,
     GetCheckOutPage,
     AddressForm,
-    OrderSubmit
+    OrderSubmit,
+    OrderDetailsOfusers
    
    
 };
