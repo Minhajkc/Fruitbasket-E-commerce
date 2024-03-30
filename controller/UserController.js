@@ -7,6 +7,15 @@ const exphbs  = require('express-handlebars');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
+require('dotenv').config();
+const Razorpay = require('razorpay');
+const {RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET} = process.env;
+
+const razorpayinstance = new Razorpay({
+    key_id: RAZORPAY_KEY_ID,
+    key_secret: RAZORPAY_KEY_SECRET
+});
+
 
 
 
@@ -40,6 +49,7 @@ const GetHomePage = async (req, res) => {
     try {
         const token = req.cookies.token;
         const filteredProducts = await Products.find().limit(8).exec();
+    
 
 
         if (!token) {
@@ -60,6 +70,7 @@ const GetHomePage = async (req, res) => {
             }
 
             return res.render('users/index', { user, successMessage: req.query.successMessage ,products: filteredProducts });
+            
         });
     } catch (error) {
         console.error('Error fetching user:', error);
@@ -351,11 +362,12 @@ const logoutUser = (req, res) => {
 };
 
 
-
+let globalFilteredProducts = [];
 
 const GetShopPage = async (req, res) => {
     try {
         const filteredProducts = await Products.find().exec();
+        globalFilteredProducts = filteredProducts
         return res.render('users/shop', { products: filteredProducts });
     } catch (err) {
         console.error('Error fetching products:', err);
@@ -363,7 +375,7 @@ const GetShopPage = async (req, res) => {
     }
 };
 
-let globalFilteredProducts = [];
+
 
 const Sort = async (req, res) => {
     try {
@@ -640,7 +652,7 @@ const DeleteWishList = async (req, res) => {
         }
 
         // Redirect to the wishlist page after deletion
-        res.redirect('/Wishlist?success');
+        res.redirect('/shop');
     } catch (error) {
         console.error('Error deleting product:', error);
         res.status(500).send('Internal Server Error');
@@ -662,7 +674,7 @@ const DeleteFromcart = async (req,res)=>{
         }
 
         // Redirect to the wishlist page after deletion
-        res.redirect('/Cart?success');
+        res.redirect('/shop?success');
     } catch (error) {
         console.error('Error deleting product:', error);
         res.status(500).send('Internal Server Error');
@@ -778,74 +790,6 @@ const AddressForm = async (req, res) => {
 
 
 
-const OrderSubmit = async (req, res) => {
-    const { paymentmethod } = req.body;
-
-    try {
-        if (paymentmethod === 'cod') {
-            const userId = req.cookies.userId;
-            if (!userId) {
-                return res.redirect('/UserLogin');
-            }
-
-            const user = await User.findById(userId);
-            if (!user) {
-                return res.status(404).send('User not found');
-            }
-
-            const grandtotal = user.grandtotal;
-
-            const currentDate = new Date();
-            const options = {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true // Use 12-hour format with AM/PM
-            };
-            const formattedDate = currentDate.toLocaleString('en-US', options);
-
-            const orders = [{
-                items: user.bookings.map(item => ({
-                    productName: item.productName,
-                    quantity: item.quantity
-                   
-                })),
-                totalAmountUserPaid: grandtotal,
-                date: formattedDate,
-                time: currentDate,
-                orderId: uuid.v4(),
-                status:'Pending',
-                paymentmethod:'COD'
-            }];
-
-            // Update the orders array in the User collection
-            const updatedUser = await User.findByIdAndUpdate(
-                userId,
-                { $push: { orders: { $each: orders } } }, // Add new orders to the existing orders array
-                { new: true }
-            );
-
-            if (!updatedUser) {
-                return res.status(404).send('User not found');
-            }
-
-            // Clear the user's bookings after placing the order
-            updatedUser.bookings = [];
-            await updatedUser.save();
-
-            return res.redirect('/home?success=orderedplacedsuccessfully');
-        } else {
-            // Handle other payment methods
-            return res.redirect('/PaymentGateway');
-        }
-    } catch (error) {
-        // Handle errors
-        console.error('Error processing order:', error);
-        res.status(500).send('Internal Server Error');
-    }
-};
 
 
 const OrderDetailsOfusers = async (req, res) => {
@@ -908,6 +852,135 @@ const DeleteOrderUser = async (req, res) => {
 
 
 
+const RazorPayCallBack = (req,res) => {
+    const paymentData = req.body;
+
+
+    // Verify the Razorpay webhook signature
+    const webhookSignature = req.headers['x-razorpay-signature'];
+    const isValidSignature = razorpayinstance.webhooks.validateWebhookSignature(
+        JSON.stringify(paymentData),
+        webhookSignature,
+        'sha256'
+    );
+
+    if (!isValidSignature) {
+        console.error('Invalid Razorpay webhook signature');
+        return res.status(400).send('Invalid signature');
+    }
+
+    // Handle payment confirmation logic
+    handlePaymentConfirmation(paymentData);
+
+    res.status(200).send('Webhook received successfully');
+}
+
+function handlePaymentConfirmation(paymentData) {
+    // Extract relevant payment information from paymentData
+    const { order_id, status, amount, currency } = paymentData.payload.payment.entity;
+
+    // Update order status in your database based on the payment status
+    if (status === 'captured') {
+        // Payment successful, update order status to 'Paid'
+        // Update order status logic here
+        console.log(`Order ${order_id} payment successful. Amount: ${amount} ${currency}`);
+    } else {
+        // Payment failed or other status, handle accordingly
+        console.log(`Order ${order_id} payment failed or status: ${status}`);
+    }
+}
+
+
+const OrderSubmit = async (req, res) => {
+ 
+    try {
+            const userId = req.cookies.userId;
+            if (!userId) {
+                return res.redirect('/UserLogin');
+            }
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).send('User not found');
+            }
+
+            const grandtotal = user.grandtotal;
+
+            const currentDate = new Date();
+            const options = {
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true // Use 12-hour format with AM/PM
+            };
+            const formattedDate = currentDate.toLocaleString('en-US', options);
+
+            const orders = [{
+                items: user.bookings.map(item => ({
+                    productName: item.productName,
+                    quantity: item.quantity
+                   
+                })),
+                totalAmountUserPaid: grandtotal,
+                date: formattedDate,
+                time: currentDate,
+                orderId: uuid.v4(),
+                status:'Pending',
+                paymentmethod:'COD'
+            }];
+
+            // Update the orders array in the User collection
+            const updatedUser = await User.findByIdAndUpdate(
+                userId,
+                { $push: { orders: { $each: orders } } }, // Add new orders to the existing orders array
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).send('User not found');
+            }
+
+            // Clear the user's bookings after placing the order
+            updatedUser.bookings = [];
+            await updatedUser.save();
+
+            return res.redirect('/home?success=orderedplacedsuccessfully');
+      
+    } catch (error) {
+        // Handle errors
+        console.error('Error processing order:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+
+
+const razorpayWebhookget = (req,res) => {
+    res.status(405).send('Method Not Allowed');
+}
+
+const createRazorpayOrders = (req,res) => {
+    const { amount } = req.body;
+
+    const options = {
+        amount: amount,
+        currency: 'INR',
+        receipt: 'order_rcptid_11'
+    };
+
+    razorpayinstance.orders.create(options, (err, order) => {
+        if (err) {
+            console.error('Error creating Razorpay order:', err);
+            res.status(500).json({ success: false, error: 'Error creating Razorpay order' });
+        } else {
+            res.status(200).json({ success: true, order_id: order.id, amount: order.amount });
+         
+        }
+    });
+}
 
 
 
@@ -943,7 +1016,10 @@ module.exports = {
     AddressForm,
     OrderSubmit,
     OrderDetailsOfusers,
-    DeleteOrderUser
-   
+    DeleteOrderUser,
+    RazorPayCallBack,
+    razorpayWebhookget,
+    createRazorpayOrders,
+
    
 };

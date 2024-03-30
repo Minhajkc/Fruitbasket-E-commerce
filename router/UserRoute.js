@@ -42,6 +42,9 @@ router.post('/Addressform',UserController.AddressForm)
 router.post('/Ordersubmit',UserController.OrderSubmit)
 router.get('/getOrderDetails',UserController.OrderDetailsOfusers)
 router.get('/DeleteOrderuser',UserController.DeleteOrderUser)
+router.post('/razorpayWebhook',UserController.RazorPayCallBack)
+router.get('/razorpayWebhook',UserController.razorpayWebhookget)
+router.post('/createRazorpayOrder',UserController.createRazorpayOrders)
 
 
 module.exports = router;

@@ -41,7 +41,8 @@
     <link rel="stylesheet" href="/user-assets/css/style.css">
     <!-- <link rel="stylesheet" href="/user-assets/css/style.min.css"> -->
 
-    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 
 
     </style>
@@ -839,15 +840,12 @@
                 
             </h5>
         </div>
-        <form action="/Ordersubmit" method="post">
+       
 
         <div id="paymentMethodCollapse" class="collapse show" aria-labelledby="paymentMethodHeading" data-parent="#accordion">
             <div class="card-body col-lg-6 ">
                 <select id="paymentMethodSelect" class="myniceselect nice-select wide rounded-0l " name="paymentmethod">
-                    <option value="card">Card</option>
                     <option value="razorpay">Razorpay</option>
-                    <option value="upi">UPI</option>
-                    <option value="banktransfer">Bank Transfer</option>
                     <option value="cod">COD</option>
                 </select>
             </div>
@@ -856,10 +854,10 @@
 </div>
 
                                   <div class="order-button-payment text-center mt-5">
-    <button type="submit" class="btn btn-primary btn-block"  style="background-color: black; color: white; padding: 15px; width:100%">Place Order</button>
+    <button  id="checkoutButton" type="submit" class="btn btn-primary btn-block"  style="background-color: black; color: white; padding: 15px; width:100%">Place Order</button>
 </div>
 
-                                    </form>
+                                 
                                 </div>
                             </div>
                         </div>
@@ -869,6 +867,7 @@
         </div>
         </div>
          </div>
+
 
 
         <!-- Order details table -->
@@ -1042,6 +1041,86 @@
 </html>
 
 <script>
+
+
+
+const checkoutButton = document.getElementById('checkoutButton');
+
+checkoutButton.addEventListener('click', async () => {
+    const selectedPaymentMethod = document.getElementById('paymentMethodSelect').value; // Get selected payment method from the dropdown
+
+    if (selectedPaymentMethod === 'cod') {
+       console.log(selectedPaymentMethod)
+       const response = await fetch('/Ordersubmit', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+     
+        });
+    } else {
+        const response = await fetch('/createRazorpayOrder', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ amount: 200 }) // Set the amount to be charged in paise (e.g., ₹2.00)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            const options = {
+                key: 'rzp_test_DTZoRI7yvlJSKz', // Replace with your actual Razorpay Key ID
+                amount: data.amount,
+                currency: 'INR',
+                name: 'Fruitbasket Payment',
+                description: 'Purchase Description',
+                order_id: data.order_id,
+                handler: function (response) {
+                    console.log(response);
+                    alert('Payment successful!');
+                },
+                prefill: {
+                    name: 'John Doe',
+                    email: 'johndoe@example.com',
+                    contact: '9999999999'
+                },
+                notes: {
+                    address: 'Customer Address'
+                },
+                theme: {
+                    color: '#20e38e' // Customize the checkout theme color
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        } else {
+            console.error('Error creating Razorpay order:', data.error);
+            alert('Error creating Razorpay order. Please try again.');
+        }
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
     // Function to open the modal and populate order details
 function openOrderDetailsModal() {
   // Get the modal element
@@ -1092,5 +1171,7 @@ openModalButton.addEventListener('click', openOrderDetailsModal);
 // Event listener for the close button in the modal
 const closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
 closeButton.addEventListener('click', closeOrderDetailsModal);
+
+
 
 </script>

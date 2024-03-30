@@ -380,19 +380,19 @@
                             <div class="shop_toolbar_btn">
                                 <button data-role="grid_3" type="button" class="active btn-grid-3" data-bs-toggle="tooltip" title="3"><i class="fa fa-th"></i></button>
                                 <!-- <button data-role="grid_4" type="button"  class=" btn-grid-4" data-bs-toggle="tooltip" title="4"></button> -->
-                                <button data-role="grid_list" type="button" class="btn-list" data-bs-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
                             </div>
                             <div class="shop-select">
          <form id="sortForm" class="d-flex flex-column w-100" action="#">
     <div class="form-group">
    
-        <select id="sortSelect" class="form-control">
-              <option value="none">Select</option>
-            <option value="alphabetically">Alphabetically, A-Z</option>  
-            <option value="popularity">Sort by popularity</option>
-            <option value="lowToHigh">Sort by price: low to high</option>
-            <option value="highToLow">Sort by price: high to low</option>
-        </select>
+      <select id="sortSelect" class="form-control">
+    <option value="none">&#128204;Filter</option>
+    <option value="alphabetically"> Alphabetically, A-Z</option>  
+    <option value="popularity"> Sort by popularity</option>
+    <option value="lowToHigh">Sort by price: low to high</option>
+    <option value="highToLow"> Sort by price: high to low</option>
+</select>
+
     </div>
 </form>
                             </div>
@@ -810,8 +810,6 @@
 </html>
 <script>
 
-
-
      document.getElementById('sortSelect').addEventListener('change', function() {
         const selectedOption = this.value;
         console.log(selectedOption)
@@ -857,23 +855,49 @@
             productContentDiv.classList.add('product-content');
 
             // Add product rating
-            const productRating = document.createElement('div');
-            productRating.classList.add('product-rating');
-            for (let i = 0; i < 5; i++) {
-                const starIcon = document.createElement('i');
-                starIcon.classList.add('fa', i < product.rating ? 'fa-star' : 'fa-star-o');
-                productRating.appendChild(starIcon);
-            }
-            productContentDiv.appendChild(productRating);
+      // Create the product rating div
+// Create the product rating div
+const productRating = document.createElement('div');
+productRating.classList.add('product-rating');
 
-            // Add product title
+// Create filled star icons with spacing
+for (let i = 0; i < 3; i++) {
+    const filledStarIcon = document.createElement('i');
+    filledStarIcon.classList.add('fa', 'fa-star');
+    filledStarIcon.style.marginRight = '5px'; // Add margin between filled stars
+    productRating.appendChild(filledStarIcon);
+}
+
+// Create empty star icons with spacing
+for (let i = 0; i < 2; i++) {
+    const emptyStarIcon = document.createElement('i');
+    emptyStarIcon.classList.add('fa', 'fa-star-o');
+    emptyStarIcon.style.marginRight = '5px'; // Add margin between empty stars
+    productRating.appendChild(emptyStarIcon);
+}
+
+// Append the product rating div to the product content div
+productContentDiv.appendChild(productRating);
+
+
+
+
          const productTitle = document.createElement('div');
 productTitle.classList.add('product-title');
 
 const titleLink = document.createElement('a');
 if (product.isDisabled) {
     titleLink.href = 'javascript:void(0)'; // Link is disabled for soldout products
-    titleLink.textContent = 'Soldout product';
+    titleLink.textContent = product.name;
+
+    // Add the "Soldout" label div
+    const labelProductDiv = document.createElement('div');
+    labelProductDiv.classList.add('label-product');
+    const labelSaleSpan = document.createElement('span');
+    labelSaleSpan.classList.add('label-sale', 'position-absolute', 'text-uppercase', 'text-white', 'text-center', 'd-block');
+    labelSaleSpan.textContent = 'Soldout';
+    labelProductDiv.appendChild(labelSaleSpan);
+    productTitle.appendChild(labelProductDiv);
 } else {
     titleLink.href = '/products-details/' + product._id;
     titleLink.textContent = product.name;
@@ -887,20 +911,86 @@ productTitle.appendChild(titleHeading);
 productContentDiv.appendChild(productTitle);
 
 
-            // Add product price details
-            const priceBox = document.createElement('div');
-            priceBox.classList.add('price-box');
-            const regularPrice = document.createElement('span');
-            regularPrice.classList.add('regular-price', 'text-bold');
-            regularPrice.textContent = '₹' + product.mrp + '/-';
-            priceBox.appendChild(regularPrice);
-            productContentDiv.appendChild(priceBox);
 
-            singleProductDiv.appendChild(productContentDiv);
+          // Create the price box
+const priceBox = document.createElement('div');
+priceBox.classList.add('price-box');
 
-            // Append the single product div to the products list div
-            productDiv.appendChild(singleProductDiv);
-            productsList.appendChild(productDiv);
+
+
+// Create the regular price element with the Indian Rupee symbol
+const regularPrice = document.createElement('span');
+regularPrice.classList.add('regular-price', 'text-bold');
+const rupeeSymbol = document.createElement('span');
+rupeeSymbol.innerHTML = '&#8377;'; // Indian Rupee symbol
+regularPrice.appendChild(rupeeSymbol);
+
+
+    regularPrice.textContent += product.mrp + '/-';
+    
+
+    const oldPrice = document.createElement('span');
+    oldPrice.classList.add('old-price');
+    const del = document.createElement('del');
+    del.innerHTML = '&#8377;'; 
+    del.appendChild(document.createTextNode(product.sellingPrice + '/-'));
+    
+    oldPrice.appendChild(del);
+    
+
+
+// Append the regular price to the price box
+priceBox.appendChild(regularPrice);
+priceBox.appendChild(oldPrice);
+
+// Append the price box to the product content div
+productContentDiv.appendChild(priceBox);
+
+// Append the product content div to the single product div
+singleProductDiv.appendChild(productContentDiv);
+
+// Append the single product div to the products list div
+productDiv.appendChild(singleProductDiv);
+
+// Append the product div to the specific div
+productsList.appendChild(productDiv);
+
+
+
+
+// Check if the product is not disabled before creating the buttons
+if (!product.isDisabled) {
+    // Create the add-action div
+    const addActionDiv = document.createElement('div');
+    addActionDiv.classList.add('add-action', 'd-flex', 'position-absolute');
+
+    // Create the Add to Cart button
+    const addToCartLink = document.createElement('a');
+    addToCartLink.href = '/addToCart/' + product._id;
+    addToCartLink.title = 'Add To Cart';
+
+    const cartIcon = document.createElement('i');
+    cartIcon.classList.add('ion-bag');
+
+    addToCartLink.appendChild(cartIcon);
+    addActionDiv.appendChild(addToCartLink);
+
+    // Create the Add to Wishlist button
+    const wishlistLink = document.createElement('a');
+    wishlistLink.href = '/addToWishList/' + product._id;
+    wishlistLink.title = 'Add To Wishlist';
+
+    const wishlistIcon = document.createElement('i');
+    wishlistIcon.classList.add('ion-ios-heart-outline');
+
+    wishlistLink.appendChild(wishlistIcon);
+    addActionDiv.appendChild(wishlistLink);
+
+    // Append the add-action div to the product content div
+    productContentDiv.appendChild(addActionDiv);
+}
+
+
         });
     })
         .catch(error => {
@@ -922,16 +1012,21 @@ productContentDiv.appendChild(productTitle);
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('productId');
     const success = urlParams.get('success');
-    if (success === 'addedToCart') {
-        // Display a success message using SweetAlert
-        Swal.fire({
-            icon: 'success',
-            title: 'Item successfully added to cart!',
-            showConfirmButton: false,
-            timer: 1500 // Auto close the pop-up after 1.5 seconds
-        });
-    }
-
+   if (success === 'addedToCart') {
+    // Display a success message using SweetAlert
+    Swal.fire({
+        icon: 'success',
+        title: 'Item successfully added to cart!',
+        showConfirmButton: false,
+        timer: 1500, // Auto close the pop-up after 1.5 seconds
+        onClose: () => {
+            // Redirect to /shop after 1 second
+            setTimeout(() => {
+                window.location.href = '/shop';
+            }, 100); // 1000 milliseconds = 1 second
+        }
+    });
+}
     const failed = urlParams.get('failed');
     if (failed === 'ItemIsAlreadyInCart') {
         // Display an error message using SweetAlert
@@ -942,11 +1037,14 @@ productContentDiv.appendChild(productTitle);
             showCancelButton: true,
             confirmButtonText: 'Yes, remove it',
             cancelButtonText: 'No, keep it',
+            
+            
         }).then((result) => {
             if (result.isConfirmed) {
                 // Redirect to the route for removing the item from the wishlist
                 window.location.href = `/DeleteFromCart/${productId}`;
             }
+            
         });
     }
 
@@ -956,7 +1054,13 @@ productContentDiv.appendChild(productTitle);
             icon: 'success',
             title: 'Item successfully added to Wishlist!',
             showConfirmButton: false,
-            timer: 1500 // Auto close the pop-up after 1.5 seconds
+            timer: 1500 ,// Auto close the pop-up after 1.5 seconds
+               onClose: () => {
+            // Redirect to /shop after 1 second
+            setTimeout(() => {
+                window.location.href = '/shop';
+            }, 100); // 1000 milliseconds = 1 second
+        }
         });
     }
        
@@ -969,10 +1073,12 @@ productContentDiv.appendChild(productTitle);
             showCancelButton: true,
             confirmButtonText: 'Yes, remove it',
             cancelButtonText: 'No, keep it',
+            
         }).then((result) => {
             if (result.isConfirmed) {
                 // Redirect to the route for removing the item from the wishlist
                 window.location.href =  `/DeleteWishList/${productId}`;
+                
                
             }
         });

@@ -6,6 +6,10 @@ const PORT = 3000;
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path')
+require('dotenv').config();
+
+
+
 
 
 
