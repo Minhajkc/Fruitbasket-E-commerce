@@ -13,6 +13,7 @@ const router = express.Router();
 router.get('/',Userauth.verifyToken1,UserController.GetHomePage);
 router.get('/home',Userauth.verifyToken,UserController.GetHomePage)
 router.get('/UserLogin',Userauth.checkLoggedIn,UserController.GetLoginPage);
+router.get('/UserLoginPage',Userauth.checkLoggedIn,UserController.GetUserLoginPage);
 router.get('/UserRegister',Userauth.verifyToken1,UserController.GetRegisterPage);
 router.post('/UserRegForm',UserController.PostUserRegister)
 router.post('/OtpVerification',UserController.OTPVerify)
@@ -39,12 +40,14 @@ router.get('/About',UserController.GetAboutPage)
 router.get('/MyAccount',UserController.MyAccount)
 router.get('/Checkout',UserController.GetCheckOutPage)
 router.post('/Addressform',UserController.AddressForm)
+router.post('/AddAddressform',UserController.AddAddress)
 router.post('/Ordersubmit',UserController.OrderSubmit)
 router.get('/getOrderDetails',UserController.OrderDetailsOfusers)
 router.get('/DeleteOrderuser',UserController.DeleteOrderUser)
 router.post('/razorpayWebhook',UserController.RazorPayCallBack)
 router.get('/razorpayWebhook',UserController.razorpayWebhookget)
 router.post('/createRazorpayOrder',UserController.createRazorpayOrders)
+router.post('/applyCoupon',UserController.ApplyCoupon)
 
 
 module.exports = router;

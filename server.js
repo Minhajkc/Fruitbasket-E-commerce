@@ -14,6 +14,8 @@ require('dotenv').config();
 
 
 
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb://localhost:27017/FruitBasket', {

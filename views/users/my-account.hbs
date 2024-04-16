@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Obrien - Organic Food HTML5 Template</title>
+    <title>MyAccount</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -41,6 +41,15 @@
     <link rel="stylesheet" href="/user-assets/css/style.css">
     <!-- <link rel="stylesheet" href="/user-assets/css/style.min.css"> -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+           <!-- Toastify CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+
+    <!-- jQuery (required by Toastify) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Toastify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -55,7 +64,7 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
                                     <div class="header-logo d-flex align-items-center">
-                                        <a href="index.html">
+                                        <a href="/">
                                             <img class="img-full" src="/user-assets/images/logo/logo.png" alt="Header Logo">
                                         </a>
                                     </div>
@@ -64,90 +73,36 @@
                                     <nav class="main-nav d-flex justify-content-center">
                                         <ul class="nav">
                                             <li>
-                                                <a href="index.html">
-                                                    <span class="menu-text"> Home</span>
-                                                    <i class="fa fa-angle-down"></i>
+                                                <a href="/">
+                                                    <span class="menu-text"> Home</span> 
                                                 </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                    <li><a href="index.html">Home Page - 1</a></li>
-                                                    <li><a href="index-2.html">Home Page - 2</a></li>
-                                                    <li><a href="index-3.html">Home Page - 3</a></li>
-                                                    <li><a href="index-4.html">Home Page - 4</a></li>
-                                                </ul>
+                                               
                                             </li>
                                             <li>
-                                                <a href="shop.html">
+                                                <a href="/Shop">
                                                     <span class="menu-text">Shop</span>
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
-                                                <div class="mega-menu dropdown-hover">
-                                                    <div class="menu-colum">
-                                                        <ul>
-                                                            <li><span class="mega-menu-text">Shop</span></li>
-                                                            <li><a href="shop.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="shop-list-left.html">Shop List Left Sidebar</a></li>
-                                                            <li><a href="shop-list-right.html">Shop List Right Sidebar</a></li>
-                                                            <li><a href="shop-fullwidth.html">Shop Full Width</a></li>
+                                               
+                                                   
+                                                    <div >
+                                                        <ul class="dropdown-submenu dropdown-hover ps-3">
+                                                            <li><a href="/Cart">Cart Page</a></li>
+                                                           
+                                                            <li><a href="/Wishlist">Wishlist Page</a></li>
                                                         </ul>
                                                     </div>
-                                                    <div class="menu-colum">
-                                                        <ul>
-                                                            <li><span class="mega-menu-text">Product</span></li>
-                                                            <li><a href="product-details.html">Single Product</a></li>
-                                                            <li><a href="variable-product-details.html">Variable Product</a></li>
-                                                            <li><a href="external-product-details.html">External Product</a></li>
-                                                            <li><a href="gallery-product-details.html">Gallery Product</a></li>
-                                                            <li><a href="countdown-product-details.html">Countdown Product</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="menu-colum">
-                                                        <ul>
-                                                            <li><span class="mega-menu-text">Others</span></li>
-                                                            <li><a href="error-404.html">Error 404</a></li>
-                                                            <li><a href="compare.html">Compare Page</a></li>
-                                                            <li><a href="cart.html">Cart Page</a></li>
-                                                            <li><a href="checkout.html">Checkout Page</a></li>
-                                                            <li><a href="wishlist.html">Wishlist Page</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                           
                                             </li>
-                                            <li>
-                                                <a href="blog-details-fullwidth.html">
-                                                    <span class="menu-text"> Blog</span>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                    <li><a href="blog.html">Blog Left Sidebar</a></li>
-                                                    <li><a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a></li>
-                                                    <li><a href="blog-list-fullwidth.html">Blog List Fullwidth</a></li>
-                                                    <li><a href="blog-grid.html">Blog Grid Page</a></li>
-                                                    <li><a href="blog-grid-right-sidebar.html">Blog Grid Right Sidebar</a></li>
-                                                    <li><a href="blog-grid-fullwidth.html">Blog Grid Fullwidth</a></li>
-                                                    <li><a href="blog-details-sidebar.html">Blog Details Sidebar</a></li>
-                                                    <li><a href="blog-details-fullwidth.html">Blog Details Fullwidth</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a class="active" href="#">
-                                                    <span class="menu-text"> Pages</span>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                    <li><a href="frequently-questions.html">FAQ</a></li>
-                                                    <li><a class="active" href="my-account.html">My Account</a></li>
-                                                    <li><a href="login.html">Login</a></li>
-                                                    <li><a href="register.html">Register</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="about-us.html">
+                                           
+                                        
+                                         <li>
+                                                <a href="/About">
                                                     <span class="menu-text"> About</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="contact-us.html">
+                                                <a href="/Contact">
                                                     <span class="menu-text">Contact</span>
                                                 </a>
                                             </li>
@@ -158,83 +113,17 @@
                                     <div class="header-right-area main-nav">
                                         <ul class="nav">
                                             <li class="login-register-wrap d-none d-xl-flex">
-                                                <span><a href="login.html">Login</a></span>
-                                                <span><a href="register.html">Register</a></span>
+                                                <span style="color: rgb(0, 0, 0); font-size:20px">
+     <a href="/MyAccount">  <i class="fas fa-user-circle" style="cursor: pointer;"></i></a>
+    </span>
+      <span><a href="/cart"> <i class="ion-bag" style="font-size: 25px;"></i></a></span>
+       {{#unless user}}
+                                                <span><a href="/userlogin">Login</a></span>
+                                                <span><a href="/userregister">Register</a></span>
+                                                {{/unless}}
                                             </li>
-                                            <li class="sidemenu-wrap d-none d-lg-flex">
-                                                <a href="#">USD <i class="fa fa-caret-down"></i> </a>
-                                                <ul class="dropdown-sidemenu dropdown-hover-2 dropdown-language">
-                                                    <li><a href="#">USD - US Dollar</a></li>
-                                                    <li><a href="#">EUR - Euro</a></li>
-                                                    <li><a href="#">GBP - British Pound</a></li>
-                                                    <li><a href="#">INR - Indian Rupee</a></li>
-                                                    <li><a href="#">BDT - Bangladesh Taka</a></li>
-                                                    <li><a href="#">JPY - Japan Yen</a></li>
-                                                    <li><a href="#">CAD - Canada Dollar</a></li>
-                                                    <li><a href="#">AUD - Australian Dollar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="minicart-wrap">
-                                                <a href="#" class="minicart-btn toolbar-btn">
-                                                    <i class="ion-bag"></i>
-                                                    <span class="cart-item_count">3</span>
-                                                </a>
-                                                <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
-                                                    <div class="single-cart-item">
-                                                        <div class="cart-img">
-                                                            <a href="cart.html"><img src="/user-assets/images/cart/1.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="cart-text">
-                                                            <h5 class="title"><a href="cart.html">11. Product with video - navy</a></h5>
-                                                            <div class="cart-text-btn">
-                                                                <div class="cart-qty">
-                                                                    <span>1×</span>
-                                                                    <span class="cart-price">$98.00</span>
-                                                                </div>
-                                                                <button type="button"><i class="ion-trash-b"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="single-cart-item">
-                                                        <div class="cart-img">
-                                                            <a href="cart.html"><img src="/user-assets/images/cart/2.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="cart-text">
-                                                            <h5 class="title"><a href="cart.html" title="10. This is the large title for testing large title and there is an image for testing - white">10. This is the large title for testing...</a></h5>
-                                                            <div class="cart-text-btn">
-                                                                <div class="cart-qty">
-                                                                    <span>1×</span>
-                                                                    <span class="cart-price">$98.00</span>
-                                                                </div>
-                                                                <button type="button"><i class="ion-trash-b"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="single-cart-item">
-                                                        <div class="cart-img">
-                                                            <a href="cart.html"><img src="/user-assets/images/cart/3.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="cart-text">
-                                                            <h5 class="title"><a href="cart.html">1. New and sale badge product - s / red</a></h5>
-                                                            <div class="cart-text-btn">
-                                                                <div class="cart-qty">
-                                                                    <span>1×</span>
-                                                                    <span class="cart-price">$98.00</span>
-                                                                </div>
-                                                                <button type="button"><i class="ion-trash-b"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cart-price-total d-flex justify-content-between">
-                                                        <h5>Total :</h5>
-                                                        <h5>$166.00</h5>
-                                                    </div>
-                                                    <div class="cart-links d-flex justify-content-center">
-                                                        <a class="obrien-button white-btn" href="cart.html">View cart</a>
-                                                        <a class="obrien-button white-btn" href="checkout.html">Checkout</a>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            
+                                          
                                             <li class="mobile-menu-btn d-lg-none">
                                                 <a class="off-canvas-btn" href="#">
                                                     <i class="fa fa-bars"></i>
@@ -243,6 +132,8 @@
                                         </ul>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -257,7 +148,7 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
                                     <div class="header-logo">
-                                        <a href="index.html">
+                                        <a href="/">
                                             <img class="img-full" src="/user-assets/images/logo/logo.png" alt="Header Logo">
                                         </a>
                                     </div>
@@ -266,185 +157,69 @@
                                     <nav class="main-nav d-flex justify-content-center">
                                         <ul class="nav">
                                             <li>
-                                                <a href="index.html">
+                                                <a href="/">
                                                     <span class="menu-text"> Home</span>
-                                                    <i class="fa fa-angle-down"></i>
+                                                    
                                                 </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                    <li><a href="index.html">Home Page - 1</a></li>
-                                                    <li><a href="index-2.html">Home Page - 2</a></li>
-                                                    <li><a href="index-3.html">Home Page - 3</a></li>
-                                                    <li><a href="index-4.html">Home Page - 4</a></li>
-                                                </ul>
+                                            
                                             </li>
                                             <li>
-                                                <a href="shop.html">
+                                                <a href="/shop">
                                                     <span class="menu-text">Shop</span>
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
-                                                <div class="mega-menu dropdown-hover">
-                                                    <div class="menu-colum">
-                                                        <ul>
-                                                            <li><span class="mega-menu-text">Shop</span></li>
-                                                            <li><a href="shop.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="shop-list-left.html">Shop List Left Sidebar</a></li>
-                                                            <li><a href="shop-list-right.html">Shop List Right Sidebar</a></li>
-                                                            <li><a href="shop-fullwidth.html">Shop Full Width</a></li>
+                                                   <div >
+                                                        <ul class="dropdown-submenu dropdown-hover ps-3">
+                                                            <li><a href="/Cart">Cart Page</a></li>
+                                                           
+                                                            <li><a href="/Wishlist">Wishlist Page</a></li>
                                                         </ul>
                                                     </div>
-                                                    <div class="menu-colum">
-                                                        <ul>
-                                                            <li><span class="mega-menu-text">Product</span></li>
-                                                            <li><a href="product-details.html">Single Product</a></li>
-                                                            <li><a href="variable-product-details.html">Variable Product</a></li>
-                                                            <li><a href="external-product-details.html">External Product</a></li>
-                                                            <li><a href="gallery-product-details.html">Gallery Product</a></li>
-                                                            <li><a href="countdown-product-details.html">Countdown Product</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="menu-colum">
-                                                        <ul>
-                                                            <li><span class="mega-menu-text">Others</span></li>
-                                                            <li><a href="error-404.html">Error 404</a></li>
-                                                            <li><a href="compare.html">Compare Page</a></li>
-                                                            <li><a href="cart.html">Cart Page</a></li>
-                                                            <li><a href="checkout.html">Checkout Page</a></li>
-                                                            <li><a href="wishlist.html">Wishlist Page</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
                                             </li>
+                                           
+                                          
                                             <li>
-                                                <a href="blog-details-fullwidth.html">
-                                                    <span class="menu-text"> Blog</span>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                    <li><a href="blog.html">Blog Left Sidebar</a></li>
-                                                    <li><a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a></li>
-                                                    <li><a href="blog-list-fullwidth.html">Blog List Fullwidth</a></li>
-                                                    <li><a href="blog-grid.html">Blog Grid Page</a></li>
-                                                    <li><a href="blog-grid-right-sidebar.html">Blog Grid Right Sidebar</a></li>
-                                                    <li><a href="blog-grid-fullwidth.html">Blog Grid Fullwidth</a></li>
-                                                    <li><a href="blog-details-sidebar.html">Blog Details Sidebar</a></li>
-                                                    <li><a href="blog-details-fullwidth.html">Blog Details Fullwidth</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a class="active" href="#">
-                                                    <span class="menu-text"> Pages</span>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                    <li><a href="frequently-questions.html">FAQ</a></li>
-                                                    <li><a class="active" href="my-account.html">My Account</a></li>
-                                                    <li><a href="login.html">Login</a></li>
-                                                    <li><a href="register.html">Register</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="about-us.html">
+                                                <a href="/about">
                                                     <span class="menu-text"> About</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="contact-us.html">
+                                                <a href="/contact">
                                                     <span class="menu-text">Contact</span>
                                                 </a>
                                             </li>
+                                             
+                                            
                                         </ul>
                                     </nav>
                                 </div>
-                                <div class="col-lg-2 col-xl-3 col-sm-6 col-6 col-custom">
+                               <div class="col-lg-2 col-xl-3 col-sm-6 col-6 col-custom">
                                     <div class="header-right-area main-nav">
                                         <ul class="nav">
                                             <li class="login-register-wrap d-none d-xl-flex">
-                                                <span><a href="login.html">Login</a></span>
-                                                <span><a href="register.html">Register</a></span>
+                                                <span style="color: rgb(0, 0, 0); font-size:20px">
+     <a href="/MyAccount">  <i class="fas fa-user-circle" style="cursor: pointer;"></i></a>
+    </span>
+      <span><a href="/cart"> <i class="ion-bag" style="font-size: 25px;"></i></a></span>
+       {{#unless user}}
+                                                <span><a href="/userlogin">Login</a></span>
+                                                <span><a href="/userregister">Register</a></span>
+                                                {{/unless}}
+                                              
                                             </li>
-                                            <li class="sidemenu-wrap d-none d-lg-flex">
-                                                <a href="#">USD <i class="fa fa-caret-down"></i> </a>
-                                                <ul class="dropdown-sidemenu dropdown-hover-2 dropdown-language">
-                                                    <li><a href="#">USD - US Dollar</a></li>
-                                                    <li><a href="#">EUR - Euro</a></li>
-                                                    <li><a href="#">GBP - British Pound</a></li>
-                                                    <li><a href="#">INR - Indian Rupee</a></li>
-                                                    <li><a href="#">BDT - Bangladesh Taka</a></li>
-                                                    <li><a href="#">JPY - Japan Yen</a></li>
-                                                    <li><a href="#">CAD - Canada Dollar</a></li>
-                                                    <li><a href="#">AUD - Australian Dollar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="minicart-wrap">
-                                                <a href="#" class="minicart-btn toolbar-btn">
-                                                    <i class="ion-bag"></i>
-                                                    <span class="cart-item_count">3</span>
-                                                </a>
-                                                <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
-                                                    <div class="single-cart-item">
-                                                        <div class="cart-img">
-                                                            <a href="cart.html"><img src="/user-assets/images/cart/1.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="cart-text">
-                                                            <h5 class="title"><a href="cart.html">11. Product with video - navy</a></h5>
-                                                            <div class="cart-text-btn">
-                                                                <div class="cart-qty">
-                                                                    <span>1×</span>
-                                                                    <span class="cart-price">$98.00</span>
-                                                                </div>
-                                                                <button type="button"><i class="ion-trash-b"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="single-cart-item">
-                                                        <div class="cart-img">
-                                                            <a href="cart.html"><img src="/user-assets/images/cart/2.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="cart-text">
-                                                            <h5 class="title"><a href="cart.html" title="10. This is the large title for testing large title and there is an image for testing - white">10. This is the large title for testing...</a></h5>
-                                                            <div class="cart-text-btn">
-                                                                <div class="cart-qty">
-                                                                    <span>1×</span>
-                                                                    <span class="cart-price">$98.00</span>
-                                                                </div>
-                                                                <button type="button"><i class="ion-trash-b"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="single-cart-item">
-                                                        <div class="cart-img">
-                                                            <a href="cart.html"><img src="/user-assets/images/cart/3.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="cart-text">
-                                                            <h5 class="title"><a href="cart.html">1. New and sale badge product - s / red</a></h5>
-                                                            <div class="cart-text-btn">
-                                                                <div class="cart-qty">
-                                                                    <span>1×</span>
-                                                                    <span class="cart-price">$98.00</span>
-                                                                </div>
-                                                                <button type="button"><i class="ion-trash-b"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cart-price-total d-flex justify-content-between">
-                                                        <h5>Total :</h5>
-                                                        <h5>$166.00</h5>
-                                                    </div>
-                                                    <div class="cart-links d-flex justify-content-center">
-                                                        <a class="obrien-button white-btn" href="cart.html">View cart</a>
-                                                        <a class="obrien-button white-btn" href="checkout.html">Checkout</a>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            
+                                          
                                             <li class="mobile-menu-btn d-lg-none">
-                                                <a class="off-canvas-btn" href="#mobileMenu">
+                                                <a class="off-canvas-btn" href="#">
                                                     <i class="fa fa-bars"></i>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -607,6 +382,7 @@
         </div>
         <!-- Breadcrumb Area End Here -->
         <!-- my account wrapper start -->
+         {{#if user}}
         <div class="my-account-wrapper mt-no-text mb-no-text">
             <div class="container container-default-2 custom-area">
                 <div class="row">
@@ -619,23 +395,39 @@
                                     <div class="myaccount-tab-menu nav" role="tablist">
                                         <a href="#dashboad" class="active" data-bs-toggle="tab"><i class="fa fa-dashboard"></i>
                                             Dashboard</a>
-                                        <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i>
-                                            Orders</a>
+    <a href="#orders" data-bs-toggle="tab" onclick="
+    var statusElements = document.querySelectorAll('.tab-content #orders .textstatus');
+    statusElements.forEach(function(statusElement) {
+        var status = statusElement.textContent.trim();
+        if (status === 'Pending') {
+            statusElement.style.color = 'orange';
+        } else if (status === 'Confirmed') {
+            statusElement.style.color = '#08ff3d';
+        } else if (status === 'Delivered') {
+            statusElement.style.color = 'blue';
+        } else if (status === 'Cancelled') {
+            statusElement.style.color = 'red';
+        } else {
+            statusElement.style.color = '#06d1c7'; // Default color
+        }
+    });
+">
+    <i class="fa fa-cart-arrow-down"></i> Orders
+</a>
+
                                        
-                                        <a href="#payment-method" data-bs-toggle="tab"><i class="fa fa-credit-card"></i>
-                                            Payment
-                                            Method</a>
+                                       
                                         <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i>
-                                            address</a>
-                                        <a href="#account-info" data-bs-toggle="tab"><i class="fa fa-user"></i> Account
-                                            Details</a>
+                                           saved address</a>
+                                        <a href="#account-info" data-bs-toggle="tab"><i class="fa fa-user"></i> Add new
+                                            Address</a>
                                          <a href="#account-info" data-bs-toggle="tab" onclick="confirmLogout()" class="text-danger" id="logoutForm"><i class="fa fa-sign-out"></i>Logout</a>
                                     </div>
                                 </div>
                                 <!-- My Account Tab Menu End -->
 
                                 <!-- My Account Tab Content Start -->
-                                
+                               
                                 <div class="col-lg-9 col-md-8 col-custom">
                                     <div class="tab-content" id="myaccountContent">
                                         <!-- Single Tab Content Start -->
@@ -666,7 +458,7 @@
     <div class="myaccount-content">
         <h3>Orders</h3>
         <div class="myaccount-table table-responsive text-center">
-           {{#if ordersWithNumbers}}
+        {{#if orders}}   
     <table class="table table-bordered" id="userTable">
         <thead class="thead-light">
             <tr>
@@ -680,31 +472,32 @@
             </tr>
         </thead>
         <tbody>
+         <tbody>
+           
+    {{#each orders}}
+    <tr>
+        <!-- Assuming order number starts from 1 -->
+        <td>{{this.date}}</td>
+        <td class="textstatus" >{{this.status}}</td>
+        <td>{{this.paymentmethod}}</td>
+        <td>{{this.totalAmountUserPaid}}</td>
+        <td>
             
-            {{#each user.orders}}
-            <tr>
-               <!-- Assuming order number starts from 1 -->
-               
-                <td>{{this.date}}</td>
-                <td class="text-warning">{{this.status}}</td>
-                <td>{{this.paymentmethod}}</td>
-                
-                <td>{{this.totalAmountUserPaid}}</td>
-  <td><button type="button"  class="btn obrien-button-2 primary-color rounded-0" id="OrderListButton" 
-    data-userid="{{../_id}}" data-orderid="{{this.orderId}}" onclick="openModal(event)">View</button>
-</td>
-
-              
-                   
-
-            </tr>
-            {{/each}}
-        </tbody>
+            <button type="button" class="btn obrien-button-2 primary-color rounded-0" id="OrderListButton" 
+                data-userid="{{../_id}}" data-orderid="{{this.orderId}}" onclick="openModal(event)">View</button>
+        </td>
+    </tr>
+    {{/each}}
+</tbody>
     </table>
 
               {{else}}
             <p>No Orders Found</p>
             {{/if}}
+
+            
+
+  
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -719,10 +512,13 @@
       <div class="modal-body" id="orderDetailsModalBody"> 
     
       </div>
+     
+        <div class="modal-footer d-flex justify-content-center align-items-center p-4" id="modalfooterid">
+            <a href="/DeleteOrderuser" id="cancelOrderLink" style="color: rgba(250, 1, 1, 0.789);">Cancel this order?</a>
+        </div>
 
-    <div class="modal-footer d-flex justify-content-center align-items-center p-4">
-    <a href="/DeleteOrderuser" style="color: rgba(250, 1, 1, 0.789);">Cancel this order?</a>
-</div>
+
+
 
     </div>
   </div>
@@ -751,62 +547,35 @@
 
 
 
+
                                         <!-- Single Tab Content Start -->
-                                        <div class="tab-pane fade" id="download" role="tabpanel">
-                                            <div class="myaccount-content">
-                                                <h3>Downloads</h3>
-                                                <div class="myaccount-table table-responsive text-center">
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-light">
-                                                            <tr>
-                                                                <th>Product</th>
-                                                                <th>Date</th>
-                                                                <th>Expire</th>
-                                                                <th>Download</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Haven - Free Real Estate PSD Template</td>
-                                                                <td>Aug 22, 2018</td>
-                                                                <td>Yes</td>
-                                                                <td><a href="#" class="btn obrien-button-2 primary-color rounded-0"><i class="fa fa-cloud-download mr-2"></i>Download File</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>HasTech - Profolio Business Template</td>
-                                                                <td>Sep 12, 2018</td>
-                                                                <td>Never</td>
-                                                                <td><a href="#" class="btn obrien-button-2 primary-color rounded-0"><i class="fa fa-cloud-download mr-2"></i>Download File</a></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
+                                     
                                         <!-- Single Tab Content End -->
 
                                         <!-- Single Tab Content Start -->
-                                        <div class="tab-pane fade" id="payment-method" role="tabpanel">
-                                            <div class="myaccount-content">
-                                                <h3>Payment Method</h3>
-                                                <p class="saved-message">You Can't Saved Your Payment Method yet.</p>
-                                            </div>
-                                        </div>
+                                        
                                         <!-- Single Tab Content End -->
 
                                         <!-- Single Tab Content Start -->
-                                        <div class="tab-pane fade" id="address-edit" role="tabpanel">
-                                            <div class="myaccount-content">
-                                                <h3>Billing Address</h3>
-                                                <address>
-                                                    <p><strong>Alex Aya</strong></p>
-                                                    <p>1355 Market St, Suite 900 <br>
-                                                    San Francisco, CA 94103</p>
-                                                    <p>Mobile: (123) 456-7890</p>
-                                                </address>
-                                                <a href="#" class="btn obrien-button-2 primary-color rounded-0"><i class="fa fa-edit mr-2"></i>Edit Address</a>
-                                            </div>
-                                        </div>
+                                        
+                                      <div class="tab-pane fade" id="address-edit" role="tabpanel">
+    <div class="myaccount-content">
+        <h3>Billing Address</h3>
+        {{#each addresses}}
+        <address>
+            <p><strong>{{this.firstName}}</strong></p>
+            <p>{{this.city}}, {{this.state}} {{this.postcode}}</p>
+            <p>Mobile: {{this.phone}}</p>
+        </address>
+         <a href="#" class="btn obrien-button-2 primary-color rounded-0"><i class="fa fa-edit mr-2"></i>Edit Address</a>
+         <i class="fa-solid fa-trash ms-5"></i>
+         <hr>
+        {{/each}}
+       
+    </div>
+</div>
+
+
                                         <!-- Single Tab Content End -->
 
                                         <!-- Single Tab Content Start -->
@@ -814,52 +583,74 @@
                                             <div class="myaccount-content">
                                                 <h3>Account Details</h3>
                                                 <div class="account-details-form">
-                                                    <form action="#">
+                                                   <form action="/AddAddressform" method="post">
                                                         <div class="row">
                                                             <div class="col-lg-6 col-custom">
                                                                 <div class="single-input-item mb-3">
-                                                                    <label for="first-name" class="required mb-1">First Name</label>
-                                                                    <input type="text" id="first-name" placeholder="First Name" />
+                                                                     <label>Country <span class="required">*</span></label>
+                                            <select class="myniceselect nice-select wide rounded-0" name="country">
+                                                <option data-display="India">India</option>    
+                                            </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6 col-custom">
                                                                 <div class="single-input-item mb-3">
-                                                                    <label for="last-name" class="required mb-1">Last Name</label>
-                                                                    <input type="text" id="last-name" placeholder="Last Name" />
+                                                                      <label>First Name <span class="required">*</span></label>
+                                            <input placeholder="" type="text" name="firstname">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="single-input-item mb-3">
-                                                            <label for="display-name" class="required mb-1">Display Name</label>
-                                                            <input type="text" id="display-name" placeholder="Display Name" />
+                                                              <label>Last Name <span class="required">*</span></label>
+                                            <input placeholder="" type="text" name="lastname">
                                                         </div>
                                                         <div class="single-input-item mb-3">
-                                                            <label for="email" class="required mb-1">Email Addres</label>
-                                                            <input type="email" id="email" placeholder="Email Address" />
+                                                            <label>Address <span class="required">*</span></label>
+                                            <input placeholder="Street address" type="text" name="mainaddress">
                                                         </div>
-                                                        <fieldset>
-                                                            <legend>Password change</legend>
+                                                      
                                                             <div class="single-input-item mb-3">
-                                                                <label for="current-pwd" class="required mb-1">Current Password</label>
-                                                                <input type="password" id="current-pwd" placeholder="Current Password" />
+                                                                  <label>City <span class="required">*</span></label>
+                                            <select class="myniceselect nice-select wide rounded-0" name="city">
+                                                <option data-display="Kozhikode">Kozhikode</option>    
+                                            </select>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-custom">
                                                                     <div class="single-input-item mb-3">
-                                                                        <label for="new-pwd" class="required mb-1">New Password</label>
-                                                                        <input type="password" id="new-pwd" placeholder="New Password" />
+                                                                       <label>State <span class="required">*</span></label>
+                                            <select class="myniceselect nice-select wide rounded-0" name="state">
+                                                <option data-display="Kerala">Kerala</option>    
+                                            </select>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-custom">
                                                                     <div class="single-input-item mb-3">
-                                                                        <label for="confirm-pwd" class="required mb-1">Confirm Password</label>
-                                                                        <input type="password" id="confirm-pwd" placeholder="Confirm Password" />
+                                                                          <label>Postcode / Zip <span class="required">*</span></label>
+                                            <input placeholder="" type="text" name="post">
                                                                     </div>
                                                                 </div>
+                                                                
                                                             </div>
-                                                        </fieldset>
+                                                                   <div class="row">
+                                                                <div class="col-lg-6 col-custom">
+                                                                    <div class="single-input-item mb-3">
+                                               <label>Email Address <span class="required">*</span></label>
+                                            <input placeholder="" type="email" name="email"> 
+                                            </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-custom">
+                                                                    <div class="single-input-item mb-3">
+                                                                        <label>Phone <span class="required">*</span></label>
+                                            <input type="text" name="phone">
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                      
                                                         <div class="single-input-item single-item-button">
-                                                            <button class="btn obrien-button primary-btn">Save Changes</button>
+                                                            <button class="btn obrien-button primary-btn" type="submit">Save </button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -867,6 +658,7 @@
                                         </div> <!-- Single Tab Content End -->
                                     </div>
                                 </div> <!-- My Account Tab Content End -->
+                           
                                
                             </div>
                         </div> <!-- My Account Page End -->
@@ -875,8 +667,12 @@
                 </div>
             </div>
         </div>
+        {{else}}
+        <p class="text-center">Please Login to view your Account details <br>
+        <span class="text-warning"><a href="/Userlogin">Click here to login</a></span></p>
+            
+                                {{/if}}
         <!-- my account wrapper end -->
-        <!-- Support Area Start Here -->
         <div class="support-area">
             <div class="container container-default custom-area">
                 <div class="row">
@@ -884,10 +680,10 @@
                         <div class="support-wrapper d-flex">
                             <div class="support-content">
                                 <h1 class="title">Need Help ?</h1>
-                                <p class="desc-content">Call our support 24/7 at 01234-567-890</p>
+                                <p class="desc-content">Call our support 24/7 at 7034936080</p>
                             </div>
                             <div class="support-button d-flex align-items-center">
-                                <a class="obrien-button primary-btn" href="contact-us.html">Contact now</a>
+                                <a class="obrien-button primary-btn" href="/Contact">Contact now</a>
                             </div>
                         </div>
                     </div>
@@ -896,58 +692,29 @@
         </div>
         <!-- Support Area End Here -->
         <!-- Footer Area Start Here -->
-        <footer class="footer-area">
+         <footer class="footer-area">
             <div class="footer-widget-area">
                 <div class="container container-default custom-area">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-custom">
                             <div class="single-footer-widget m-0">
                                 <div class="footer-logo">
-                                    <a href="index.html">
-                                        <img src="/user-assets/images/logo/footer.png" alt="Logo Image">
+                                    <a href="/">
+                                        <img src="user-assets/images/logo/footer.png" alt="Logo Image">
                                     </a>
                                 </div>
-                                <p class="desc-content">Obrien is the best parts shop of your daily nutritions. What kind of nutrition do you need you can get here soluta nobis</p>
-                                <div class="social-links">
-                                    <ul class="d-flex">
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Facebook">
-                                                <i class="fa fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Twitter">
-                                                <i class="fa fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Linkedin">
-                                                <i class="fa fa-linkedin"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Youtube">
-                                                <i class="fa fa-youtube"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Vimeo">
-                                                <i class="fa fa-vimeo"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <p class="desc-content">Fruitbasket is the best parts shop of your daily nutritions. What kind of nutrition do you need you can get here</p>
+                               
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-custom">
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">Information</h2>
                                 <ul class="widget-list">
-                                    <li><a href="about-us.html">Our Company</a></li>
-                                    <li><a href="contact-us.html">Contact Us</a></li>
-                                    <li><a href="about-us.html">Our Services</a></li>
-                                    <li><a href="about-us.html">Why We?</a></li>
-                                    <li><a href="about-us.html">Careers</a></li>
+                                    <li><a href="/About">Our Company</a></li>
+                                    <li><a href="/Contact">Contact Us</a></li>
+                                    <li><a href="/About">Our Services</a></li>
+                                 
                                 </ul>
                             </div>
                         </div>
@@ -955,51 +722,44 @@
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">Quicklink</h2>
                                 <ul class="widget-list">
-                                    <li><a href="about-us.html">About</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="contact-us.html">Contact</a></li>
+                                    <li><a href="/About">About</a></li>
+                                    
+                                    <li><a href="/shop">Shop</a></li>
+                                    <li><a href="/cart">Cart</a></li>
+                                    <li><a href="/Contact">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-custom">
-                            <div class="single-footer-widget">
-                                <h2 class="widget-title">Support</h2>
-                                <ul class="widget-list">
-                                    <li><a href="contact-us.html">Online Support</a></li>
-                                    <li><a href="contact-us.html">Shipping Policy</a></li>
-                                    <li><a href="contact-us.html">Return Policy</a></li>
-                                    <li><a href="contact-us.html">Privacy Policy</a></li>
-                                    <li><a href="contact-us.html">Terms of Service</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                     
                         <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-custom">
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">See Information</h2>
                                 <div class="widget-body">
-                                    <address>123, H2, Road #21, Main City, Your address goes here.<br>Phone: 01254 698 785, 36598 254 987<br>Email: https://example.com</address>
+                                    <address>3rd Floor Hilite business park , calicut<br>Phone:+91 7034906080<br>Email: https://fruitbasketmails@gmail.com</address>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="footer-copyright-area">
-                <div class="container custom-area">
-                    <div class="row">
-                        <div class="col-12 text-center col-custom">
-                            <div class="copyright-content">
-                                <p>Copyright © 2020 <a href="https://hasthemes.com/" title="https://hasthemes.com/">HasThemes</a> | Built with&nbsp;<strong>Obrien</strong>&nbsp;by <a href="https://hasthemes.com/" title="https://hasthemes.com/">HasThemes</a>.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </footer>
         <!-- Footer Area End Here -->
     </div>
+
+{{#if successMessage}}
+    <script>
+        Toastify({
+            text: "{{ successMessage }}",
+            duration: 3000, // Display duration in milliseconds
+            gravity: "top", // Display position
+            position: "center", // Display position
+            backgroundColor: "#32CD32", // Success color
+            stopOnFocus: true // Stop timer on focus
+        }).showToast();
+    </script>
+{{/if}}
+
 
     <!-- JS
 ============================================ -->
@@ -1034,6 +794,9 @@
 <!-- Mirrored from template.hasthemes.com/obrien/obrien/my-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 05:40:19 GMT -->
 </html>
 <script>
+
+ 
+
   function confirmLogout() {
         Swal.fire({
             title: 'Are you sure?',
@@ -1065,10 +828,7 @@ fetch(`/getOrderDetails?orderId=${orderId}`)
     .then(data => {
         const modalBody = document.getElementById('orderDetailsModalBody');
 
-        // Clear previous content in modal body
         modalBody.innerHTML = '';
-
-        // Create elements to display order details
         const orderIdElement = document.createElement('p');
         orderIdElement.textContent = `Order ID: ${data.orderId}`;
         modalBody.appendChild(orderIdElement);
@@ -1087,6 +847,18 @@ fetch(`/getOrderDetails?orderId=${orderId}`)
           const totalPriceElement = document.createElement('h6');
         totalPriceElement.textContent = `Total Price: ${data.totalAmountUserPaid}`;
          modalBody.appendChild(totalPriceElement);
+
+     const cancelOrderLink = document.getElementById('cancelOrderLink');
+    if (data.usercancelledorder || data.status == 'Delivered') {
+        cancelOrderLink.style.display = 'none';
+    } else {
+        cancelOrderLink.style.display = 'block';
+    }
+
+  
+    
+
+    
     })
     .catch(error => {
         console.error('Error:', error);
@@ -1094,6 +866,8 @@ fetch(`/getOrderDetails?orderId=${orderId}`)
         const modalBody = document.getElementById('orderDetailsModalBody');
         modalBody.innerHTML = '<p>Error fetching order details.</p>';
     });
+
+  
     }
 
 function closeModal() {
@@ -1108,6 +882,7 @@ function closeModal() {
 
 
 
+ 
 
 
 

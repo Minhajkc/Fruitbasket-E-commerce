@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Obrien - Organic Food HTML5 Template</title>
+    <title>Shop</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="/user-assets/css/style.css">
     <!-- <link rel="stylesheet" href="/user-assets/css/style.min.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 
@@ -83,7 +84,7 @@
                                                     <div >
                                                         <ul class="dropdown-submenu dropdown-hover ps-3">
                                                             <li><a href="/Cart">Cart Page</a></li>
-                                                            <li><a href="checkout.html">Checkout Page</a></li>
+                                                           
                                                             <li><a href="/Wishlist">Wishlist Page</a></li>
                                                         </ul>
                                                     </div>
@@ -92,14 +93,17 @@
                                            
                                             <li>
                                                 <a href="#">
-                                                    <span class="menu-text"> Pages</span>
+                                                    <span class="menu-text"> Settings</span>
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
                                                 <ul class="dropdown-submenu dropdown-hover">
                                                     
+                                                    
                                                     <li><a href="/MyAccount">My Account</a></li>
+                                                    {{#unless token}}
                                                     <li><a href="/userlogin">Login</a></li>
                                                     <li><a href="/userregister">Register</a></li>
+                                                    {{/unless}}
                                                 </ul>
                                             </li>
                                             <li>
@@ -119,8 +123,13 @@
                                     <div class="header-right-area main-nav">
                                         <ul class="nav">
                                             <li class="login-register-wrap d-none d-xl-flex">
+                                                <span style="color: rgb(0, 0, 0); font-size:20px">
+     <a href="/MyAccount">  <i class="fas fa-user-circle" style="cursor: pointer;"></i></a>
+    </span><span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span>
+       {{#unless token}}
                                                 <span><a href="/userlogin">Login</a></span>
                                                 <span><a href="/userregister">Register</a></span>
+                                                {{/unless}}
                                             </li>
                                             
                                           
@@ -132,6 +141,8 @@
                                         </ul>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -163,14 +174,16 @@
                                            
                                             <li>
                                                 <a href="#">
-                                                    <span class="menu-text"> Pages</span>
+                                                    <span class="menu-text"> Settings</span>
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
                                                 <ul class="dropdown-submenu dropdown-hover">
                                                 
                                                     <li><a href="/MyAccount">My Account</a></li>
+                                                       {{#unless token}}
                                                     <li><a href="/userlogin">Login</a></li>
                                                     <li><a href="/Userregister">Register</a></li>
+                                                    {{/unless}}
                                                 </ul>
                                             </li>
                                             <li>
@@ -190,8 +203,13 @@
                                     <div class="header-right-area main-nav">
                                         <ul class="nav">
                                             <li class="login-register-wrap d-none d-xl-flex">
+                                                                                             <span style="color: rgb(0, 0, 0); font-size:20px">
+     <a href="/MyAccount">  <i class="fas fa-user-circle" style="cursor: pointer;"></i></a>
+    </span><span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span>
+                {{#unless token}}
                                                 <span><a href="/userlogin">Login</a></span>
                                                 <span><a href="/userregister">Register</a></span>
+                                                {{/unless}}
                                             </li>
                                            
                                             <li class="mobile-menu-btn d-lg-none">
@@ -231,13 +249,8 @@
                             <!-- mobile menu navigation start -->
                             <nav>
                                 <ul class="mobile-menu">
-                                    <li class="menu-item-has-children"><a href="#">Home</a>
-                                        <ul class="dropdown">
-                                            <li><a href="index.html">Home Page 1</a></li>
-                                            <li><a href="index-2.html">Home Page 2</a></li>
-                                            <li><a href="index-3.html">Home Page 3</a></li>
-                                            <li><a href="index-4.html">Home Page 4</a></li>
-                                        </ul>
+                                    <li class="menu-item-has-children"><a href="/">Home</a>
+                                      
                                     </li>
                                     <li class="menu-item-has-children"><a href="#">Shop</a>
                                         <ul class="megamenu dropdown">
@@ -359,7 +372,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
                         <div class="breadcrumb-content position-relative section-content">
-                            <h3 class="title-3">Shop Sidebar</h3>
+                            <h3 class="title-3">Shop</h3>
                             <ul>
                                 <li><a href="/">Home</a></li>
                                 <li>Shop</li>
@@ -582,10 +595,10 @@
                         <div class="support-wrapper d-flex">
                             <div class="support-content">
                                 <h1 class="title">Need Help ?</h1>
-                                <p class="desc-content">Call our support 24/7 at 01234-567-890</p>
+                                <p class="desc-content">Call our support 24/7 at 7034936080</p>
                             </div>
                             <div class="support-button d-flex align-items-center">
-                                <a class="obrien-button primary-btn" href="contact-us.html">Contact now</a>
+                                <a class="obrien-button primary-btn" href="/Contact">Contact now</a>
                             </div>
                         </div>
                     </div>
@@ -594,58 +607,29 @@
         </div>
         <!-- Support Area End Here -->
         <!-- Footer Area Start Here -->
-        <footer class="footer-area">
+         <footer class="footer-area">
             <div class="footer-widget-area">
                 <div class="container container-default custom-area">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-custom">
                             <div class="single-footer-widget m-0">
                                 <div class="footer-logo">
-                                    <a href="index.html">
-                                        <img src="/user-assets/images/logo/footer.png" alt="Logo Image">
+                                    <a href="/">
+                                        <img src="user-assets/images/logo/footer.png" alt="Logo Image">
                                     </a>
                                 </div>
-                                <p class="desc-content">Obrien is the best parts shop of your daily nutritions. What kind of nutrition do you need you can get here soluta nobis</p>
-                                <div class="social-links">
-                                    <ul class="d-flex">
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Facebook">
-                                                <i class="fa fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Twitter">
-                                                <i class="fa fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Linkedin">
-                                                <i class="fa fa-linkedin"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Youtube">
-                                                <i class="fa fa-youtube"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="border rounded-circle" href="#" title="Vimeo">
-                                                <i class="fa fa-vimeo"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <p class="desc-content">Fruitbasket is the best parts shop of your daily nutritions. What kind of nutrition do you need you can get here</p>
+                               
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-custom">
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">Information</h2>
                                 <ul class="widget-list">
-                                    <li><a href="about-us.html">Our Company</a></li>
-                                    <li><a href="contact-us.html">Contact Us</a></li>
-                                    <li><a href="about-us.html">Our Services</a></li>
-                                    <li><a href="about-us.html">Why We?</a></li>
-                                    <li><a href="about-us.html">Careers</a></li>
+                                    <li><a href="/About">Our Company</a></li>
+                                    <li><a href="/Contact">Contact Us</a></li>
+                                    <li><a href="/About">Our Services</a></li>
+                                 
                                 </ul>
                             </div>
                         </div>
@@ -653,119 +637,32 @@
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">Quicklink</h2>
                                 <ul class="widget-list">
-                                    <li><a href="about-us.html">About</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="contact-us.html">Contact</a></li>
+                                    <li><a href="/About">About</a></li>
+                                    
+                                    <li><a href="/shop">Shop</a></li>
+                                    <li><a href="/cart">Cart</a></li>
+                                    <li><a href="/Contact">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-custom">
-                            <div class="single-footer-widget">
-                                <h2 class="widget-title">Support</h2>
-                                <ul class="widget-list">
-                                    <li><a href="contact-us.html">Online Support</a></li>
-                                    <li><a href="contact-us.html">Shipping Policy</a></li>
-                                    <li><a href="contact-us.html">Return Policy</a></li>
-                                    <li><a href="contact-us.html">Privacy Policy</a></li>
-                                    <li><a href="contact-us.html">Terms of Service</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                     
                         <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-custom">
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">See Information</h2>
                                 <div class="widget-body">
-                                    <address>123, H2, Road #21, Main City, Your address goes here.<br>Phone: 01254 698 785, 36598 254 987<br>Email: https://example.com</address>
+                                    <address>3rd Floor Hilite business park , calicut<br>Phone:+91 7034906080<br>Email: https://fruitbasketmails@gmail.com</address>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="footer-copyright-area">
-                <div class="container custom-area">
-                    <div class="row">
-                        <div class="col-12 text-center col-custom">
-                            <div class="copyright-content">
-                                <p>Copyright © 2020 <a href="https://hasthemes.com/" title="https://hasthemes.com/">HasThemes</a> | Built with&nbsp;<strong>Obrien</strong>&nbsp;by <a href="https://hasthemes.com/" title="https://hasthemes.com/">HasThemes</a>.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </footer>
         <!-- Footer Area End Here -->
     </div>
 
-    <!-- Modal Area Start Here -->
-    <div class="modal fade obrien-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="close close-button" data-bs-dismiss="modal" aria-label="Close">
-                    <span class="close-icon" aria-hidden="true">x</span>
-                </button>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 text-center">
-                                <div class="product-image">
-                                    <img src="/user-assets/images/product/1.jpg" alt="Product Image">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="modal-product">
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title">Product dummy name</h4>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <span>1 Review</span>
-                                        </div>
-                                        <p class="desc-content">we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame bel...</p>
-                                        <form class="d-flex flex-column w-100" action="#">
-                                            <div class="form-group">
-                                                <select class="form-control nice-select w-100">
-                                                    <option>S</option>
-                                                    <option>M</option>
-                                                    <option>L</option>
-                                                    <option>XL</option>
-                                                    <option>XXL</option>
-                                                </select>
-                                            </div>
-                                        </form>
-                                        <div class="quantity-with_btn">
-                                            <div class="quantity">
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="0" type="text">
-                                                    <div class="dec qtybutton">-</div>
-                                                    <div class="inc qtybutton">+</div>
-                                                </div>
-                                            </div>
-                                            <div class="add-to_cart">
-                                                <a class="btn obrien-button primary-btn" href="cart.html">Add to cart</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+   
   
 
     <!-- Modal Area End Here -->

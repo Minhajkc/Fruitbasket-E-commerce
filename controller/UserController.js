@@ -39,6 +39,7 @@ const secretKey = 'yourSecretKey';
 const User = require('../models/UserModel');
 const Products = require('../models/ProductModel');
 const products = require('../models/ProductModel');
+const Admindb = require('../models/AdminModel');
 
 
 
@@ -50,7 +51,7 @@ const GetHomePage = async (req, res) => {
         const token = req.cookies.token;
         const filteredProducts = await Products.find().limit(8).exec();
     
-
+        res.setHeader('Cache-Control', 'no-store');
 
         if (!token) {
             return res.render('users/index',{products: filteredProducts} ); 
@@ -82,11 +83,14 @@ const GetHomePage = async (req, res) => {
 
 
   const GetAboutPage = (req,res)=>{
-    return res.render('users/about-us');
+    const token = req.cookies.token;
+    
+    return res.render('users/about-us',{token});
   }
 
   const GetContactPage = (req,res)=>{
-    return res.render('users/contact-us');
+    const token = req.cookies.token;
+    return res.render('users/contact-us',{token});
   }
 
   
@@ -103,7 +107,6 @@ const GetHomePage = async (req, res) => {
                 console.error('Invalid token:', err);
                 return res.status(401).render('users/my-account');
             }
-
             const user = await User.findById(decoded.id);
 
             if (!user) {
@@ -111,15 +114,15 @@ const GetHomePage = async (req, res) => {
                 return res.status(404).render('users/my-account');
             }
 
-            if (user.orders) {
-                const ordersWithNumbers = user.orders.sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .map((order, index) => ({
-                        ...order,
-                        orderNumber: index + 1
-                    }));
+            const filteredOrders = user.orders
+    .filter(order => order.status !== 'Pending')
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                return res.render('users/my-account', { user, ordersWithNumbers });
-            }
+
+
+            return res.render('users/my-account', { user, orders: filteredOrders,addresses:user.address });
+             
+         
 
         });
     } catch (error) {
@@ -131,7 +134,21 @@ const GetHomePage = async (req, res) => {
 
 
 
+
   const GetLoginPage = (req, res) => {
+    const token = req.cookies.token;
+    if (req.cookies.token) {
+        return res.redirect('/home'); 
+    } else {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); 
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0'); 
+        return res.render('users/login',{token});
+    }
+};
+
+const GetUserLoginPage = (req, res) => {
+  
     if (req.cookies.token) {
         return res.redirect('/home'); 
     } else {
@@ -140,7 +157,7 @@ const GetHomePage = async (req, res) => {
         res.setHeader('Expires', '0'); 
         return res.render('users/login');
     }
-};
+}
 
 
 
@@ -161,6 +178,7 @@ const GetHomePage = async (req, res) => {
   };
 
   const GetProductDetailsPage = async (req, res) => {
+    const token = req.cookies.token;
     const productId = req.params.ProductId; // Assuming productId is passed in the URL
     const filteredProducts = await Products.find().limit(8).exec();
     try {
@@ -168,7 +186,7 @@ const GetHomePage = async (req, res) => {
         if (!product) {
             return res.status(404).send('Product not found');
         }
-        return res.render('users/product-details', { product ,filteredProducts});
+        return res.render('users/product-details', { product ,filteredProducts,token});
     } catch (error) {
         console.error('Error fetching product details:', error);
         return res.status(500).send('Internal Server Error');
@@ -240,20 +258,20 @@ const OTPVerify = async (req, res) => {
         try {
         
             const hashedPassword = await bcrypt.hash(password, 10); 
-
+         
             const newUser = new User({
                 userId: uuid.v4(),
                 name,
                 phone,
                 email,
-                password: hashedPassword 
+                password: hashedPassword,
+                
             });
 
             await newUser.save();
-
-            const token = jwt.sign({ email: email }, secretKey, { expiresIn: '1h' });
-            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // Max age: 1 hour
-            res.render('users/login',{messagelogin:'Now login with your e-mail & password'});
+            res.cookie('registerMessage', 'Now login with your email', { maxAge: 60000 });
+            res.redirect('/UserLoginPage')
+          
         } catch (error) {
             console.error('Error saving user:', error);
             res.status(500).json({ success: false, message: 'Error registering user' });
@@ -282,6 +300,7 @@ const Userlogin = async (req, res) => {
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (passwordMatch) {
+
             const token = jwt.sign({ id: user._id, email: user.email }, 'your_secret_key', { expiresIn: '1h' });
             res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
             res.cookie('userId', user._id.toString(), { maxAge: 3600000 }); // Pass user ID in the cookie
@@ -365,10 +384,11 @@ const logoutUser = (req, res) => {
 let globalFilteredProducts = [];
 
 const GetShopPage = async (req, res) => {
+    const token = req.cookies.token;
     try {
         const filteredProducts = await Products.find().exec();
         globalFilteredProducts = filteredProducts
-        return res.render('users/shop', { products: filteredProducts });
+        return res.render('users/shop', { products: filteredProducts , token });
     } catch (err) {
         console.error('Error fetching products:', err);
         res.status(500).send('Internal Server Error');
@@ -487,7 +507,7 @@ const GetCartPage = async (req, res) => {
 
         await user.save();
 
-        res.render('users/cart', { bookings: user.bookings, subtotal: user.subtotal, grandtotal: user.grandtotal });
+        res.render('users/cart', { bookings: user.bookings, subtotal: user.subtotal, grandtotal: user.grandtotal, userId });
     } catch (error) {
         console.error('Error fetching cart products:', error);
         res.status(500).send('Internal Server Error');
@@ -511,7 +531,7 @@ const GetWishListPage = async (req, res) => {
             return res.redirect('/UserLogin');
         }
 
-        res.render('users/wishlist', { wishlistItems: user.wishlist });
+        res.render('users/wishlist', { wishlistItems: user.wishlist,userId });
     } catch (error) {
         console.error('Error fetching wishlist items:', error);
         res.status(500).send('Internal Server Error');
@@ -628,7 +648,7 @@ const AddToCartFromWishlist = async (req, res) => {
         }
 
         // Redirect to the shop page with a success message
-        res.redirect('/Shop?success=addedToCart');
+        res.redirect('/Cart?success=addedToCart');
     } catch (error) {
         // Handle errors
         console.error('Error adding product to cart:', error);
@@ -686,7 +706,6 @@ const DeleteFromcart = async (req,res)=>{
 
 const updateQuantity = async (req, res) => {
     try {
-       
         const { productId, newQuantity } = req.body;
         const userId = req.cookies.userId; // Assuming you have the user's ID in the request
 
@@ -694,20 +713,25 @@ const updateQuantity = async (req, res) => {
 
         const booking = user.bookings.find(booking => booking.product.toString() === productId);
 
-        
-        if (booking) {
-            booking.quantity = newQuantity;
-        } else {
+        if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });
         }
-        
-        // Save the updated user document
+
+        // Assuming you have a Product model for products
+        const product = await products.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        if (newQuantity > product.stock) {
+            return res.status(400).json({ message: 'Quantity exceeds available stock' });
+        }
+        booking.quantity = newQuantity;
+
         await user.save();
-    
-        
-        
-        // Response after redirect may not be necessary as the redirect will take the user to a new page.
-         res.status(200).json({ message: 'Quantity updated successfully',newQuantity });
+
+        return res.status(200).json({ message: 'Quantity updated successfully', newQuantity });
     } catch (error) {
         // Handle errors
         console.error('Error updating quantity:', error);
@@ -788,6 +812,46 @@ const AddressForm = async (req, res) => {
     }
 };
 
+const AddAddress = async (req,res) => {
+    const userId = req.cookies.userId;
+
+    try {
+        // Fetch the user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const { firstname, lastname, mainaddress, country, city, state, post, email, phone } = req.body;
+
+        user.address.push({
+            firstName: firstname,
+            lastName: lastname,
+            address: mainaddress,
+            country: country,
+            city: city,
+            state: state,
+            postcode: post,
+            email: email,
+            phone: phone
+        });
+
+        // Save the updated user object
+        await user.save();
+
+        // Redirect or respond with a success message
+        const successMessage = 'Address added successfully';
+
+        // Redirect or respond with a success message
+        res.render('users/my-account', { successMessage });
+        
+    } catch (error) {
+        // Handle errors
+        console.error('Error adding address:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 
 
 
@@ -839,6 +903,7 @@ const DeleteOrderUser = async (req, res) => {
 
         // Update the order status to 'Cancelled'
         orderToUpdate.status = 'Cancelled';
+        orderToUpdate.usercancelledorder = true
 
         // Save the updated user object
         await user.save();
@@ -927,11 +992,10 @@ const OrderSubmit = async (req, res) => {
                 date: formattedDate,
                 time: currentDate,
                 orderId: uuid.v4(),
-                status:'Pending',
+                status:'Confirmed',
                 paymentmethod:'COD'
             }];
 
-            // Update the orders array in the User collection
             const updatedUser = await User.findByIdAndUpdate(
                 userId,
                 { $push: { orders: { $each: orders } } }, // Add new orders to the existing orders array
@@ -942,11 +1006,11 @@ const OrderSubmit = async (req, res) => {
                 return res.status(404).send('User not found');
             }
 
-            // Clear the user's bookings after placing the order
             updatedUser.bookings = [];
             await updatedUser.save();
-
             return res.redirect('/home?success=orderedplacedsuccessfully');
+
+          
       
     } catch (error) {
         // Handle errors
@@ -962,25 +1026,123 @@ const razorpayWebhookget = (req,res) => {
     res.status(405).send('Method Not Allowed');
 }
 
-const createRazorpayOrders = (req,res) => {
-    const { amount } = req.body;
+const createRazorpayOrders = (req, res) => {
+    const userId = req.cookies.userId;
+    if (!userId) {
+        return res.status(400).json({ success: false, error: 'User ID not found' });
+    }
 
-    const options = {
-        amount: amount,
-        currency: 'INR',
-        receipt: 'order_rcptid_11'
-    };
+    User.findById(userId)
+        .then(async (user) => {
+            if (!user) {
+                return res.status(404).json({ success: false, error: 'User not found' });
+            }
 
-    razorpayinstance.orders.create(options, (err, order) => {
-        if (err) {
-            console.error('Error creating Razorpay order:', err);
-            res.status(500).json({ success: false, error: 'Error creating Razorpay order' });
-        } else {
-            res.status(200).json({ success: true, order_id: order.id, amount: order.amount });
-         
+            const grandtotal = user.grandtotal;
+
+            const currentDate = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true // Use 12-hour format with AM/PM
+            };
+            const formattedDate = currentDate.toLocaleString('en-US', options);
+    
+
+            const orders = [{
+                items: user.bookings.map(item => ({
+                    productName: item.productName,
+                    quantity: item.quantity,
+                })),
+                totalAmountUserPaid: grandtotal,
+                date: formattedDate,
+                time: currentDate,
+                orderId: uuid.v4(),
+                status: 'Pending',
+                paymentmethod: 'Prepaid'
+            }];
+
+            const updatedUser = await User.findByIdAndUpdate(
+                userId,
+                { $push: { orders: { $each: orders } } }, // Add new orders to the existing orders array
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).send('User not found');
+            }
+            updatedUser.bookings = [];
+            await updatedUser.save();
+
+            const responseData = {
+                success: true,
+                amount:grandtotal,
+            };
+
+            res.status(200).json(responseData);
+        })
+        .catch((error) => {
+            console.error('Error processing order:', error);
+            res.status(500).json({ success: false, error: 'Internal Server Error' });
+        });
+};
+
+
+const ApplyCoupon = async (req, res) => {
+    const { couponCode } = req.body;
+    const userId = req.cookies.userId;
+
+    try {
+        // Check if userId cookie is present
+        if (!userId) {
+            return res.render('users/cart'); // Redirect or render a page as needed
         }
-    });
-}
+
+        const user = await User.findById(userId);
+
+        // Check if the user exists
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        if (user.subtotal <= 99) {
+            return res.status(400).json({ success: false, message: 'Subtotal must be greater than 60 to apply the coupon' });
+        }
+
+        const coupon = await Admindb.findOne({ coupons: { $elemMatch: { code: couponCode } } });
+
+        if (!coupon) {
+            console.log('Coupon not found');
+            return res.status(404).json({ success: false, message: 'Coupon not found' });
+        }
+
+        let discountAmount = 0;
+        if (coupon && coupon.coupons && coupon.coupons.length > 0) {
+            const firstCoupon = coupon.coupons[0]; 
+            if (firstCoupon.discountType === 'percentage') {
+                discountAmount = (firstCoupon.discountValue / 100) * user.grandtotal.toFixed(0);
+            } else if (firstCoupon.discountType === 'cash') {
+                discountAmount = firstCoupon.discountValue;
+            }
+        }
+        user.grandtotal -= discountAmount;
+
+        await user.save();
+
+        console.log('User grandtotal updated:', user.grandtotal);
+
+        return res.status(200).json({ success: true, grandTotal: user.grandtotal.toFixed(0), dis: discountAmount.toFixed(0)});
+    } catch (err) {
+        console.error('Error applying coupon:', err);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+
+
 
 
 
@@ -988,6 +1150,7 @@ const createRazorpayOrders = (req,res) => {
 module.exports = {
     GetHomePage,
     GetLoginPage,
+    GetUserLoginPage,
     GetRegisterPage,
     GetAboutPage,
     GetContactPage,
@@ -1014,12 +1177,14 @@ module.exports = {
     GetProductDetailsPage,
     GetCheckOutPage,
     AddressForm,
+    AddAddress,
     OrderSubmit,
     OrderDetailsOfusers,
     DeleteOrderUser,
     RazorPayCallBack,
     razorpayWebhookget,
     createRazorpayOrders,
+    ApplyCoupon
 
    
 };

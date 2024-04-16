@@ -20,5 +20,9 @@ router.get('/Productorders',AdminControllerz.ProductsOrderPage)
 router.post('/orderstatus',AdminControllerz.orderstatus)
 router.get('/Productorderstable',AdminControllerz.ProductsOrderTablePage)
 router.post('/getOrderDetails',AdminControllerz.getOrderDetails)
+router.get('/user-data',AdminControllerz.UserData)
+router.get('/Coupons',AdminControllerz.addCoupons)
+router.post('/addCoupon',AdminControllerz.addCoupon)
+router.get('/deleteCoupon',AdminControllerz.deleteCoupon)
 
 module.exports = router;

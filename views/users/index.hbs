@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Obrien - Organic Food HTML5 Template</title>
+    <title>Fruitbasket</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,7 +38,28 @@
     <link rel="stylesheet" href="user-assets/css/style.css">
     <!-- <link rel="stylesheet" href="user-assets/css/style.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<style>
+     .swiper-container {
+        max-width: 100%;
+        overflow: hidden; /* Hide overflowing content */
+    }
+    .swiper-wrapper {
+        display: flex; /* Use flexbox layout */
+        transition: transform 0.5s ease; /* Smooth transition for sliding */
+    }
+    .swiper-slide {
+        flex-shrink: 0; /* Prevent items from shrinking */
+        width: calc(25% - 20px); /* Adjust slide width (4 items with 10px space between) */
+        margin-right: 10px; /* Space between slides */
+    }
+    .swiper-slide img {
+        max-width: 100%; /* Ensure images fit within slides */
+        height: auto;
+    }
+</style>
 
 
 </head>
@@ -52,17 +73,7 @@
             <!-- Header Top Area Start Here -->
             <div class="header-top-area">
                 <div class="container container-default-2 custom-area">
-                    <div class="row">
-                        <div class="col-12 col-custom header-top-wrapper text-center">
-                            <div class="short-desc text-white">
-                                <p>Get 35% off for new product </p>
-                            </div>
-                            <div class="header-top-button">
-                                <a href="/shop">Shop Now</a>
-                            </div>
-                            <span class="top-close-button">X</span>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
             <!-- Header Top Area End Here -->
@@ -99,7 +110,7 @@
                                                     <div >
                                                         <ul class="dropdown-submenu dropdown-hover ps-3">
                                                             <li><a href="/Cart">Cart Page</a></li>
-                                                            <li><a href="checkout.html">Checkout Page</a></li>
+                                                          
                                                             <li><a href="/Wishlist">Wishlist Page</a></li>
                                                         </ul>
                                                     </div>
@@ -108,14 +119,16 @@
                                            
                                             <li>
                                                 <a href="#">
-                                                    <span class="menu-text"> Pages</span>
+                                                    <span class="menu-text"> Settings</span>
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
                                                 <ul class="dropdown-submenu dropdown-hover">
                                                    
                                                     <li><a href="/MyAccount">My Account</a></li>
+                                                         {{#unless user}}
                                                     <li><a href="/UserLogin">Login</a></li>
                                                     <li><a href="/userregister">Register</a></li>
+                                                         {{/unless}}
                                                 </ul>
                                             </li>
                                             <li>
@@ -136,9 +149,9 @@
                                         <ul class="nav">
                                          <li class="login-register-wrap d-none d-xxl-flex">
                                             {{#if user}}
-    <span style="color: darkblue;">
+    <span style="color: rgb(0, 0, 0); font-size:20px">
        <i class="fas fa-user-circle" onclick="toggleUserMenu()" style="cursor: pointer;"></i>
-    </span><br>
+    </span> <span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span><br>
     <div id="userMenu" style="display: none; ">
         <span>{{user.name}}</span><br>
         <form id="logoutForm" action="/logoutuser" method="get">
@@ -206,7 +219,7 @@
                                                     <div >
                                                         <ul class="dropdown-submenu dropdown-hover ps-3">
                                                             <li><a href="/Cart">Cart Page</a></li>
-                                                            <li><a href="checkout.html">Checkout Page</a></li>
+                                                       
                                                             <li><a href="/Wishlist">Wishlist Page</a></li>
                                                         </ul>
                                                     </div>
@@ -215,14 +228,17 @@
                                             
                                             <li>
                                                 <a href="#">
-                                                    <span class="menu-text"> Pages</span>
+                                                    <span class="menu-text"> Settings</span>
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
                                                 <ul class="dropdown-submenu dropdown-hover">
-                                                   <li><a href="/About">FAQ</a></li>
+                                                  
                                                     <li><a href="/MyAccount">My Account</a></li>
+                                                     {{#unless user}}
+
                                                     <li><a href="/UserLogin">Login</a></li>
                                                     <li><a href="/userregister">Register</a></li>
+                                                    {{/unless}}
                                                 </ul>
                                             </li>
                                             <li>
@@ -242,15 +258,20 @@
                                     <div class="header-right-area main-nav">
                                         <ul class="nav">
                                             <li class="login-register-wrap d-none d-xl-flex">
-                                                  {{#if user}}
-                                               <span style="color: darkblue;">{{user.name}}</span><br>
-                                                  <form id="logoutForm" action="/logoutuser" method="get">
-                                                  <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;" class="text-danger">Logout</a>
-                                                  </form>
-                                                  {{else}}
-                                                   <span><a href="/Userlogin">Login</a></span>
-                                                  <span><a href="/userregister">Register</a></span>
-                                                {{/if}}
+                                                                                        {{#if user}}
+    <span style="color: rgb(0, 0, 0); font-size:20px">
+     <a href="/MyAccount">  <i class="fas fa-user-circle" style="cursor: pointer;"></i></a>
+    </span> <span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span><br>
+    <div id="userMenu" style="display: none; ">
+        <span>{{user.name}}</span><br>
+        <form id="logoutForm" action="/logoutuser" method="get">
+           <a href="#" id="logoutLink" class="text-danger">Logout</a>
+        </form>
+    </div>
+{{else}}
+    <span><a href="/Userlogin">Login</a></span>
+    <span><a href="/userregister">Register</a></span>
+{{/if}}
                                             </li>
                                             
                                           
@@ -292,22 +313,21 @@
                                     <li class="menu-item-has-children"><a href="/">Home</a>
                                         
                                     </li>
-                                    <li class="menu-item-has-children"><a href="#">Shop</a>
+                                    <li class="menu-item-has-children"><a href="/shop">Shop</a>
                                         <ul class="megamenu dropdown">
                                             
                                             <li class="mega-title has-children"><a href="#">Others</a>
                                                 <ul>
-                                                            <li><a href="error-404.html">Error 404</a></li>
-                                                            <li><a href="compare.html">Compare Page</a></li>
+                                                         
                                                             <li><a href="/Cart">Cart Page</a></li>
-                                                            <li><a href="checkout.html">Checkout Page</a></li>
+                                                            
                                                             <li><a href="/Wishlist">Wishlist Page</a></li>
                                                         </ul>
                                             </li>
                                         </ul>
                                     </li>
                                    
-                                    <li class="menu-item-has-children "><a href="#">Pages</a>
+                                    <li class="menu-item-has-children "><a href="#">Settings</a>
                                         <ul class="dropdown">
                                              <li><a href="frequently-questions.html">FAQ</a></li>
                                                     <li><a href="/MyAccount">My Account</a></li>
@@ -422,32 +442,73 @@
             </div>
         </div>
         <!-- Feature Area End Here -->
+        <h4 class="title-1 text-uppercase text-center mb-3">New Arrivals</h4>
+            <div class="desc-content text-center mb-5 ps-3 pe-3">
+                               <p>Our new arrivals of fruits promise unmatched quality and taste. Explore our selection today and savor the goodness of nature's bounty!</p>
+                            </div>
+             <div class="container ">
+        <div class="product-area ">
+            <div class="swiper-container ">
+                <div class="swiper-wrapper ">
+                    {{#if products}}
+                        {{#each products}}
+                            <div class="swiper-slide">
+                                <div class="single-product position-relative">
+                                    <div class="product-image">
+                                        <a class="d-block" href="/products-details/{{this.id}}">
+                                            <img src="{{this.productImage}}" alt="" class="product-image-1">
+                                        </a>
+                                    </div>
+                                    {{#if this.isDisabled}}
+                                    <div class="label-product">
+                                        <span class="label-sale position-absolute text-uppercase text-white text-center d-block">Soldout</span>
+                                    </div>
+                                    {{/if}}
+                                    <div class="product-content">
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="/products-details">{{this.name}}</a></h4>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price text-bold"><span>&#8377;</span>{{this.mrp}}/-</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                    </div>
+                                    {{#unless this.isDisabled}}
+                                    <div class="add-action d-flex position-absolute">
+                                        <a href="/addToCart/{{this._id}}" title="Add To cart">
+                                            <i class="ion-bag"></i>
+                                        </a>
+                                        <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
+                                            <i class="ion-ios-heart-outline"></i>
+                                        </a>
+                                    </div>
+                                    {{/unless}}
+                                </div>
+                            </div>
+                        {{/each}}
+                    {{/if}}
+                </div>
+               
+            </div>
+        </div>
+    </div>
         <!-- Product Area Start Here -->
         
         <!-- Product Area End Here -->
         <!-- Banner Fullwidth Area Start Here -->
-        <div class="banner-fullwidth-area">
-            <div class="container custom-wrapper">
-                <div class="row">
-                    <div class="col-md-5 col-lg-6 text-center col-custom">
-                        <div class="banner-thumb h-100 d-flex justify-content-center align-items-center">
-                            <img src="user-assets/images/banner/thumb/1.png" alt="Banner Thumb">
-                        </div>
-                    </div>
-                    <div class="col-md-7 col-lg-6 text-center justify-content-center col-custom">
-                        <div class="banner-flash-content d-flex flex-column align-items-center justify-content-center h-100">
-                            <h2 class="deal-head text-uppercase">Flash Deals</h2>
-                            <h3 class="deal-title text-uppercase">Hurry up and Get 25% Discount</h3>
-                            <a href="/shop" class="obrien-button primary-btn">Shop Now</a>
-                            <div class="countdown-wrapper d-flex justify-content-center" data-countdown="2022/12/24"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+   
+   
         <!-- Banner Fullwidth Area End Here -->
         <!-- Banner Area Start Here -->
-        <div class="banner-area">
+        <h4 class="title-1 text-uppercase text-center mt-5">Shop Now !</h4>
+        <div class="banner-area mt-3">
             <div class="container container-default custom-area">
                 <div class="row">
                     <div class="col-md-6 col-sm-12 col-custom">
@@ -588,8 +649,7 @@
                                     <li><a href="/About">Our Company</a></li>
                                     <li><a href="/Contact">Contact Us</a></li>
                                     <li><a href="/About">Our Services</a></li>
-                                    <li><a href="/About">Why We?</a></li>
-                                    <li><a href="/About">Careers</a></li>
+                                 
                                 </ul>
                             </div>
                         </div>
@@ -605,18 +665,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-custom">
-                            <div class="single-footer-widget">
-                                <h2 class="widget-title">Support</h2>
-                                <ul class="widget-list">
-                                    <li><a href="/Contact">Online Support</a></li>
-                                    <li><a href="/Contact">Shipping Policy</a></li>
-                                    <li><a href="/Contact">Return Policy</a></li>
-                                    <li><a href="/Contact">Privacy Policy</a></li>
-                                    <li><a href="/Contact">Terms of Service</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                     
                         <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-custom">
                             <div class="single-footer-widget">
                                 <h2 class="widget-title">See Information</h2>
@@ -682,13 +731,35 @@
 
     <!-- Main JS -->
     <script src="user-assets/js/main.js"></script>
-
+ <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
 
 
 
 <!-- Mirrored from template.hasthemes.com/obrien/obrien/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 05:40:05 GMT -->
 <script>
+     var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1, // Number of slides per view by default
+    spaceBetween: 10, // Space between slides
+    loop: true, // Enable looping
+    autoplay: {
+        delay: 2000, // Autoplay delay in milliseconds
+        disableOnInteraction: false, // Continue autoplay even when user interacts with slides
+    },
+    pagination: {
+        el: '.swiper-pagination', // Pagination element selector
+        clickable: true, // Allow pagination bullets to be clickable
+    },
+    breakpoints: {
+        576: {
+            slidesPerView: 4, // Number of slides per view at 576px width and above
+        },
+        // Add more breakpoints as needed
+    },
+});
+
+
+
       function toggleUserMenu() {
         var userMenu = document.getElementById("userMenu");
         if (userMenu.style.display === "none") {

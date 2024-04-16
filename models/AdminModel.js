@@ -2,14 +2,24 @@ const mongoose = require('mongoose');
 
 const Schema = new mongoose.Schema({
     email: {
-        required: true,
+       
         type: String
     },
     password: {
-        required: true,
+   
         type: String
-    }
-})
+    },
+    coupons: [
+        {
+            couponQuantity: Number,
+            format: String,
+            code: String,
+            expiryDate: String,
+            discountType: String,
+            discountValue: Number
+        }
+    ]
+});
 
 const Admindb = mongoose.model('admins', Schema);
 

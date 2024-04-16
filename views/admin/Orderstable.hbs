@@ -1321,7 +1321,7 @@
                 <th>Date</th>
                 <th>Amount Paid</th>
                 <th>Status</th>
-                <th>Product Name</th>
+                <th>method</th>
                 <th>Quantity</th>
                 <th>View</th>
                 
@@ -1337,7 +1337,7 @@
                 <td>{{this.time}}</td>
                 <td>{{this.totalAmountUserPaid}}</td>
                 <td>{{this.status}}</td>
-                <td>{{this.items.[0].productName}}</td>
+                <td>{{this.paymentmethod}}</td>
                 <td>{{this.items.[0].quantity}}</td>
                <td><button type="button" class="btn btn-primary" id="OrderListButton" 
     data-userid="{{../_id}}" data-orderid="{{this.orderId}}" onclick="openModal()">View</button>
@@ -1369,6 +1369,7 @@
                   <input type="hidden" name="orderIddb" value="{{this.orderId}}">
                  <select class="form-select" id="orderOptionsSelect" name="orderstatusvalue" > 
                  <option value="" disabled selected>Select</option>
+                 <option value="Confirmed">Confirm</option>
                  <option value="Shipped">Shipping</option>
                  <option value="Delivered">Delivered</option>
                  <option value="Cancelled">Cancelled</option>

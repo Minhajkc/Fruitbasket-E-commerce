@@ -48,7 +48,7 @@ const AdminloginHandler = async (req, res) => {
 
     
         const { email, password } = req.body; 
-    console.log(email, password);
+        console.log(email, password);
 
     try {
         const users = await User.find({});
@@ -61,7 +61,7 @@ const AdminloginHandler = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, admin.password);
         if (passwordMatch) {
             req.session.adminId =  admin._id
-            console.log(req.session.adminId); 
+            req.cookies.adminId = admin._id
             return res.render('admin/indexadmin',{users,products});
         } else {
             res.status(400)
@@ -309,6 +309,87 @@ const getOrderDetails = async (req, res) => {
     }
 };
 
+const UserData = async (req, res) => {
+    try {
+        // Aggregate to count the total number of orders across all users
+        const orderAggregate = await User.aggregate([
+            { $unwind: '$orders' }, // Unwind the orders array to get each order as a separate document
+            { $group: { _id: null, totalOrders: { $sum: 1 } } } // Group by null to calculate the total count of orders
+        ]);
+
+        // Extract the totalOrders value from the aggregation result
+        const totalOrders = orderAggregate.length > 0 ? orderAggregate[0].totalOrders : 0;
+
+        // Fetch user count from your user collection
+        const userCount = await User.countDocuments();
+
+        // Process the data as needed for the doughnut chart
+        const userData = {
+            labels: ['User Count', 'Orders Count'],
+            datasets: [{
+                label: 'User Data',
+                backgroundColor: ['#ffcc00', '#00cc66'], // Custom colors for the doughnut segments
+                data: [userCount, totalOrders]
+            }]
+        };
+
+        res.json(userData); // Send the processed data back to the client
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+const addCoupons = async (req,res) => {
+    const data = await Admindb.find({}, { email: 0, password: 0 });
+    res.render('admin/Coupons', { data });
+}
+
+const addCoupon = async (req, res) => {
+    try {
+      
+        const { couponQuantity, format, code, expiryDate, discountType, discountValue } = req.body;
+        const newCoupon = {
+            couponQuantity,
+            format,
+            code,
+            expiryDate,
+            discountType,
+            discountValue
+        };
+
+      
+        const admin = new Admindb();
+        admin.coupons.push(newCoupon);
+
+   
+        await admin.save();
+
+        const data = await Admindb.find({}, { email: 0, password: 0 });
+       
+        res.render('admin/Coupons', { data });
+    } catch (err) {
+        // Handle errors
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+};
+const deleteCoupon = async (req, res) => {
+    try {
+        const couponId = req.query.id; // Get the coupon ID from the query parameter
+
+        // Delete the coupon from the admin's coupons array
+        await Admindb.updateOne({ 'coupons._id': couponId }, { $pull: { coupons: { _id: couponId } } });
+
+        // Redirect to the admin/Coupons page after deletion
+        res.redirect('/admin/Coupons');
+    } catch (err) {
+        // Handle errors
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 
 
 
@@ -328,7 +409,11 @@ module.exports = {
     ProductsOrderPage,
     orderstatus,
     ProductsOrderTablePage,
-    getOrderDetails
+    getOrderDetails,
+    UserData,
+    addCoupons,
+    addCoupon,
+    deleteCoupon
 };
 
 //admin@123 password

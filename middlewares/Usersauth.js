@@ -42,7 +42,7 @@ function checkLoggedIn(req, res, next) {
     if (req.cookies.token) {
         return res.redirect('/home');
     }
-    next(); // Proceed to the next middleware or route handler
+    next(); 
 }
 
 

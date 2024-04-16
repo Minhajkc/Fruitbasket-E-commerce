@@ -27,6 +27,14 @@ const Schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    coupon: {
+        type: String,
+        required: false
+    },
+    couponapplied: {
+        type: Boolean,
+        default: false
+    },
     joinDate: {
         type: String,
         default: () => {
@@ -113,8 +121,9 @@ const Schema = new mongoose.Schema({
         date: { type: String},
         time: { type: String },
         orderId: { type: String, default: uuid.v4 },
-        status: { type: String, enum: ['Pending', 'Shipped', 'Delivered','Cancelled'], default: 'Pending' },
-        paymentmethod: {type:String}
+        status: { type: String, enum: ['Pending','Confirmed', 'Shipped', 'Delivered','Cancelled'], default: 'Pending' },
+        paymentmethod: {type:String},
+        usercancelledorder:{type:Boolean,default:false}
     }]
    
 });
