@@ -48,6 +48,20 @@ router.post('/razorpayWebhook',UserController.RazorPayCallBack)
 router.get('/razorpayWebhook',UserController.razorpayWebhookget)
 router.post('/createRazorpayOrder',UserController.createRazorpayOrders)
 router.post('/applyCoupon',UserController.ApplyCoupon)
+router.get('/getAddressDetails',UserController.Addressedit)
+router.post('/saveEditedAddress',UserController.SaveEditedAddress)
+router.delete('/deleteAddress',UserController.DeleteAddress)
+router.post('/contactform1',UserController.ContactForm)
+router.post('/removeFromCart',UserController.removeFromCart)
+router.post('/addToCartFromHomepage',UserController.addTocartfromhomepage)
+router.post('/addToWishlistfromhome',UserController.addToWishlistfromhome)
+router.get('/DeleteFromMainCart/:ProductId',UserController.DeleteFromMaincart)
+router.get('/DeleteFromMainWishList/:ProductId',UserController.DeleteMainWishList)
+router.get('/addToCartFromProductDetails/:product_id',UserController.addToCartFromProductDetails)
+router.get('/AddToWishlistfromproductdetails/:product_id',UserController.AddToWishlistfromproductdetails)
+
+
+
 
 
 module.exports = router;

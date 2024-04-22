@@ -1301,15 +1301,37 @@
             </div>
           </header>
           <main>
+
         
             <div>
               <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 ">
+                
                 <!-- Bar chart card -->
                 <div class="col-span-2 bg-white rounded-md dark:bg-darker p-4 " x-data="{ isOn: false }">
     <!-- USERS -->
     <div class="flex items-center justify-between p-4 border-b dark:border-primary">
         <h4 class="text-lg font-bold text-gray-500 dark:text-light">Orders</h4>  
     </div>
+  <div class="text-center m-3">
+    <button class="text-primary font-bold" id="Buttonfordownload">Download Sales Report</button>
+    <!-- Modal HTML structure -->
+<div class="modal text-white " id="salesReportModal" >
+    <div class="modal-content bg-secondary">
+        <span class="close">&times;</span>
+        <h2>Generate Sales Report</h2>
+      <form id="salesReportForm" action="/admin/salesReportForm" method="post">
+    <label for="startDate" class="bg-primary p-1">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" class="text-primary" required>
+    <label for="endDate" class="bg-warning p-1">End Date:</label>
+    <input type="date" id="endDate" name="endDate" class="text-warning" required>
+    <button type="submit">Generate Report</button>
+</form>
+
+    </div>
+</div>
+
+   
+  </div>
 
 
 {{#if usersWithOrders}}
@@ -1980,6 +2002,21 @@
   
 
     <script>
+// JavaScript code to open the modal when the button is clicked
+const openModalBtn = document.getElementById('Buttonfordownload');
+const modal = document.getElementById('salesReportModal');
+
+// Function to open the modal
+const openModall = () => {
+    modal.style.display = 'block';
+};
+
+// Event listener to open modal when button is clicked
+openModalBtn.addEventListener('click', openModall);
+
+
+
+      
 
 
 function openModal() {

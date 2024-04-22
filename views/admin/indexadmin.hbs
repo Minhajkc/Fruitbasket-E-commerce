@@ -1271,21 +1271,19 @@
          
 
             <!-- Content -->
-            <div class="mt-2">
+            <div class="mt-2 ">
               <!-- State cards -->
-              <div class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
+              <div class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4 text-center">
                 <!-- Value card -->
                 <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
                   <div>
                     <h6
                       class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
                     >
-                      Value
+                      Income Generated
                     </h6>
-                    <span class="text-xl font-semibold">$30,000</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +4.4%
-                    </span>
+                    <span class="text-xl font-bold"> &#8377; {{#if totalAmountPaid}}{{ totalAmountPaid}}{{/if}} /-</span>
+                   
                   </div>
                   <div>
                     <span>
@@ -1317,10 +1315,8 @@
                     >
                       Users
                     </h6>
-                    <span class="text-xl font-semibold">50,021</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +2.6%
-                    </span>
+                    <span id="userCount" class="text-xl font-bold">{{#if usercount}}{{usercount}}{{/if}}</span>
+                    
                   </div>
                   <div>
                     <span>
@@ -1350,10 +1346,8 @@
                     >
                       Orders
                     </h6>
-                    <span class="text-xl font-semibold">45,021</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +3.1%
-                    </span>
+                    <span class="text-xl font-bold">{{#if totalOrdersCount}}{{ totalOrdersCount}}{{/if}}</span>
+                   
                   </div>
                   <div>
                     <span>
@@ -1381,12 +1375,10 @@
                     <h6
                       class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
                     >
-                      Tickets
+                      Products
                     </h6>
-                    <span class="text-xl font-semibold">20,516</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +3.1%
-                    </span>
+                    <span class="text-xl font-bold ">{{#if productscount}}{{productscount}}{{/if}}</span>
+                   
                   </div>
                   
                   <div>
@@ -1418,25 +1410,13 @@
                   <div class="flex items-center justify-between p-4 border-b dark:border-primary">
                     <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Bar Chart</h4>
                     <div class="flex items-center space-x-2">
-                      <span class="text-sm text-gray-500 dark:text-light">Last year</span>
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateBarChart(isOn)"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
+                      
+                     
                     </div>
                   </div>
                   <!-- Chart -->
                   <div class="relative p-4 h-72">
-                    <canvas id="barChart"></canvas>
+                    <canvas id="salesBarChart" width="400" height="300"></canvas>
                   </div>
                 </div>
 
@@ -1446,19 +1426,7 @@
                   <div class="flex items-center justify-between p-4 border-b dark:border-primary">
                     <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Doughnut Chart</h4>
                     <div class="flex items-center">
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateDoughnutChart(isOn)"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
+                      
                     </div>
                   </div>
                   <!-- Chart -->
@@ -1470,50 +1438,33 @@
                 </div>
               </div>
               <!-- Two grid columns -->
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-3">
+              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-2 text-center ">
                 <!-- Active users chart -->
-                <div class="col-span-1 bg-white rounded-md dark:bg-darker">
+                <div class="col-span-1 bg-white rounded-md dark:bg-darker col-lg-12 bg-primary">
                   <!-- Card header -->
-                  <div class="p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Active users right now</h4>
-                  </div>
-                  <p class="p-4">
-                    <span class="text-2xl font-medium text-gray-500 dark:text-light" id="usersCount">0</span>
-                    <span class="text-sm font-medium text-gray-500 dark:text-primary">Users</span>
-                  </p>
+                
+                    <h4 class="text-lg font-bold text-gray-500 dark:text-light mt-4">Top Selling Products</h4>
+                 
+                
                   <!-- Chart -->
-                  <div class="relative p-4">
-                    <canvas id="activeUsersChart"></canvas>
-                  </div>
+                  <div id="topSellingProductsContainer" class="relative p-4 font-bold"></div>
+
                 </div>
+                 <div class="col-span-1 bg-white rounded-md dark:bg-darker">
+                  <!-- Card header -->
+                
+                    <h4 class="text-lg font-bold text-gray-500 dark:text-light mt-4">Order Status</h4>
+                 
+                
+                  <!-- Chart -->
+                  
+                <div id="statusContainer" class="relative p-4"></div>
+                </div>
+                
 
                 <!-- Line chart card -->
          <!-- Line chart card -->
-                <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
-                  <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Line Chart</h4>
-                    <div class="flex items-center">
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateLineChart()"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="lineChart"></canvas>
-                  </div>
-                </div>
+               
     
     <!-- Scrollable container -->
     <div class="overflow-auto "style="max-height: 300px;">
@@ -1600,6 +1551,11 @@
     </div>
     
 </div>
+
+
+
+
+
 
 
 
@@ -2189,6 +2145,29 @@
     <script>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
 // Fetch user data from the backend
 fetch('/admin/user-data')
     .then(response => response.json())
@@ -2203,12 +2182,182 @@ fetch('/admin/user-data')
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: 'User Data Overview'
+                    text: 'Products Categories'
                 }
             }
         });
     })
     .catch(error => console.error('Error fetching user data:', error));
+
+
+
+
+fetch('/admin/sales-data')
+    .then(response => response.json())
+    .then(data => {
+        const salesData = {
+            labels: ['Total Sales'],
+            datasets: [{
+                label: 'Total Sales',
+                backgroundColor: '#3366ff',
+                borderColor: '#3366ff',
+                borderWidth: 1,
+                data: [data.totalSales] // Use the total sales data from the response
+            }]
+        };
+
+        const ctx = document.getElementById('salesBarChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: salesData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value; // Add dollar sign to y-axis ticks
+                            }
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Total Sales'
+                }
+            }
+        });
+    })
+    .catch(error => console.error('Error fetching sales data:', error));
+
+    
+fetch('/admin/top-selling-products')
+    .then(response => response.json())
+    .then(topSellingProducts => {
+        const container = document.querySelector('#topSellingProductsContainer'); // Select the container div by ID
+        container.innerHTML = ''; // Clear previous content
+
+        // Create a table element
+        const table = document.createElement('table');
+        table.classList.add('table', 'table-striped'); // Add Bootstrap table classes if using Bootstrap
+
+        // Create table header row
+        const headerRow = document.createElement('tr');
+        const header1 = document.createElement('th');
+        header1.textContent = 'Product Name';
+        const header2 = document.createElement('th');
+        header2.textContent = 'Quantity Sold';
+        headerRow.appendChild(header1);
+        headerRow.appendChild(header2);
+        table.appendChild(headerRow);
+
+        // Define colors for each rank
+      const rankColors = ['#cce5ff', '#ccffcc', '#ffe5cc', '#f9c6e2', '#ffc2c2']; // Light Blue, Light Green, Light Orange, Light Pink, Light Red
+// Blue, Green, Orange, Pink, Red
+
+        // Loop through the top selling products data and create table rows
+        topSellingProducts.forEach((product, index) => {
+            const row = document.createElement('tr');
+            const cell1 = document.createElement('td');
+            cell1.textContent = product._id; // Assuming _id is the product name
+            const cell2 = document.createElement('td');
+            cell2.textContent = product.totalQuantitySold;
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+
+            // Assign color and make text bold based on rank
+            if (index < rankColors.length) {
+                
+                row.style.fontWeight = 'bold';
+               
+            }
+
+            table.appendChild(row);
+        });
+
+        // Append the table to the container
+        container.appendChild(table);
+    })
+    .catch(error => console.error('Error fetching top selling products:', error));
+
+
+
+
+
+
+
+
+fetch('/admin/status-data')
+    .then(response => response.json())
+    .then(statusData => {
+        // Process the received status data
+        console.log(statusData); // Example: ["Pending", "Shipped", "Delivered", ...]
+
+        // Count the occurrences of each status
+        const statusCounts = {};
+        statusData.forEach(status => {
+            statusCounts[status] = (statusCounts[status] || 0) + 1;
+        });
+
+        // Add your code to display or process the status counts as needed
+        const container = document.getElementById('statusContainer'); // Select the container element by ID
+
+        // Clear previous content
+        container.innerHTML = '';
+
+        // Create a table element to display the status counts
+        const statusCountTable = document.createElement('table');
+        statusCountTable.classList.add('table'); // Add a class for styling (assuming you have CSS for a table class)
+
+        // Create table header row
+        const headerRow = statusCountTable.insertRow();
+        const headerCellStatus = headerRow.insertCell();
+        headerCellStatus.textContent = 'Status';
+        headerCellStatus.style.fontWeight = 'bold'; // Make the header cell bold
+        const headerCellCount = headerRow.insertCell();
+        headerCellCount.textContent = 'Count';
+        headerCellCount.style.fontWeight = 'bold'; // Make the header cell bold
+
+        // Loop through the status counts and create table rows
+        Object.keys(statusCounts).forEach(status => {
+            const row = statusCountTable.insertRow();
+            const cellStatus = row.insertCell();
+            cellStatus.textContent = status;
+            const cellCount = row.insertCell();
+            cellCount.textContent = statusCounts[status];
+
+            // Set background color for rows based on status
+            if (status === 'Delivered') {
+                row.style.backgroundColor = '#82c91e'; // Green background for Delivered
+            } else if (status === 'Pending') {
+                row.style.backgroundColor = '#f7c948'; // Yellow background for Pending
+            } else if (status === 'Shipped') {
+                row.style.backgroundColor = '#61dafb'; // Blue background for Shipped
+            }else if (status === 'Cancelled') {
+                row.style.backgroundColor = '#e67267'; // Blue background for Shipped
+            }else if (status === 'Confirmed') {
+                row.style.backgroundColor = '#f007c1'; // Blue background for Shipped
+            }
+            // Add more conditions for other statuses as needed
+        });
+
+        // Append the table to the container
+        container.appendChild(statusCountTable);
+    })
+    .catch(error => console.error('Error fetching status data:', error));
+
+
+
+
+
+
+
+
+
+
 
 
 

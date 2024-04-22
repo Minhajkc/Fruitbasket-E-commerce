@@ -99,7 +99,7 @@ const GetHomePage = async (req, res) => {
         const token = req.cookies.token;
 
         if (!token) {
-            return res.render('users/my-account'); // Render the page without user information
+            return res.render('users/login', {toastMessage: "Please login to your account to view my account"});  
         }
 
         jwt.verify(token, 'your_secret_key', async (err, decoded) => {
@@ -115,15 +115,8 @@ const GetHomePage = async (req, res) => {
             }
 
             const filteredOrders = user.orders
-    .filter(order => order.status !== 'Pending')
     .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-
-
             return res.render('users/my-account', { user, orders: filteredOrders,addresses:user.address });
-             
-         
-
         });
     } catch (error) {
         console.error('Error fetching user:', error);
@@ -398,6 +391,7 @@ const GetShopPage = async (req, res) => {
 
 
 const Sort = async (req, res) => {
+    
     try {
         const sortOption = req.body.sortOption; 
         
@@ -423,6 +417,7 @@ const Sort = async (req, res) => {
 
 
 const GetProductsCategory = async (req, res) => {
+    const token = req.cookies.token;
     try {
         const category = req.params.category.toLowerCase(); // Extract the category parameter and convert to lowercase
 
@@ -454,7 +449,7 @@ const GetProductsCategory = async (req, res) => {
             
         }
 
-        res.render('users/shop', { category: category, products: filteredProducts, });
+        res.render('users/shop', { category: category, products: filteredProducts,token });
     } catch (err) {
        
         console.error('Error fetching products:', err);
@@ -584,6 +579,50 @@ const AddToCart = async (req, res) => {
 };
 
 
+const addToCartFromProductDetails = async (req, res) => {
+    const productId = req.params.product_id;
+    const userId = req.cookies.userId;
+
+    try {
+       
+        if (!userId) {
+           
+            return res.redirect('/userlogin');
+        }
+
+        const product = await products.findById(productId);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: userId, 'bookings.product': { $ne: productId } }, // Check if the product is not already in the cart
+            { 
+                $addToSet: { 
+                    bookings: { 
+                        product: productId, 
+                        cart: true, 
+                        productName: product.name, // Add product name to the cart
+                        total: 0 
+                    } 
+                } 
+            }, 
+            { new: true }
+        );
+
+        if (updatedUser) {
+            res.redirect(`/products-details/${productId}`);
+        } else {
+            res.redirect(`/products-details/${productId}`);
+        }
+    } catch (error) {
+        // Handle errors
+        console.error('Error adding product to cart:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
 
 
 const AddToWishlist = async (req, res) => {
@@ -613,6 +652,34 @@ const AddToWishlist = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
+const AddToWishlistfromproductdetails = async (req, res) => {
+    try {
+       
+
+        const productId = req.params.product_id;
+        const userId = req.cookies.userId;
+
+     
+        if (!userId) {
+            return res.redirect('/UserLogin');
+        }
+
+          const updatedUser = await User.findOneAndUpdate(
+            { _id: userId,'wishlist.items': { $ne: productId } }, 
+            { $addToSet: { wishlist: { items: productId, wishlist: true } } }, 
+        );
+
+        if (updatedUser) {
+            res.redirect(`/products-details/${productId}`);
+        } else {
+            res.redirect(`/products-details/${productId}`);
+        }
+    } catch (error) {
+        console.error('Error adding product to wishlist:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 
 const AddToCartFromWishlist = async (req, res) => {
@@ -647,8 +714,7 @@ const AddToCartFromWishlist = async (req, res) => {
             return res.redirect('/UserLogin');
         }
 
-        // Redirect to the shop page with a success message
-        res.redirect('/Cart?success=addedToCart');
+        res.redirect('/Wishlist?success=addedToCartfromwishlist');
     } catch (error) {
         // Handle errors
         console.error('Error adding product to cart:', error);
@@ -679,6 +745,29 @@ const DeleteWishList = async (req, res) => {
     }
 }
 
+const DeleteMainWishList = async (req, res) => {
+    const productId = req.params.ProductId;
+    console.log(productId);
+
+    try {
+        const updatedUserWishlist = await User.findOneAndUpdate(
+            { 'wishlist.items': productId },
+            { $pull: { wishlist: { items: productId } } },
+            { new: true }
+        );
+     
+        if (!updatedUserWishlist) {
+            return res.status(404).send('Product not found in wishlist');
+        }
+
+        res.redirect('/Wishlist');
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
 const DeleteFromcart = async (req,res)=>{
     const productId = req.params.ProductId;
 
@@ -701,12 +790,35 @@ const DeleteFromcart = async (req,res)=>{
     }
 }
 
+const DeleteFromMaincart = async (req,res)=>{
+    const productId = req.params.ProductId;
+
+    try {
+        const updatedUserWishlist = await User.findOneAndUpdate(
+            { 'bookings.product': productId },
+            { $pull: { bookings: { product: productId } } },
+            { new: true }
+        );
+     
+        if (!updatedUserWishlist) {
+            return res.status(404).send('Product not found in wishlist');
+        }
+
+        res.redirect('/Cart');
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
 
 
 
 const updateQuantity = async (req, res) => {
     try {
         const { productId, newQuantity } = req.body;
+       
         const userId = req.cookies.userId; // Assuming you have the user's ID in the request
 
         const user = await User.findById(userId);
@@ -814,6 +926,7 @@ const AddressForm = async (req, res) => {
 
 const AddAddress = async (req,res) => {
     const userId = req.cookies.userId;
+ 
 
     try {
         // Fetch the user by ID
@@ -821,7 +934,9 @@ const AddAddress = async (req,res) => {
         if (!user) {
             return res.status(404).send('User not found');
         }
-
+        if (user.address.length >= 3) {
+            return res.status(400).json({ messagee: 'You can only add up to three addresses' });
+        }
         const { firstname, lastname, mainaddress, country, city, state, post, email, phone } = req.body;
 
         user.address.push({
@@ -836,14 +951,10 @@ const AddAddress = async (req,res) => {
             phone: phone
         });
 
-        // Save the updated user object
         await user.save();
 
-        // Redirect or respond with a success message
         const successMessage = 'Address added successfully';
-
-        // Redirect or respond with a success message
-        res.render('users/my-account', { successMessage });
+        res.status(200).json({ success: true, message: successMessage }); // Send success message as JSON
         
     } catch (error) {
         // Handle errors
@@ -1109,7 +1220,8 @@ const ApplyCoupon = async (req, res) => {
         }
 
         if (user.subtotal <= 99) {
-            return res.status(400).json({ success: false, message: 'Subtotal must be greater than 60 to apply the coupon' });
+            console.log('LESS THAN 99');
+            return res.status(400).json({ success: false, messagefortotal: 'Purchase for 99/- or more to apply this coupon' });
         }
 
         const coupon = await Admindb.findOne({ coupons: { $elemMatch: { code: couponCode } } });
@@ -1143,6 +1255,207 @@ const ApplyCoupon = async (req, res) => {
 
 
 
+const Addressedit = async (req,res) => {
+    const addressId = req.query.id; // Get the address ID from the query parameter
+ 
+    try {
+        // Fetch the user's address by ID
+        const user = await User.findById(req.cookies.userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const address = user.address.id(addressId); // Find the address within the user's addresses by ID
+
+        if (!address) {
+            return res.status(404).json({ success: false, message: 'Address not found' });
+        }
+
+        res.status(200).json({ success: true, address });
+    } catch (error) {
+        console.error('Error fetching address details:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+
+}
+
+const SaveEditedAddress = async (req, res) => {
+    const userId = req.cookies.userId;
+    const { editid, editFirstName, editLastName, editMainAddress, editCountry, editCity, editState, editPostcode, editEmail, editPhone } = req.body;
+
+    const updatedAddressData = {
+        country: editCountry,
+        firstName: editFirstName,
+        lastName: editLastName,
+        address: editMainAddress,
+        city: editCity,
+        state: editState,
+        postcode: editPostcode,
+        email: editEmail,
+        phone: editPhone
+    };
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Find the address index or create a new address if it doesn't exist
+        const addressIndex = user.address.findIndex(address => address._id.toString() === editid);
+        if (addressIndex !== -1) {
+            user.address[addressIndex] = updatedAddressData;
+        } else {
+            user.address.push(updatedAddressData);
+        }
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({ success: true, message: 'Address updated successfully', address: updatedUser.address });
+    } catch (error) {
+        console.error('Error saving edited address:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
+
+
+const DeleteAddress = async (req,res) => {
+    const { id } = req.query; 
+  
+    try {
+        const user = await User.findById(req.cookies.userId); 
+        
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const addressIndex = user.address.findIndex(address => address._id.toString() === id);
+        
+        if (addressIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Address not found' });
+        }
+        user.address.splice(addressIndex, 1);
+
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Address deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting address:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+}
+
+const ContactForm = async (req,res) => {
+    const { con_name, con_email, con_content, con_message } = req.body;
+    console.log(con_name, con_email, con_content, con_message);
+
+    try {
+        // Send email using nodemailer
+        const mailOptions = {
+            from: con_email,
+            to: 'fruitbasketmails@gmail.com',
+            subject: 'New Message from Contact Form',
+            text: `
+                Full Name: ${con_name}
+                Email: ${con_email}
+                Content: ${con_content}
+                Message: ${con_message}
+            `
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent:', info.response);
+
+        res.redirect('/Contact'); // Redirect to contact page after sending email
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ message: 'Error sending email' });
+    }
+}
+
+
+const removeFromCart = async (req,res) => {
+    try {
+        const { productId } = req.body;
+        const userId = req.cookies.userId; // Assuming you have the user's ID in the request
+
+        const user = await User.findById(userId);
+        const updatedBookings = user.bookings.filter(booking => booking.product.toString() !== productId);
+        user.bookings = updatedBookings;
+
+        await user.save();
+
+        return res.status(200).json({ message: 'Item removed successfully' });
+    } catch (error) {
+        console.error('Error removing item from cart:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+}
+const addTocartfromhomepage = async (req, res) => {
+    try {
+        const { productId } = req.body;
+        const userId = req.cookies.userId; // Assuming you have the user's ID in the request
+
+        const user = await User.findById(userId);
+        const product = await Products.findById(productId);
+
+        if (!user || !product) {
+            return res.status(401).json({ redirectTo: '/userlogin' });
+        }
+
+        const existingBooking = user.bookings.find(booking => booking.product.toString() === productId);
+
+        if (existingBooking) {
+            return res.status(404).json({ message: 'Product is already in the cart' });
+        } else {
+            const { name: productName } = product; // Assuming the product schema has a 'name' field
+            user.bookings.push({ product: productId,productName, quantity: 1 });
+            await user.save();
+            return res.status(200).json({ message: 'Product added to cart successfully', productName });
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+const addToWishlistfromhome = async (req, res) => {
+    try {
+        const { productId } = req.body;
+        const userId = req.cookies.userId; // Assuming you have the user's ID in the request
+
+        // Fetch the user and the product
+        const user = await User.findById(userId);
+        const product = await Products.findById(productId);
+
+        if (!user || !product) {
+           return res.status(401).json({ redirectTo: '/userlogin' });
+        }
+
+        const existingWishlistItem = user.wishlist.find(item => {
+            if (item.items) {
+                return item.items.toString() === productId;
+            }
+            return false; 
+        });      
+
+
+        if (existingWishlistItem) {
+            return res.status(400).json({ message: 'Product is already in the wishlist' });
+        }
+
+        user.wishlist.push({ items: productId });
+        await user.save();
+
+        return res.status(200).json({ message: 'Product added to wishlist successfully' });
+    } catch (error) {
+        console.error('Error adding to wishlist:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 
 
 
@@ -1169,10 +1482,13 @@ module.exports = {
     GetCartPage,
     GetWishListPage,
     AddToCart,
+    addToCartFromProductDetails,
     AddToWishlist,
     AddToCartFromWishlist,
     DeleteWishList,
+    DeleteMainWishList,
     DeleteFromcart,
+    DeleteFromMaincart ,
     updateQuantity,
     GetProductDetailsPage,
     GetCheckOutPage,
@@ -1184,7 +1500,16 @@ module.exports = {
     RazorPayCallBack,
     razorpayWebhookget,
     createRazorpayOrders,
-    ApplyCoupon
+    ApplyCoupon,
+    Addressedit,
+    SaveEditedAddress,
+    DeleteAddress,
+    ContactForm,
+    removeFromCart,
+    addTocartfromhomepage,
+    addToWishlistfromhome,
+    AddToWishlistfromproductdetails,
+
 
    
 };

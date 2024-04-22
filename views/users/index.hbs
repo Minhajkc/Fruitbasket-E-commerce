@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="user-assets/images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="user-assets/images/logo.png">
 
     <!-- CSS
 	============================================ -->
@@ -41,6 +41,10 @@
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <!-- Add this in the <head> section of your HTML file -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 <style>
      .swiper-container {
         max-width: 100%;
@@ -86,7 +90,7 @@
                                 <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
                                     <div class="header-logo d-flex align-items-center">
                                         <a href="/">
-                                            <img class="img-full" src="assets/images/logo/logo.png" alt="Header Logo">
+                                            <img class="img-full" src="user-assets/images/logo/logo.png" alt="Header Logo">
                                         </a>
                                     </div>
                                 </div>
@@ -109,28 +113,15 @@
                                                    
                                                     <div >
                                                         <ul class="dropdown-submenu dropdown-hover ps-3">
-                                                            <li><a href="/Cart">Cart Page</a></li>
-                                                          
-                                                            <li><a href="/Wishlist">Wishlist Page</a></li>
+                                                            <li><a href="/Shop">Shop</a></li>
+                                                            <li><a href="/Cart">Cart</a></li>
+                                                            <li><a href="/Wishlist">Wishlist</a></li>
                                                         </ul>
                                                     </div>
                                            
                                             </li>
                                            
-                                            <li>
-                                                <a href="#">
-                                                    <span class="menu-text"> Settings</span>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                   
-                                                    <li><a href="/MyAccount">My Account</a></li>
-                                                         {{#unless user}}
-                                                    <li><a href="/UserLogin">Login</a></li>
-                                                    <li><a href="/userregister">Register</a></li>
-                                                         {{/unless}}
-                                                </ul>
-                                            </li>
+                                           
                                             <li>
                                                 <a href="/About">
                                                     <span class="menu-text"> About</span>
@@ -147,21 +138,16 @@
                                 <div class="col-lg-2 col-xl-3 col-sm-6 col-6 col-custom">
                                     <div class="header-right-area main-nav">
                                         <ul class="nav">
-                                         <li class="login-register-wrap d-none d-xxl-flex">
-                                            {{#if user}}
-    <span style="color: rgb(0, 0, 0); font-size:20px">
-       <i class="fas fa-user-circle" onclick="toggleUserMenu()" style="cursor: pointer;"></i>
-    </span> <span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span><br>
-    <div id="userMenu" style="display: none; ">
-        <span>{{user.name}}</span><br>
-        <form id="logoutForm" action="/logoutuser" method="get">
-           <a href="#" id="logoutLink" class="text-danger">Logout</a>
-        </form>
-    </div>
-{{else}}
-    <span><a href="/Userlogin">Login</a></span>
-    <span><a href="/userregister">Register</a></span>
-{{/if}}
+       <li class="login-register-wrap d-none d-xl-flex">
+                                                <span style="color: rgb(0, 0, 0); font-size:20px">
+     <a href="/MyAccount">  <i class="fas fa-user-circle" style="cursor: pointer;"></i></a>
+    </span><span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span>
+       {{#unless user}}
+                                                <span><a href="/userlogin">Login</a></span>
+                                                <span><a href="/userregister">Register</a></span>
+                                                {{/unless}}
+                                            </li>
+                                            
 {{#if successMessage}}
 <script>
     Swal.fire({
@@ -216,31 +202,16 @@
                                                 </a>
                                                
                                                    
-                                                    <div >
+                                                     <div >
                                                         <ul class="dropdown-submenu dropdown-hover ps-3">
-                                                            <li><a href="/Cart">Cart Page</a></li>
-                                                       
-                                                            <li><a href="/Wishlist">Wishlist Page</a></li>
+                                                            <li><a href="/Shop">Shop</a></li>
+                                                            <li><a href="/Cart">Cart</a></li>
+                                                            <li><a href="/Wishlist">Wishlist</a></li>
                                                         </ul>
                                                     </div>
-                                           
                                             </li>
                                             
-                                            <li>
-                                                <a href="#">
-                                                    <span class="menu-text"> Settings</span>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="dropdown-submenu dropdown-hover">
-                                                  
-                                                    <li><a href="/MyAccount">My Account</a></li>
-                                                     {{#unless user}}
-
-                                                    <li><a href="/UserLogin">Login</a></li>
-                                                    <li><a href="/userregister">Register</a></li>
-                                                    {{/unless}}
-                                                </ul>
-                                            </li>
+                                           
                                             <li>
                                                 <a href="/About">
                                                     <span class="menu-text"> About</span>
@@ -258,21 +229,15 @@
                                     <div class="header-right-area main-nav">
                                         <ul class="nav">
                                             <li class="login-register-wrap d-none d-xl-flex">
-                                                                                        {{#if user}}
-    <span style="color: rgb(0, 0, 0); font-size:20px">
+                                                <span style="color: rgb(0, 0, 0); font-size:20px">
      <a href="/MyAccount">  <i class="fas fa-user-circle" style="cursor: pointer;"></i></a>
-    </span> <span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span><br>
-    <div id="userMenu" style="display: none; ">
-        <span>{{user.name}}</span><br>
-        <form id="logoutForm" action="/logoutuser" method="get">
-           <a href="#" id="logoutLink" class="text-danger">Logout</a>
-        </form>
-    </div>
-{{else}}
-    <span><a href="/Userlogin">Login</a></span>
-    <span><a href="/userregister">Register</a></span>
-{{/if}}
+    </span><span><a href="/cart"> <i class="ion-bag" style="font-size: 20px;"></i></a></span>
+       {{#unless user}}
+                                                <span><a href="/userlogin">Login</a></span>
+                                                <span><a href="/userregister">Register</a></span>
+                                                {{/unless}}
                                             </li>
+                                            
                                             
                                           
                                             <li class="mobile-menu-btn d-lg-none">
@@ -299,10 +264,7 @@
                     <div class="off-canvas-inner">
 
                         <div class="search-box-offcanvas">
-                            <form>
-                                <input type="text" placeholder="Search product...">
-                                <button class="search-btn"><i class="fa fa-search"></i></button>
-                            </form>
+                            
                         </div>
                         <!-- mobile menu start -->
                         <div class="mobile-navigation">
@@ -315,10 +277,7 @@
                                     </li>
                                     <li class="menu-item-has-children"><a href="/shop">Shop</a>
                                         <ul class="megamenu dropdown">
-                                            
-                                            <li class="mega-title has-children"><a href="#">Others</a>
                                                 <ul>
-                                                         
                                                             <li><a href="/Cart">Cart Page</a></li>
                                                             
                                                             <li><a href="/Wishlist">Wishlist Page</a></li>
@@ -327,14 +286,7 @@
                                         </ul>
                                     </li>
                                    
-                                    <li class="menu-item-has-children "><a href="#">Settings</a>
-                                        <ul class="dropdown">
-                                             <li><a href="frequently-questions.html">FAQ</a></li>
-                                                    <li><a href="/MyAccount">My Account</a></li>
-                                                    <li><a href="/UserLogin">Login</a></li>
-                                                    <li><a href="/userregister">Register</a></li>
-                                        </ul>
-                                    </li>
+                                   
                                     <li><a href="/About">About Us</a></li>
                                     <li><a href="/Contact">Contact</a></li>
                                 </ul>
@@ -346,11 +298,15 @@
                             <!-- mobile menu navigation start -->
                             <nav>
                                 <ul class="mobile-menu">
-                                    <li class="menu-item-has-children"><a href="#">My Account</a>
+                                    <li class="menu-item-has-children"><a href="/MyAccount">My Account</a>
+                                    {{#unless user}}
                                         <ul class="dropdown">
-                                            <span><a href="/Userlogin">Login</a></span>
+                                            <span><a href="/Userlogin">Login</a></span> 
+                                        </ul>
+                                         <ul class="dropdown">
                                             <span><a href="/userregister">Register</a></span>
                                         </ul>
+                                        {{/unless}}
                                     </li>
                                    
                                 </ul>
@@ -362,7 +318,7 @@
                             <div class="top-info-wrap text-left text-black">
                                 <ul>
                                     <li>
-                                        <i class="fa fa-phone">+91 7034936080</i>
+                                        <i class="fa fa-phone"><br>+91 7034936080</i>
                                         <a href="/"></a>
                                     </li>
                                     <li>
@@ -427,15 +383,16 @@
                 <div class="row">
                     <div class="col-xl-6 col-lg-5 col-md-12 col-custom">
                         <div class="feature-content-wrapper">
-                            <h2 class="title">Important to eat fruit</h2>
-                            <p class="desc-content">Eating fruit provides health benefits — people who eat more fruits and vegetables as part of an overall healthy diet are likely to have a reduced risk of some chronic diseases. Fruits provide nutrients vital for health and maintenance of your body.</p>
-                            <p class="desc-content"> Fruits are sources of many essential nutrients that are underconsumed, including potassium, dietary fiber, vitamin C, and folate (folic acid).</p>
-                            <p class="desc-content"> Most fruits are naturally low in fat, sodium, and calories. None have cholesterol.</p>
-                        </div>
+    <h2 class="title">The Importance of Eating Fruit</h2>
+    <p class="desc-content">Eating fruit provides numerous health benefits. People who consume more fruits and vegetables as part of a balanced diet tend to have a lower risk of developing chronic diseases. Fruits are rich in essential nutrients crucial for maintaining good health.</p>
+    <p class="desc-content">Fruits are excellent sources of nutrients that are often lacking in diets, such as potassium, dietary fiber, vitamin C, and folate (folic acid).</p>
+    <p class="desc-content">Furthermore, most fruits are naturally low in fat, sodium, and calories, making them an ideal choice for a healthy diet. They are also cholesterol-free.</p>
+</div>
+
                     </div>
                     <div class="col-xl-6 col-lg-7 col-md-12 col-custom">
                         <div class="feature-image">
-                            <img src="user-assets/images/feature/feature-1.jpg" alt="Obrien Feature">
+                            <img src="user-assets/images/feature/feature-1.jpeg" alt="Obrien Feature" style="border-radius: 10px;">
                         </div>
                     </div>
                 </div>
@@ -482,12 +439,14 @@
                                     </div>
                                     {{#unless this.isDisabled}}
                                     <div class="add-action d-flex position-absolute">
-                                        <a href="/addToCart/{{this._id}}" title="Add To cart">
-                                            <i class="ion-bag"></i>
-                                        </a>
-                                        <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
-                                            <i class="ion-ios-heart-outline"></i>
-                                        </a>
+ <a href="#" class="add-to-cart-link" data-product-id="{{this._id}}" title="Add To Cart">
+    <i class="ion-bag"></i>
+</a>
+
+  <a href="#" class="add-to-wishlist-link" data-product-id="{{this._id}}" title="Add To Wishlist">
+    <i class="ion-ios-heart-outline"></i>
+</a>
+
                                     </div>
                                     {{/unless}}
                                 </div>
@@ -514,14 +473,14 @@
                     <div class="col-md-6 col-sm-12 col-custom">
                         <div class="banner-image hover-style">
                             <a class="d-block" href="/shop">
-                                <img class="w-100" src="user-assets/images/banner/small-banner/1-1.png" alt="Banner Image">
+                                <img class="w-100" src="user-assets/images/banner/small-banner/1-1.png" alt="Banner Image" style="border-radius: 10px;">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12 col-custom">
                         <div class="banner-image hover-style">
                             <a class="d-block" href="/shop">
-                                <img class="w-100" src="user-assets/images/banner/small-banner/1-2.png" alt="Banner Image">
+                                <img class="w-100" src="user-assets/images/banner/small-banner/1-2.png" alt="Banner Image" style="border-radius: 10px;">
                             </a>
                         </div>
                     </div>
@@ -578,13 +537,18 @@
                                     </div>
                                     {{#unless this.isDisabled}}
                                     <div class="add-action d-flex position-absolute">
-                                        <a href="/addToCart/{{this._id}}" title="Add To cart">
-                                            <i class="ion-bag"></i>
-                                        </a>
+
+<a href="#" class="add-to-cart-link" data-product-id="{{this._id}}" title="Add To Cart">
+    <i class="ion-bag"></i>
+</a>
+
+
                                        
-                                        <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
-                                            <i class="ion-ios-heart-outline"></i>
-                                        </a>
+                                                                      
+  <a href="#" class="add-to-wishlist-link" data-product-id="{{this._id}}" title="Add To Wishlist">
+    <i class="ion-ios-heart-outline"></i>
+</a>
+
                                     </div>
                                     {{/unless}}
                                    
@@ -738,9 +702,176 @@
 
 <!-- Mirrored from template.hasthemes.com/obrien/obrien/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 05:40:05 GMT -->
 <script>
+
+document.querySelectorAll('.add-to-cart-link').forEach(link => {
+    link.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent the default link behavior
+        const productId = link.getAttribute('data-product-id');
+        // Call a function to handle adding the product to the cart with the productId
+        addToCart(productId);
+    });
+});
+
+
+/// Example usage when clicking the "Add to Cart" button
+document.querySelectorAll('.add-to-cart-link').forEach(link => {
+    link.addEventListener('click', async (event) => {
+        event.preventDefault(); // Prevent the default link behavior
+
+        const productId = link.getAttribute('data-product-id');
+        const url = '/addToCartFromHomepage'; // Replace with your actual backend endpoint
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId })
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                Toastify({
+                    text: responseData.message,
+                    backgroundColor: 'green',
+                    duration: 2000,
+                    gravity: 'center'
+                }).showToast();
+            } else {
+                const errorData = await response.json();
+                if (errorData.message === 'Item is already in cart') {
+                    Toastify({
+                        text: 'Item is already in cart',
+                        backgroundColor: 'orange',
+                        duration: 3000,
+                        gravity: 'center',
+                        onClick: function () {
+                            console.log('Remove item logic');
+                        }
+                    }).showToast();
+                   
+                } else {
+                    Toastify({
+                        text: `${errorData.message}`,
+                        backgroundColor: 'red',
+                        duration: 2000,
+                        gravity: 'center'
+                    }).showToast();
+                }
+
+                // Check if the response contains redirectTo field
+                if (errorData.redirectTo) {
+                    window.location.href = errorData.redirectTo; // Redirect to the specified URL
+                }
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            Toastify({
+                text: 'Error adding to cart',
+                backgroundColor: 'red',
+                duration: 2000,
+                gravity: 'center'
+            }).showToast();
+        }
+    });
+});
+
+
+
+
+
+
+
+
+document.querySelectorAll('.add-to-wishlist-link').forEach(link => {
+    link.addEventListener('click', async (event) => {
+        event.preventDefault(); // Prevent the default link behavior
+
+        const productId = link.getAttribute('data-product-id'); // Extract the product ID from the data-product-id attribute
+        const url = '/addToWishlistfromhome'; // Replace with your actual backend endpoint for adding to wishlist
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST', // Use POST method since you are adding to the wishlist
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId })
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                Toastify({
+                    text: responseData.message,
+                    backgroundColor: 'green',
+                    duration: 2000,
+                    gravity: 'center'
+                }).showToast();
+                console.log(responseData.message); // Handle success response
+            } else {
+                const errorData = await response.json();
+                Toastify({
+                    text: `${errorData.message}`,
+                    backgroundColor: 'red',
+                    duration: 2000,
+                    gravity: 'center'
+                }).showToast();
+                console.error('Error adding to wishlist:', errorData.message); // Handle error response
+
+                // Check if redirectTo is specified in errorData
+                if (errorData.redirectTo) {
+                    window.location.href = errorData.redirectTo; // Redirect to the specified URL
+                }
+            }
+        } catch (error) {
+            console.error('Error adding to wishlist:', error); // Handle network errors or unexpected exceptions
+            Toastify({
+                text: 'Error adding to wishlist',
+                backgroundColor: 'red',
+                duration: 2000,
+                gravity: 'center'
+            }).showToast();
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('productId');
+const success = urlParams.get('success');
+
+if (success === 'orderedplacedsuccessfully') {
+    // Display a success message using SweetAlert
+    Swal.fire({
+        icon: 'success',
+        title: 'Order placed successfully!',
+        showConfirmButton: false,
+        timer: 2500 // Auto close the pop-up after 2.5 seconds
+    });
+
+    // Clear URL parameters after 3.5 seconds
+    setTimeout(() => {
+        const newUrl = window.location.href.split('?')[0]; // Get the URL without parameters
+        window.history.replaceState({}, document.title, newUrl); // Replace the current URL without parameters
+    }, 1500);
+
+    // Redirect to /home after 3.5 seconds
+    setTimeout(() => {
+        window.location.href = '/home'; // Redirect to /home
+    }, 1500);
+}
+
      var swiper = new Swiper('.swiper-container', {
     slidesPerView: 1, // Number of slides per view by default
-    spaceBetween: 10, // Space between slides
+    spaceBetween: 20, // Space between slides
     loop: true, // Enable looping
     autoplay: {
         delay: 2000, // Autoplay delay in milliseconds
@@ -758,16 +889,6 @@
     },
 });
 
-
-
-      function toggleUserMenu() {
-        var userMenu = document.getElementById("userMenu");
-        if (userMenu.style.display === "none") {
-            userMenu.style.display = "block";
-        } else {
-            userMenu.style.display = "none";
-        }
-    }
 
     document.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -801,30 +922,7 @@
         });
     });
 
-const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get('productId');
-const success = urlParams.get('success');
 
-if (success === 'orderedplacedsuccessfully') {
-    // Display a success message using SweetAlert
-    Swal.fire({
-        icon: 'success',
-        title: 'Order placed successfully!',
-        showConfirmButton: false,
-        timer: 2500 // Auto close the pop-up after 2.5 seconds
-    });
-
-    // Clear URL parameters after 3.5 seconds
-    setTimeout(() => {
-        const newUrl = window.location.href.split('?')[0]; // Get the URL without parameters
-        window.history.replaceState({}, document.title, newUrl); // Replace the current URL without parameters
-    }, 1500);
-
-    // Redirect to /home after 3.5 seconds
-    setTimeout(() => {
-        window.location.href = '/home'; // Redirect to /home
-    }, 1500);
-}
 
 
     

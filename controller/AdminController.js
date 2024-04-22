@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 const { cloudinary } = require('../config/cloudinary');
 const {upload} = require('../config/multer');
 const fs = require('fs')
+const PDFDocument = require('pdfkit'); 
+const csv = require('csv');
+const moment = require('moment');
 
 app.set('view engine', 'hbs');
 
@@ -27,9 +30,47 @@ const GetAdminLogin = (req, res) => {
 const AdminIndexPage = async (req,res)=>{
     const users = await User.find({});
     const products = await Products.find({});
-    return res.render('admin/indexadmin',{users,products});
-
+    const usercount = await User.countDocuments(); 
+    return res.render('admin/indexadmin',{users,products,usercount});
 }
+
+const AdminhomePage = async (req, res) => {
+    try {
+      const users = await User.find({});
+      const products = await Products.find({});
+      const usercount = await User.countDocuments();
+      const productscount = await Products.countDocuments();
+  
+      // Aggregate to get total orders count and total amount paid
+      const ordersAggregate = await User.aggregate([
+        { $unwind: '$orders' }, // Unwind the orders array
+        {
+          $group: {
+            _id: null,
+            totalOrders: { $sum: 1 }, // Count the orders
+            totalAmountPaid: { $sum: '$orders.totalAmountUserPaid' }, // Sum the order amounts
+          },
+        },
+      ]);
+      const totalOrdersCount = ordersAggregate.length > 0 ? ordersAggregate[0].totalOrders : 0;
+      const totalAmountPaid = ordersAggregate.length > 0 ? ordersAggregate[0].totalAmountPaid : 0;
+     
+  
+      return res.render('admin/indexadmin', {
+        users,
+        products,
+        usercount,
+        productscount,
+        totalOrdersCount,
+        totalAmountPaid,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send('Server Error');
+    }
+  };
+  
+
 const AdminUserListPage = async (req,res)=>{
     const users = await User.find({});
     const products = await Products.find({});
@@ -62,7 +103,7 @@ const AdminloginHandler = async (req, res) => {
         if (passwordMatch) {
             req.session.adminId =  admin._id
             req.cookies.adminId = admin._id
-            return res.render('admin/indexadmin',{users,products});
+            return res.redirect('/admin/adminhomepage')
         } else {
             res.status(400)
             res.render('admin/login-admin', { errorp: 'Incorrect password!' });
@@ -311,34 +352,31 @@ const getOrderDetails = async (req, res) => {
 
 const UserData = async (req, res) => {
     try {
-        // Aggregate to count the total number of orders across all users
-        const orderAggregate = await User.aggregate([
-            { $unwind: '$orders' }, // Unwind the orders array to get each order as a separate document
-            { $group: { _id: null, totalOrders: { $sum: 1 } } } // Group by null to calculate the total count of orders
+        // Aggregate to count the number of products in each category
+        const categoryAggregate = await Products.aggregate([
+            { $group: { _id: '$category', count: { $sum: 1 } } } // Group by category and count the number of products in each category
         ]);
 
-        // Extract the totalOrders value from the aggregation result
-        const totalOrders = orderAggregate.length > 0 ? orderAggregate[0].totalOrders : 0;
+        // Process the data for the doughnut chart
+        const labels = categoryAggregate.map(item => item._id); // Extract category names as labels
+        const data = categoryAggregate.map(item => item.count); // Extract counts as data
 
-        // Fetch user count from your user collection
-        const userCount = await User.countDocuments();
-
-        // Process the data as needed for the doughnut chart
         const userData = {
-            labels: ['User Count', 'Orders Count'],
+            labels: labels,
             datasets: [{
-                label: 'User Data',
-                backgroundColor: ['#ffcc00', '#00cc66'], // Custom colors for the doughnut segments
-                data: [userCount, totalOrders]
+                label: 'Product Categories',
+                backgroundColor: ['#ffcc00', '#00cc66', '#3366ff', '#ff3366'], // Custom colors for the doughnut segments
+                data: data
             }]
         };
 
         res.json(userData); // Send the processed data back to the client
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching product category data:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
 
 const addCoupons = async (req,res) => {
     const data = await Admindb.find({}, { email: 0, password: 0 });
@@ -391,6 +429,119 @@ const deleteCoupon = async (req, res) => {
     }
 };
 
+const barChart = async (req, res) => {
+    try {
+        // Aggregate to sum the total sales amount across all users
+        const salesAggregate = await User.aggregate([
+            {
+                $unwind: '$orders' // Unwind the orders array to get each order as a separate document
+            },
+            {
+                $group: {
+                    _id: null, // Group by null to calculate total sales across all users
+                    totalSales: { $sum: '$orders.totalAmountUserPaid' } // Sum the total sales amount
+                }
+            }
+        ]);
+
+        // Extract the total sales amount from the aggregation result
+        const totalSales = salesAggregate.length > 0 ? salesAggregate[0].totalSales : 0;
+
+        res.json({ totalSales }); // Send the total sales data back to the client
+    } catch (error) {
+        console.error('Error fetching sales data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+
+const topSellingProduct = async (req,res) => {
+    try {
+        const topSellingProducts = await User.aggregate([
+            { $unwind: '$orders' }, // Unwind the orders array
+            { $unwind: '$orders.items' }, // Unwind the items array within orders
+            {
+                $group: {
+                    _id: '$orders.items.productName', // Group by product name
+                    totalQuantitySold: { $sum: '$orders.items.quantity' } // Calculate total quantity sold for each product
+                }
+            },
+            { $sort: { totalQuantitySold: -1 } }, // Sort by total quantity sold in descending order
+            { $limit: 5 } // Get top 3 selling products
+        ]);
+
+        res.json(topSellingProducts);
+    } catch (err) {
+        console.error('Error fetching top selling products:', err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+
+const statusData = async (req,res) => {
+    try {
+        const usersWithOrders = await User.find({ 'orders.status': { $exists: true } }, { 'orders.status': 1 }); // Fetch users with orders and their statuses
+        const statusData = usersWithOrders.map(user => user.orders.map(order => order.status)).flat(); // Flatten the array of statuses
+
+        res.json(statusData);
+    } catch (error) {
+        console.error('Error fetching status data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+const salesReportForm = async (req, res) => {
+    try {
+        const startDate = req.body.startDate;
+        const endDate = req.body.endDate
+        console.log(startDate,endDate);
+        const orders = await fetchOrders(startDate, endDate);
+       
+
+        // Set response headers for file download
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename="sales-report.csv"`);
+        res.send(generateCsvData(orders));
+    } catch (error) {
+        console.error('Error generating sales report:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+};
+
+const fetchOrders = async (startDate, endDate) => {
+    try {
+        // Fetch orders from the User collection based on the date range
+        const orders = await User.find({
+          
+        }).exec();
+    
+
+        return orders;
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        throw error; // Throw the error to handle it in the calling function
+    }
+};
+
+
+
+function generateCsvData(orders) {
+
+    const allItems = orders.flatMap(order => order.orders);
+
+
+    let csvContent = 'Order ID,PaymentMethod,Status,Date,Time,Total Amount\n';
+
+    allItems.forEach(item => {
+        // Format the CSV row for each item
+        csvContent += `${item._id},${item.paymentmethod},${item.status},${item.date},${item.time},${item.totalAmountUserPaid}\n`;
+    });
+
+    return csvContent;
+}
+
+
+
 
 
 
@@ -398,6 +549,7 @@ module.exports = {
     GetAdminLogin,
     AdminloginHandler,
     AdminIndexPage,
+    AdminhomePage,
     statuschecking,
     addproduct,
     EditProduct,
@@ -413,7 +565,13 @@ module.exports = {
     UserData,
     addCoupons,
     addCoupon,
-    deleteCoupon
+    deleteCoupon,
+    barChart,
+    topSellingProduct,
+    statusData,
+    salesReportForm
+  
+
 };
 
 //admin@123 password
