@@ -38,8 +38,8 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-const UserRoute = require('./router/RouteUser');
-const AdminRoute = require('./router/RouteAdmin');
+const UserRoutes = require('./router/RouteUser');
+const AdminRoutes = require('./router/RouteAdmin');
 
 
 // Middleware to parse JSON bodies
@@ -60,8 +60,8 @@ app.use(session({
 
 
 
-app.use('/',UserRoute)
-app.use('/admin',AdminRoute)
+app.use('/',UserRoutes)
+app.use('/admin',AdminRoutes)
 
 
 

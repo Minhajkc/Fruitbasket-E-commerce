@@ -1,12 +1,11 @@
 const express = require('express');
-
-
+const router = express.Router();
 const UserController = require('../controller/ControllerUser');
 const Userauth = require('../middlewares/Usersauth')
 
 
 
-const router = express.Router();
+
 
 
 

@@ -1,8 +1,9 @@
 const express = require('express');
+const router = express.Router();
 const AdminControllerz = require('../controller/Controlleradmin');
 const adminAuth = require('../middlewares/admin');
 const { upload } = require('../config/multer');
-const router = express.Router();
+
 
 
 router.get('/',adminAuth.isAuthenticated,adminAuth.authenticateloginpage,AdminControllerz.GetAdminLogin);
