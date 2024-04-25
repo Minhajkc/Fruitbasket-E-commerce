@@ -19,12 +19,8 @@ require('dotenv').config();
 app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb+srv://minhajvvo:bbEM7fP7djbkLhO0@cluster0.ishwawa.mongodb.net/FruitBasket', {
-
-}).then(() => {
-    console.log('Connected to MongoDB');
-}).catch(error => {
-    console.error('Error connecting to MongoDB:', error);
-});
+   
+})
 
 
 
