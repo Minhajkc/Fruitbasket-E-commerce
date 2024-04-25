@@ -1,9 +1,7 @@
 const express = require('express')
 const app = express()
-const path = require('path')
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const exphbs  = require('express-handlebars');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
@@ -33,7 +31,6 @@ app.use(session({
 
 
 
-const secretKey = 'yourSecretKey';
 
 
 const User = require('../models/UserModel');
