@@ -29,8 +29,7 @@ mongoose.connect('mongodb+srv://minhajvvo:bbEM7fP7djbkLhO0@cluster0.ishwawa.mong
 
 
 app.set('view engine', 'hbs');
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
 
 
