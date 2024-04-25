@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const UserRoute = require('./router/UserRoute');
-const AdminRoute = require('./router/adminRoute');
+const AdminRoute = require('./router/RouteAdmin');
 
 
 // Middleware to parse JSON bodies
