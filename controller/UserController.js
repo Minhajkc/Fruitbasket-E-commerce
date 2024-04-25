@@ -47,9 +47,10 @@ app.set('view engine', 'hbs');
 
 
 const GetHomePage = async (req, res) => {
+    let filteredProducts; 
     try {
         const token = req.cookies.token;
-        const filteredProducts = await Products.find().limit(8).exec();
+        filteredProducts = await Products.find().limit(8).exec();
     
         res.setHeader('Cache-Control', 'no-store');
 

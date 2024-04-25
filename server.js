@@ -18,7 +18,7 @@ require('dotenv').config();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb://localhost:27017/FruitBasket', {
+mongoose.connect('mongodb+srv://minhajvvo:bbEM7fP7djbkLhO0@cluster0.ishwawa.mongodb.net/FruitBasket', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
