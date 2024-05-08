@@ -623,6 +623,8 @@ const addToCartFromProductDetails = async (req, res) => {
 
 
 
+
+
 const AddToWishlist = async (req, res) => {
     try {
        

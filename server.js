@@ -50,10 +50,7 @@ app.use(cookieParser());
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 6000000// Expiration time for the session cookie in milliseconds (e.g., 1 hour)
-    }
+    saveUninitialized: false 
 }));
 
 

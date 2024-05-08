@@ -431,28 +431,40 @@ const deleteCoupon = async (req, res) => {
 
 const barChart = async (req, res) => {
     try {
-        // Aggregate to sum the total sales amount across all users
+        // Aggregate to group orders by month and calculate total sales for each month
         const salesAggregate = await User.aggregate([
             {
                 $unwind: '$orders' // Unwind the orders array to get each order as a separate document
             },
             {
                 $group: {
-                    _id: null, // Group by null to calculate total sales across all users
-                    totalSales: { $sum: '$orders.totalAmountUserPaid' } // Sum the total sales amount
+                    _id: { $substr: ['$orders.time', 4, 3] }, // Extract the month abbreviation from the order time
+                    monthlySales: { $sum: '$orders.totalAmountUserPaid' } // Sum the total sales amount for each month
                 }
+            },
+            {
+                $sort: { _id: 1 } // Sort by month abbreviation (e.g., Jan, Feb, Mar, etc.)
             }
         ]);
+   
 
-        // Extract the total sales amount from the aggregation result
-        const totalSales = salesAggregate.length > 0 ? salesAggregate[0].totalSales : 0;
+        // Extract the month abbreviations and corresponding sales data from the aggregation result
+        const labels = salesAggregate.map(item => item._id);
+        const datass = salesAggregate.map(item => item.monthlySales);
+       
 
-        res.json({ totalSales }); // Send the total sales data back to the client
+        // Prepare the data for the bar chart
+        const barChartData = {
+            labels: labels,
+            datacome:datass
+        };
+       
+        res.json({ barChartData }); // Send the bar chart data back to the client
     } catch (error) {
-        console.error('Error fetching sales data:', error);
+        console.error('Error fetching monthly sales data:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
 
 
 const topSellingProduct = async (req,res) => {

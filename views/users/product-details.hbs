@@ -342,13 +342,7 @@
                                 <span class="regular-price"><span>&#8377;</span>{{product.mrp}}</span>
                                 <span class="old-price"><del><span>&#8377;</span>{{product.sellingPrice}}</span>
                             </div>
-                            <div class="product-rating mb-3">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
+                          
                             
                             <p class="desc-content mb-3">{{product.description}}</p>
                           
@@ -373,9 +367,7 @@
                             <li class="nav-item">
                                 <a class="nav-link active text-uppercase" id="home-tab" data-bs-toggle="tab" href="#connect-1" role="tab" aria-selected="true">Description</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-uppercase" id="profile-tab" data-bs-toggle="tab" href="#connect-2" role="tab" aria-selected="false">Reviews</a>
-                            </li>
+                           
                             <li class="nav-item">
                                 <a class="nav-link text-uppercase" id="contact-tab" data-bs-toggle="tab" href="#connect-3" role="tab" aria-selected="false">Shipping Policy</a>
                             </li>
@@ -390,21 +382,36 @@
                             </div>
                            
                             <div class="tab-pane fade" id="connect-3" role="tabpanel" aria-labelledby="contact-tab">
-                                <div class="shipping-policy">
-                                    <h4 class="title-3 mb-4">Shipping policy for our store</h4>
-                                    <p class="desc-content mb-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate</p>
-                                    <ul class="policy-list mb-2">
-                                        <li>1-2 business days (Typically by end of day)</li>
-                                        <li><a href="#">30 days money back guaranty</a></li>
-                                        <li>24/7 live support</li>
-                                        <li>odio dignissim qui blandit praesent</li>
-                                        <li>luptatum zzril delenit augue duis dolore</li>
-                                        <li>te feugait nulla facilisi.</li>
-                                    </ul>
-                                    <p class="desc-content mb-2">Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum</p>
-                                    <p class="desc-content mb-2">claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per</p>
-                                    <p class="desc-content mb-2">seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-                                </div>
+                               <div class="shipping-policy">
+    <h4 class="title-3 mb-4">Shipping policy for our store</h4>
+    <ul class="policy-list mb-2">
+        <li><strong>Shipping Times:</strong></li>
+        <li>Standard Shipping: 1-2 business days (typically delivered by the end of the day)</li>
+        <li>Express Shipping: Available upon request (contact customer support for details)</li>
+    </ul>
+    <ul class="policy-list mb-2">
+        <li><strong>Customer Support:</strong></li>
+        <li>24/7 Live Support: Our team is available round-the-clock to assist you with any queries or concerns regarding your order.</li>
+    </ul>
+    <ul class="policy-list mb-2">
+        <li><strong>Shipping Details:</strong></li>
+        <li>Order Pending: Orders are pending promptly upon payment confirmation.</li>
+        <li>Shipping Partners: We partner with reliable shipping carriers to ensure timely and secure delivery of your items.</li>
+ 
+    </ul>
+    <ul class="policy-list mb-2">
+        <li><strong>Shipping Charges:</strong></li>
+        <li>Standard Shipping: Cost of 70/- for each shipping</li>
+        <li>Express Shipping: Charges vary based on delivery location and package weight. Please contact us for a quote.</li>
+    </ul>
+    <ul class="policy-list mb-2">
+        <li><strong>Delivery Guarantee:</strong></li>
+        <li>On-Time Delivery: We strive to deliver your orders within the specified timeframe. In case of any delays, our customer support team will notify you promptly and provide updates.</li>
+    </ul>
+   
+    <p class="desc-content mb-2"><strong>Contact Us:</strong> Need Assistance? For any shipping-related inquiries or assistance, feel free to reach out to our customer support team via email at <a href="#">fruitbasketmails@gmail.com</a> or call us at <a href="tel:+91 7034936080">+91 7034936080</a>.</p>
+</div>
+
                             </div>
                           
                         </div>
@@ -454,28 +461,22 @@
                                     </div>
                                     {{/if}}
                                     <div class="product-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="product-title">
+                                       
+                                        <div class="product-title text-center p-3">
                                             <h4 class="title-2"> <a href="/products-details">{{this.name}}</a></h4>
                                         </div>
-                                        <div class="price-box">
+                                        <div class="price-box text-center ">
                                             <span class="regular-price text-bold"><span>&#8377;</span>{{this.mrp}}/-</span>
                                             <span class="old-price"><del>$90.00</del></span>
                                         </div>
                                     </div>
                                     {{#unless this.isDisabled}}
                                     <div class="add-action d-flex position-absolute">
-                                        <a href="/addToCart/{{this._id}}" title="Add To cart">
+                                        <a href="/addToCartFromProductDetails/{{this._id}}" title="Add To cart">
                                             <i class="ion-bag"></i>
                                         </a>
                                     
-                                        <a href="/addToWishList/{{this._id}}" title="Add To Wishlist">
+                                        <a href="/AddToWishlistfromproductdetails/{{this._id}}" title="Add To Wishlist">
                                             <i class="ion-ios-heart-outline"></i>
                                         </a>
                                      

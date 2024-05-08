@@ -348,17 +348,11 @@
                                     </div>
                                     {{/if}}
                                     <div class="product-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="product-title">
+                                        
+                                        <div class="product-title text-center p-3">
                                             <h4 class="title-2"> <a href="/products-details">{{this.name}}</a></h4>
                                         </div>
-                                        <div class="price-box">
+                                        <div class="price-box text-center ">
                                             <span class="regular-price text-bold"><span>&#8377;</span>{{this.mrp}}/-</span>
                                             <span class="old-price"><del><span>&#8377;</span>{{this.sellingPrice}}</del></span>
                                         </div>     
@@ -641,7 +635,7 @@
         data.sortedProducts.forEach(product => {
             // Create product elements
             const productDiv = document.createElement('div');
-            productDiv.classList.add('col-md-6', 'col-sm-6', 'col-lg-4', 'col-custom', 'product-area');
+            productDiv.classList.add('col-md-6', 'col-sm-6', 'col-lg-4', 'col-custom', 'product-area','text-center');
 
             const singleProductDiv = document.createElement('div');
             singleProductDiv.classList.add('single-product', 'position-relative');
@@ -667,35 +661,12 @@
             productContentDiv.classList.add('product-content');
 
             // Add product rating
-      // Create the product rating div
-// Create the product rating div
-const productRating = document.createElement('div');
-productRating.classList.add('product-rating');
-
-// Create filled star icons with spacing
-for (let i = 0; i < 3; i++) {
-    const filledStarIcon = document.createElement('i');
-    filledStarIcon.classList.add('fa', 'fa-star');
-    filledStarIcon.style.marginRight = '5px'; // Add margin between filled stars
-    productRating.appendChild(filledStarIcon);
-}
-
-// Create empty star icons with spacing
-for (let i = 0; i < 2; i++) {
-    const emptyStarIcon = document.createElement('i');
-    emptyStarIcon.classList.add('fa', 'fa-star-o');
-    emptyStarIcon.style.marginRight = '5px'; // Add margin between empty stars
-    productRating.appendChild(emptyStarIcon);
-}
-
-// Append the product rating div to the product content div
-productContentDiv.appendChild(productRating);
-
+  
 
 
 
          const productTitle = document.createElement('div');
-productTitle.classList.add('product-title');
+productTitle.classList.add('product-title','p-3');
 
 const titleLink = document.createElement('a');
 if (product.isDisabled) {
