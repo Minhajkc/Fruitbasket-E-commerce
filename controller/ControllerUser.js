@@ -1147,7 +1147,7 @@ const createRazorpayOrders = (req, res) => {
         .then(async (user) => {
             if (!user) {
                 return res.status(404).json({ success: false, error: 'User not found' });
-            }
+            }       
 
             const grandtotal = user.grandtotal;
 
