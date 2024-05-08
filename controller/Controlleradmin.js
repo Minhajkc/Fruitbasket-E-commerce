@@ -449,13 +449,13 @@ const barChart = async (req, res) => {
    
 
         // Extract the month abbreviations and corresponding sales data from the aggregation result
-        const labels = salesAggregate.map(item => item._id);
+        const labelsee = salesAggregate.map(item => item._id);
         const datass = salesAggregate.map(item => item.monthlySales);
        
 
         // Prepare the data for the bar chart
         const barChartData = {
-            labels: labels,
+            labelss: labelsee,
             datacome:datass
         };
        

@@ -1953,7 +1953,7 @@ fetch('/admin/user-data')
     .then(response => response.json())
     .then(data => {
        const salesData = {
-            labels: data.barChartData.labels,
+            labels: data.barChartData.labelss,
             datasets: [{
                 label: 'Monthly Sales',
                 backgroundColor: 'rgba(58, 162, 235, 0.6)',
