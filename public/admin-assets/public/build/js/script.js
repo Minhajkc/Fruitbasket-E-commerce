@@ -39,54 +39,6 @@ const colors = {
   primaryDarker: cssColors(`--color-${getColor()}-darker`),
 }
 
-const barChart = new Chart(document.getElementById('barChart'), {
-  type: 'bar',
-  data: {
-    labels: months,
-    datasets: [
-      {
-        data: randomData(),
-        backgroundColor: colors.primary,
-        hoverBackgroundColor: colors.primaryDark,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      yAxes: [
-        {
-          gridLines: false,
-          ticks: {
-            beginAtZero: true,
-            stepSize: 50,
-            fontSize: 12,
-            fontColor: '#97a4af',
-            fontFamily: 'Open Sans, sans-serif',
-            padding: 10,
-          },
-        },
-      ],
-      xAxes: [
-        {
-          gridLines: false,
-          ticks: {
-            fontSize: 12,
-            fontColor: '#97a4af',
-            fontFamily: 'Open Sans, sans-serif',
-            padding: 5,
-          },
-          categoryPercentage: 0.5,
-          maxBarThickness: '10',
-        },
-      ],
-    },
-    cornerRadius: 2,
-    maintainAspectRatio: false,
-    legend: {
-      display: false,
-    },
-  },
-})
 
 const doughnutChart = new Chart(document.getElementById('doughnutChart'), {
   type: 'doughnut',
