@@ -1952,16 +1952,17 @@ fetch('/admin/user-data')
    fetch('/admin/sales-data')
     .then(response => response.json())
     .then(data => {
-       const salesData = {
+      const salesData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Dummy labels
     datasets: [{
         label: 'Monthly Sales',
         backgroundColor: 'rgba(58, 162, 235, 0.6)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
-        data: data.barChartData.datacome
+        data: [5000, 7000, 4000, 6000, 8000, 3500] // Dummy data for each month
     }]
 };
+
 
 
         const ctx = document.getElementById('salesBarChart').getContext('2d');
