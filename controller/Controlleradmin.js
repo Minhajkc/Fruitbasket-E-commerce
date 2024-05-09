@@ -188,7 +188,7 @@ const GetEditPage = async (req,res)=>{
     const id = req.body.idedit; 
     try{
         const Product = await Products.findById(id)
-        return res.render('Admin/editpage',{Product});
+        return res.render('admin/editpage',{Product});
     }catch(e){
         console.log(e);
     }
