@@ -1949,27 +1949,20 @@ fetch('/admin/user-data')
 
 
 
-
-const fetchData = async () => {
-    try {
-        const response = await fetch('/admin/sales-data');
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch data');
-        }
-
-        const data = await response.json();
-
-        const salesData = {
-            labels: data.barChartData.labelss || [],
+   fetch('/admin/sales-data')
+    .then(response => response.json())
+    .then(data => {
+       const salesData = {
+            labels: data.barChartData.labelss,
             datasets: [{
                 label: 'Monthly Sales',
                 backgroundColor: 'rgba(58, 162, 235, 0.6)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
-                data: data.barChartData.datacome || []
+                data: data.barChartData.datacome
             }]
         };
+        
 
         const ctx = document.getElementById('salesBarChart').getContext('2d');
 
@@ -1984,19 +1977,16 @@ const fetchData = async () => {
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '$' + value;
+                                return '$' + value; // Add dollar sign to y-axis ticks
                             }
                         }
                     }
-                }
+                },
+               
             }
         });
-    } catch (error) {
-        console.error('Error fetching sales data:', error);
-    }
-};
-
-fetchData();
+    })
+    .catch(error => console.error('Error fetching sales data:', error));
 
 
 
